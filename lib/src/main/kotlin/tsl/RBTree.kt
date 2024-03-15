@@ -5,38 +5,39 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
     override fun insert(
         key: K,
         value: V,
-    ) { // не нужна рекурсия
+    ) {
+        // check if the tree is empty
         if (root == null) {
-            val newRoot = RBNode(key, value)
-            root = newRoot
+            root = RBNode(key, value)
             return
         }
 
         var currentNode: RBNode<K, V>? = root
         var currentParent: RBNode<K, V>? = null
+
+        // traverse the tree to find the insertion point
         while (currentNode != null) {
-            if (key < currentNode.key) {
-                currentParent = currentNode
-                currentNode = currentNode.leftChild
-            }
-            else if (key > currentNode.key) {
-                currentParent = currentNode
-                currentNode = currentNode.rightChild
-            }
-            else {
-                println("Duplicate keys are not allowed") // throw expression?
+            when {
+                key < currentNode.key -> {
+                    currentParent = currentNode
+                    currentNode = currentNode.leftChild
+                }
+                key > currentNode.key -> {
+                    currentParent = currentNode
+                    currentNode = currentNode.rightChild
+                }
+                else -> {
+                    println("Duplicate keys are not allowed")
+                    return
+                }
             }
         }
 
-        //currentNode = RBNode(key, value).apply { color = RBNode.Color.Red }
-        if (currentParent == null) {
-            return
-        }
-        if (key < currentParent.key) {
+        // insert the new node based on comparison with its parent
+        if (key < currentParent!!.key) {
             currentParent.leftChild = RBNode(key, value)
             balanceNode(currentParent.leftChild)
-        }
-        if (key > currentParent.key) {
+        } else {
             currentParent.rightChild = RBNode(key, value)
             balanceNode(currentParent.rightChild)
         }
@@ -227,5 +228,4 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
             rightSubbfsPrint(node.rightChild)
         }
     }
-
 }
