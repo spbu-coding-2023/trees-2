@@ -1,85 +1,95 @@
 import nodes.RBNode
 
-class ExitLoopException : Exception()
-
 class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
     override fun insert(
         key: K,
         value: V,
-    ) { // идем по дереву и вставляем
-        insertNode(root, key, value)
-    }
-
-    private fun insertNode(
-        node: RBNode<K, V>?,
-        key: K,
-        value: V,
-    ): RBNode<K, V>? {
+    ) { // не нужна рекурсия
         if (root == null) {
             val newRoot = RBNode(key, value)
             root = newRoot
-            return newRoot
-        }
-        if (node == null) {
-            return RBNode(key, value).apply { color = RBNode.Color.Red }
+            return
         }
 
-        var insertedNode: RBNode<K, V>? = null
-        if (key < node.key) {
-            insertedNode = insertNode(node.leftChild, key, value)
-            node.leftChild = insertedNode
-            insertedNode?.parent = node
-            balanceNode(insertedNode)
-            throw ExitLoopException()
-
-        } else if (key > node.key) {
-            insertedNode = insertNode(node.rightChild, key, value)
-            node.rightChild = insertedNode
-            insertedNode?.parent = node
-            balanceNode(insertedNode)
-            throw ExitLoopException()
-
-        } else {
-            println("Duplicate keys are not allowed") // throw expression
+        var currentNode: RBNode<K, V>? = root
+        var currentParent: RBNode<K, V>? = null
+        while (currentNode != null) {
+            if (key < currentNode.key) {
+                currentParent = currentNode
+                currentNode = currentNode.leftChild
+            }
+            else if (key > currentNode.key) {
+                currentParent = currentNode
+                currentNode = currentNode.rightChild
+            }
+            else {
+                println("Duplicate keys are not allowed") // throw expression?
+            }
         }
-        return null
+
+        //currentNode = RBNode(key, value).apply { color = RBNode.Color.Red }
+        if (currentParent == null) {
+            return
+        }
+        if (key < currentParent.key) {
+            currentParent.leftChild = RBNode(key, value)
+            balanceNode(currentParent.leftChild)
+        }
+        if (key > currentParent.key) {
+            currentParent.rightChild = RBNode(key, value)
+            balanceNode(currentParent.rightChild)
+        }
     }
+
     private fun balanceNode(node: RBNode<K, V>?) {
         var newNode = node
         var uncle: RBNode<K, V>?
         while (newNode?.parent?.color == RBNode.Color.Red) {
             if (newNode.parent == newNode.parent?.parent?.leftChild) {
                 uncle = newNode.parent?.parent?.rightChild
-                if (uncle?.color == RBNode.Color.Red) {
-                    newNode.parent?.color = RBNode.Color.Black
-                    uncle.color = RBNode.Color.Black
-                    newNode.parent?.parent?.color = RBNode.Color.Red
-                    newNode = newNode.parent?.parent
-                } else {
-                    if (newNode == newNode.parent?.rightChild) {
-                        newNode = newNode.parent
-                        newNode?.let { rotateLeft(it) }
+
+                when {
+                    uncle?.color == RBNode.Color.Red -> {
+                        newNode.parent?.color = RBNode.Color.Black
+                        uncle.color = RBNode.Color.Black
+                        newNode.parent?.parent?.color = RBNode.Color.Red
+                        newNode = newNode.parent?.parent
                     }
-                    newNode?.parent?.color = RBNode.Color.Black
-                    newNode?.parent?.parent?.color = RBNode.Color.Red
-                    newNode?.parent?.parent?.let { rotateRight(it) }
+
+                    newNode == newNode.parent?.rightChild -> {
+                        newNode = newNode.parent
+                        if (newNode!!.parent?.parent == null) root = newNode.parent
+                        rotateLeft(newNode)
+                    }
+
+                    newNode == newNode.parent?.leftChild -> {
+                        if (newNode.parent?.parent?.parent == null) root = newNode.parent
+                        newNode.parent?.parent?.let { rotateRight(it) }
+                    }
                 }
-            } else {
+            }
+            else {
                 uncle = newNode.parent?.parent?.leftChild
-                if (uncle?.color == RBNode.Color.Red) {
-                    newNode.parent?.color = RBNode.Color.Black
-                    uncle.color = RBNode.Color.Black
-                    newNode.parent?.parent?.color = RBNode.Color.Red
-                    newNode = newNode.parent?.parent
-                } else {
-                    if (newNode == newNode.parent?.leftChild) {
-                        newNode = newNode.parent
-                        newNode?.let { rotateRight(it) }
+
+                when {
+                    uncle?.color == RBNode.Color.Red -> {
+                        newNode.parent?.color = RBNode.Color.Black
+                        uncle.color = RBNode.Color.Black
+                        newNode.parent?.parent?.color = RBNode.Color.Red
+                        newNode = newNode.parent?.parent
                     }
-                    newNode?.parent?.color = RBNode.Color.Black
-                    newNode?.parent?.parent?.color = RBNode.Color.Red
-                    newNode?.parent?.parent?.let { rotateLeft(it) }
+
+                    newNode == newNode.parent?.leftChild -> {
+                        newNode = newNode.parent
+                        if (newNode!!.parent?.parent == null) root = newNode.parent
+                        rotateRight(newNode)
+                    }
+
+                    newNode == newNode.parent?.rightChild -> {
+                        if (newNode.parent?.parent?.parent == null) root = newNode.parent
+                        newNode.parent?.parent?.let { rotateLeft(it) }
+                    }
                 }
             }
         }
