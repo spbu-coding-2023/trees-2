@@ -1,5 +1,6 @@
-import nodes.RBNode
-import tsl.AbstractBinaryTree
+package tsl.trees
+
+import tsl.nodes.RBNode
 
 class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
@@ -58,12 +59,12 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                     newNode == newNode.parent?.rightChild -> {
                         newNode = newNode.parent
                         if (newNode!!.parent?.parent == null) root = newNode.parent
-                        rotateLeft(newNode)
+                        newNode.rotateLeft()
                     }
 
                     newNode == newNode.parent?.leftChild -> {
                         if (newNode.parent?.parent?.parent == null) root = newNode.parent
-                        newNode.parent?.parent?.let { rotateRight(it) }
+                        newNode.parent?.parent?.rotateRight()
                     }
                 }
             }
@@ -81,35 +82,17 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                     newNode == newNode.parent?.leftChild -> {
                         newNode = newNode.parent
                         if (newNode!!.parent?.parent == null) root = newNode.parent
-                        rotateRight(newNode)
+                        newNode.rotateRight()
                     }
 
                     newNode == newNode.parent?.rightChild -> {
                         if (newNode.parent?.parent?.parent == null) root = newNode.parent
-                        newNode.parent?.parent?.let { rotateLeft(it) }
+                        newNode.parent?.parent?.rotateLeft()
                     }
                 }
             }
         }
         root?.color = RBNode.Color.Black
-    }
-
-    private fun rotateLeft(node: RBNode<K, V>): RBNode<K, V>? {
-        val temp = node.rightChild
-        node.rightChild = temp?.leftChild
-        temp?.rightChild = node
-        temp?.color = node.color
-        node.color = RBNode.Color.Red
-        return temp
-    }
-
-    private fun rotateRight(node: RBNode<K, V>): RBNode<K, V>? {
-        val temp = node.leftChild
-        node.leftChild = temp?.rightChild
-        temp?.rightChild = node
-        temp?.color = node.color
-        node.color = RBNode.Color.Red
-        return temp
     }
 
     override fun delete(key: K) {
@@ -170,7 +153,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         sibling?.takeIf { it.color == RBNode.Color.Red }?.run {
             color = RBNode.Color.Black
             node.parent?.color = RBNode.Color.Red
-            if (this == node.parent?.leftChild) node.parent?.let { rotateRight(it) } else node.parent?.let { rotateLeft(it) }
+            if (this == node.parent?.leftChild) node.parent?.rotateRight() else node.parent?.rotateLeft()
             return null
         }
 
@@ -187,13 +170,13 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                     it.rightChild?.let { right ->
                         right.color = RBNode.Color.Black
                         it.color = RBNode.Color.Red
-                        rotateLeft(it)
+                        it.rotateLeft()
                     }
                 } else {
                     it.leftChild?.let { left ->
                         left.color = RBNode.Color.Black
                         it.color = RBNode.Color.Red
-                        rotateRight(it)
+                        it.rotateRight()
                     }
                 }
                 return null
@@ -204,7 +187,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
             sibling?.color = it.color
             it.color = RBNode.Color.Black
         }
-        return if (node == node.parent?.leftChild) node.parent?.let { rotateRight(it) } else node.parent?.let { rotateLeft(it) }
+        return if (node == node.parent?.leftChild) node.parent?.rotateRight() else node.parent?.rotateLeft()
     }
 
     fun printTree() {
