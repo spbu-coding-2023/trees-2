@@ -196,9 +196,9 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
     private fun printTreeRecursively(node: RBNode<K, V>?, prefix: String, isTail: Boolean) {
         if (node != null) {
-            printTree(node.rightChild, "$prefix${if (isTail) "│   " else "    "}", false)
+            printTreeRecursively(node.rightChild, "$prefix${if (isTail) "│   " else "    "}", false)
             println("$prefix${if (isTail) "└── " else "┌── "}${if (node.color == RBNode.Color.Red) "\u001b[31m" else "\u001b[30;1m"}(${node.key},${node.value})\u001b[0m")
-            printTree(node.leftChild, "$prefix${if (isTail) "    " else "│   "}", true)
+            printTreeRecursively(node.leftChild, "$prefix${if (isTail) "    " else "│   "}", true)
         }
     }
 }
