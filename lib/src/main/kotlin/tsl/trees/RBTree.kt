@@ -1,4 +1,5 @@
 import nodes.RBNode
+import tsl.AbstractBinaryTree
 
 class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
@@ -6,41 +7,37 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         key: K,
         value: V,
     ) {
+
+        val newNode = RBNode(key, value)
         // check if the tree is empty
         if (root == null) {
             root = RBNode(key, value)
-            return
+            return balanceNode(root)
         }
 
         var currentNode: RBNode<K, V>? = root
-        var currentParent: RBNode<K, V>? = null
 
         // traverse the tree to find the insertion point
         while (currentNode != null) {
-            when {
-                key < currentNode.key -> {
-                    currentParent = currentNode
-                    currentNode = currentNode.leftChild
+            if (currentNode.key > newNode.key) {
+                if (currentNode.leftChild == null) {
+                    currentNode.leftChild = newNode
+                    newNode.parent = currentNode
+                    return balanceNode(newNode)
                 }
-                key > currentNode.key -> {
-                    currentParent = currentNode
-                    currentNode = currentNode.rightChild
+                currentNode = currentNode.leftChild
+            }
+            else {
+                if (currentNode.rightChild == null) {
+
+                    currentNode.rightChild = newNode
+                    newNode.parent = currentNode
+                    return balanceNode(newNode)
                 }
-                else -> {
-                    println("Duplicate keys are not allowed")
-                    return
-                }
+                currentNode = currentNode.rightChild
             }
         }
-
-        // insert the new node based on comparison with its parent
-        if (key < currentParent!!.key) {
-            currentParent.leftChild = RBNode(key, value)
-            balanceNode(currentParent.leftChild)
-        } else {
-            currentParent.rightChild = RBNode(key, value)
-            balanceNode(currentParent.rightChild)
-        }
+        return balanceNode(newNode)
     }
 
     private fun balanceNode(node: RBNode<K, V>?) {
@@ -116,18 +113,18 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
     }
 
     override fun delete(key: K) {
-        root = deleteNodeRecursive(root, key)
+        root = deleteNodeRecursively(root, key)
     }
 
-    private fun deleteNodeRecursive(
+    private fun deleteNodeRecursively(
         node: RBNode<K, V>?,
         key: K,
     ): RBNode<K, V>? {
         val currentNode = node ?: return null
 
         when {
-            key < currentNode.key -> currentNode.leftChild = deleteNodeRecursive(currentNode.leftChild, key)
-            key > currentNode.key -> currentNode.rightChild = deleteNodeRecursive(currentNode.rightChild, key)
+            key < currentNode.key -> currentNode.leftChild = deleteNodeRecursively(currentNode.leftChild, key)
+            key > currentNode.key -> currentNode.rightChild = deleteNodeRecursively(currentNode.rightChild, key)
             else -> {
                 if (currentNode.leftChild == null || currentNode.rightChild == null) {
                     val temp = if (currentNode.leftChild != null) currentNode.leftChild else currentNode.rightChild
@@ -147,7 +144,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                     if (successor != null) {
                         currentNode.key = successor.key
                         currentNode.value = successor.value
-                        currentNode.rightChild = deleteNodeRecursive(currentNode.rightChild, successor.key)
+                        currentNode.rightChild = deleteNodeRecursively(currentNode.rightChild, successor.key)
                     }
                 }
             }
@@ -219,13 +216,6 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
             printTree(node.rightChild, "$prefix${if (isTail) "│   " else "    "}", false)
             println("$prefix${if (isTail) "└── " else "┌── "}${if (node.color == RBNode.Color.Red) "\u001b[31m" else "\u001b[30;1m"}(${node.key},${node.value})\u001b[0m")
             printTree(node.leftChild, "$prefix${if (isTail) "    " else "│   "}", true)
-        }
-    }
-
-    fun rightSubbfsPrint(node: RBNode<K, V>?) {
-        if (node != null) {
-            println("${node.key}")
-            rightSubbfsPrint(node.rightChild)
         }
     }
 }
