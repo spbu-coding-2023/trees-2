@@ -1,6 +1,7 @@
 package tsl.trees
 
 import tsl.nodes.RBNode
+import javax.crypto.KEM
 
 class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
@@ -58,8 +59,8 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
                     newNode == newNode.parent?.rightChild -> {
                         newNode = newNode.parent
-                        if (newNode!!.parent?.parent == null) root = newNode.parent
-                        newNode.rotateLeft()
+                        if (newNode?.parent?.parent == null) root = newNode?.parent
+                        newNode?.rotateLeft()
                     }
 
                     newNode == newNode.parent?.leftChild -> {
@@ -81,8 +82,8 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
                     newNode == newNode.parent?.leftChild -> {
                         newNode = newNode.parent
-                        if (newNode!!.parent?.parent == null) root = newNode.parent
-                        newNode.rotateRight()
+                        if (newNode?.parent?.parent == null) root = newNode?.parent
+                        newNode?.rotateRight()
                     }
 
                     newNode == newNode.parent?.rightChild -> {
@@ -96,98 +97,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
     }
 
     override fun delete(key: K) {
-        root = deleteNodeRecursively(root, key)
-    }
 
-    private fun deleteNodeRecursively(
-        node: RBNode<K, V>?,
-        key: K,
-    ): RBNode<K, V>? {
-        val currentNode = node ?: return null
-
-        when {
-            key < currentNode.key -> currentNode.leftChild = deleteNodeRecursively(currentNode.leftChild, key)
-            key > currentNode.key -> currentNode.rightChild = deleteNodeRecursively(currentNode.rightChild, key)
-            else -> {
-                if (currentNode.leftChild == null || currentNode.rightChild == null) {
-                    val temp = if (currentNode.leftChild != null) currentNode.leftChild else currentNode.rightChild
-                    if (temp == null) {
-                        if (currentNode.color == RBNode.Color.Black) {
-                            fixDoubleBlack(currentNode)
-                        }
-                        return null
-                    } else {
-                        return temp
-                    }
-                } else {
-                    var successor = currentNode.rightChild
-                    while (successor?.leftChild != null) {
-                        successor = successor.leftChild
-                    }
-                    if (successor != null) {
-                        currentNode.key = successor.key
-                        currentNode.value = successor.value
-                        currentNode.rightChild = deleteNodeRecursively(currentNode.rightChild, successor.key)
-                    }
-                }
-            }
-        }
-        return currentNode
-    }
-
-    private fun fixDoubleBlack(node: RBNode<K, V>) {
-        var currentNode = node
-        while (currentNode != root && currentNode.color == RBNode.Color.Black) {
-            currentNode = fixDoubleBlackHelper(currentNode) ?: return
-        }
-        currentNode.color = RBNode.Color.Black
-    }
-
-    private fun fixDoubleBlackHelper(node: RBNode<K, V>): RBNode<K, V>? {
-        val sibling =
-            when {
-                node == node.parent?.leftChild -> node.parent?.rightChild
-                else -> node.parent?.leftChild
-            }
-
-        sibling?.takeIf { it.color == RBNode.Color.Red }?.run {
-            color = RBNode.Color.Black
-            node.parent?.color = RBNode.Color.Red
-            if (this == node.parent?.leftChild) node.parent?.rotateRight() else node.parent?.rotateLeft()
-            return null
-        }
-
-        if ((sibling?.leftChild?.color ?: RBNode.Color.Black) == RBNode.Color.Black &&
-            (sibling?.rightChild?.color ?: RBNode.Color.Black) == RBNode.Color.Black
-        ) {
-            sibling?.color = RBNode.Color.Red
-            return node.parent
-        }
-
-        sibling?.let {
-            if (it.color == RBNode.Color.Black) {
-                if (node == node.parent?.leftChild) {
-                    it.rightChild?.let { right ->
-                        right.color = RBNode.Color.Black
-                        it.color = RBNode.Color.Red
-                        it.rotateLeft()
-                    }
-                } else {
-                    it.leftChild?.let { left ->
-                        left.color = RBNode.Color.Black
-                        it.color = RBNode.Color.Red
-                        it.rotateRight()
-                    }
-                }
-                return null
-            }
-        }
-
-        node.parent?.let {
-            sibling?.color = it.color
-            it.color = RBNode.Color.Black
-        }
-        return if (node == node.parent?.leftChild) node.parent?.rotateRight() else node.parent?.rotateLeft()
     }
 
     fun printTree() {
