@@ -119,18 +119,6 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         return
     }
 
-    private fun searchNodeF(key: K): RBNode<K, V>? {
-    }
-
-    private fun transplantTwoNodes(firstNode: RBNode<K, V>? , secondNode: RBNode<K, V>?) {
-    }
-
-    private fun getChildrenCount(node: RBNode<K, V>?): Int {
-    }
-
-    private fun getMin(node: RBNode<K, V>?): RBNode<K, V>? {
-    }
-
     private fun fixAfterDelete(node: RBNode<K, V>?) {
         var fixNode: RBNode<K, V>? = node
         var fixNodeBrother: RBNode<K, V>?
@@ -188,6 +176,43 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
             }
         }
         fixNode?.color = RBNode.Color.Black
+    }
+
+    private fun searchNodeF(key: K): RBNode<K, V>? {
+        var currentNode = root
+        while (currentNode != null) {
+            if (key == currentNode.key) {
+                return currentNode
+            }
+            currentNode = if (key < currentNode.key) currentNode.leftChild else currentNode.rightChild
+        }
+        return null
+    }
+
+    private fun transplantTwoNodes(firstNode: RBNode<K, V>? , secondNode: RBNode<K, V>?) {
+        if (firstNode == root) root = secondNode
+        else if (firstNode?.parent?.leftChild == firstNode) firstNode?.parent?.leftChild = secondNode
+        else firstNode?.parent?.rightChild = secondNode
+        secondNode?.parent = firstNode?.parent
+    }
+
+    private fun getChildrenCount(node: RBNode<K, V>?): Int {
+        if (node == null) return 0
+        var count = 0
+
+        if (node.leftChild != null) count++
+        if (node.rightChild != null) count++
+        return count
+    }
+
+    private fun getMin(node: RBNode<K, V>?): RBNode<K, V>? {
+        if (node == null) return null
+        var current: RBNode<K, V> = node
+
+        while (current.leftChild != null) {
+            current.leftChild.also { if (it != null) current = it }
+        }
+        return current
     }
 
     fun printTree() {
