@@ -97,7 +97,41 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
     }
 
     override fun delete(key: K) {
+        val deleteNode: RBNode<K, V>? = searchNodeF(key) // track node that will replace other one
+        var colorOfTransferingNode = deleteNode?.color
+        val childNode: RBNode<K, V>?
+        if (getChildrenCount(deleteNode) < 2) {
+            childNode = if (deleteNode?.leftChild != null) deleteNode.leftChild else deleteNode?.rightChild
+            transplantTwoNodes(deleteNode, childNode)
+        }
+        else {
+            val minNode = getMin(deleteNode?.rightChild)
+            if (minNode != null) {
+                deleteNode?.key = minNode.key
+                deleteNode?.value = minNode.value
+                colorOfTransferingNode = minNode.color
+            }
+            childNode = if (minNode?.leftChild != null) minNode.leftChild else minNode?.rightChild
+            transplantTwoNodes(minNode, childNode)
+        }
+        if (colorOfTransferingNode == RBNode.Color.Black) fixAfterDelete(childNode)
+        // TODO: return values
+        return
+    }
 
+    private fun searchNodeF(key: K): RBNode<K, V>? {
+    }
+
+    private fun transplantTwoNodes(firstNode: RBNode<K, V>? , secondNode: RBNode<K, V>?) {
+    }
+
+    private fun getChildrenCount(node: RBNode<K, V>?): Int {
+    }
+
+    private fun getMin(node: RBNode<K, V>?): RBNode<K, V>? {
+    }
+
+    private fun fixAfterDelete(node: RBNode<K, V>?) {
     }
 
     fun printTree() {
