@@ -132,6 +132,62 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
     }
 
     private fun fixAfterDelete(node: RBNode<K, V>?) {
+        var fixNode: RBNode<K, V>? = node
+        var fixNodeBrother: RBNode<K, V>?
+        while (fixNode != root && fixNode?.color == RBNode.Color.Black) {
+            if (fixNode == fixNode.parent?.leftChild) {
+                val parent = fixNode.parent
+                fixNodeBrother = parent?.rightChild
+                if (fixNodeBrother?.leftChild?.color == RBNode.Color.Black && fixNodeBrother.rightChild?.color == RBNode.Color.Black) {
+                    fixNodeBrother.color = RBNode.Color.Red
+                    fixNode = fixNode.parent
+                }
+                else {
+                    if (fixNodeBrother?.rightChild?.color == RBNode.Color.Black) {
+                        fixNodeBrother.leftChild?.color = RBNode.Color.Black
+                        fixNodeBrother.color = RBNode.Color.Red
+                        fixNodeBrother.rotateRight()
+                        fixNodeBrother = fixNode.parent?.rightChild
+                    }
+                    if (fixNodeBrother != null && fixNode.parent != null) {
+                        fixNode.parent?.color.also { if (it != null) fixNodeBrother?.color = it }
+                        // omg do not touch TODO: good coomment
+                    }
+                    fixNode.parent?.color = RBNode.Color.Black
+                    fixNodeBrother?.rightChild?.color = RBNode.Color.Black
+                    fixNode.parent?.rotateLeft()
+                    fixNode = root
+                }
+            }
+            else {
+                fixNodeBrother = fixNode.parent?.leftChild
+                if(fixNodeBrother?.color == RBNode.Color.Red) {
+                    fixNodeBrother.color = RBNode.Color.Black
+                    fixNode.parent?.color = RBNode.Color.Red
+                    fixNode.parent?.rotateRight()
+                    fixNodeBrother = fixNode.parent?.leftChild
+                }
+                if(fixNodeBrother?.leftChild?.color == RBNode.Color.Black && fixNodeBrother.rightChild?.color == RBNode.Color.Black) {
+                    fixNode.parent?.rotateRight()
+                    fixNodeBrother = fixNode.parent?.leftChild
+                }
+                else {
+                    if(fixNodeBrother?.leftChild?.color == RBNode.Color.Black) {
+                        fixNodeBrother.rightChild?.color = RBNode.Color.Black
+                        fixNodeBrother.color = RBNode.Color.Red
+                        fixNodeBrother.rotateLeft()
+                        fixNodeBrother = fixNode.parent?.leftChild
+                    }
+                    fixNode.parent?.color.also { if (it != null) fixNodeBrother?.color = it }
+                    // TODO: good coomment
+                    fixNode.parent?.color = RBNode.Color.Black
+                    fixNodeBrother?. leftChild?.color = RBNode.Color.Black
+                    fixNode.parent?.rotateRight()
+                    fixNode = root
+                }
+            }
+        }
+        fixNode?.color = RBNode.Color.Black
     }
 
     fun printTree() {
