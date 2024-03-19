@@ -70,8 +70,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                         newNode.parent?.parent?.rotateRight()
                     }
                 }
-            }
-            else {
+            } else {
                 uncle = newNode.parent?.parent?.leftChild
 
                 when {
@@ -98,27 +97,29 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         root?.color = RBNode.Color.Black
     }
 
-    override fun delete(key: K) {
-        val deleteNode: RBNode<K, V>? = searchNodeF(key) // track node that will replace other one
-        var colorOfTransferingNode = deleteNode?.color
-        val childNode: RBNode<K, V>?
+    override fun delete(key: K): V? {
+        val deleteNode: RBNode<K, V> = searchNode(key) ?: return null // track node that will replace other one
+        val deleteNodeValue = deleteNode.value
+        var colorOfTransferringNode = deleteNode.color
+        val childNode: RBNode<K, V>? // node that will be on the place of deleteNode
+
         if (getChildrenCount(deleteNode) < 2) {
-            childNode = if (deleteNode?.leftChild != null) deleteNode.leftChild else deleteNode?.rightChild
+            childNode = if (deleteNode.leftChild != null) deleteNode.leftChild else deleteNode.rightChild
             transplantTwoNodes(deleteNode, childNode)
-        }
-        else {
-            val minNode = getMin(deleteNode?.rightChild)
+        } else {
+            val minNode = getMin(deleteNode.rightChild)
             if (minNode != null) {
-                deleteNode?.key = minNode.key
-                deleteNode?.value = minNode.value
-                colorOfTransferingNode = minNode.color
+                deleteNode.key = minNode.key
+                deleteNode.value = minNode.value
+                colorOfTransferringNode = minNode.color
             }
             childNode = if (minNode?.leftChild != null) minNode.leftChild else minNode?.rightChild
             transplantTwoNodes(minNode, childNode)
         }
-        if (colorOfTransferingNode == RBNode.Color.Black) fixAfterDelete(childNode)
-        // TODO: return values
-        return
+
+        if (colorOfTransferringNode == RBNode.Color.Black) fixAfterDelete(childNode)
+
+        return deleteNodeValue // in case the deleting process was successful - we return value of deleted node. in other case - null
     }
 
     // TODO: fix case of deleting the root
@@ -133,8 +134,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                 if (fixNodeBrother?.leftChild?.color == RBNode.Color.Black && fixNodeBrother.rightChild?.color == RBNode.Color.Black) {
                     fixNodeBrother.color = RBNode.Color.Red
                     fixNode = fixNode.parent
-                }
-                else {
+                } else {
                     if (fixNodeBrother?.rightChild?.color == RBNode.Color.Black) {
                         fixNodeBrother.leftChild?.color = RBNode.Color.Black
                         fixNodeBrother.color = RBNode.Color.Red
@@ -143,35 +143,35 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                     }
                     if (fixNodeBrother != null && fixNode.parent != null) {
                         fixNode.parent?.color.also { if (it != null) fixNodeBrother?.color = it }
-                        // omg do not touch TODO: good coomment
+                        /*this line of code checks if the color property of the parent of fixNode is not null,
+                         * and if it isn't, it assigns that color to the color property of fixNodeBrother.
+                         * safe call operator ensures that the code doesn't throw a NullPointerException
+                         * if any of the properties are null. */
                     }
                     fixNode.parent?.color = RBNode.Color.Black
                     fixNodeBrother?.rightChild?.color = RBNode.Color.Black
                     fixNode.parent?.rotateLeft()
                     fixNode = root
                 }
-            }
-            else {
+            } else {
                 fixNodeBrother = fixNode.parent?.leftChild
-                if(fixNodeBrother?.color == RBNode.Color.Red) {
+                if (fixNodeBrother?.color == RBNode.Color.Red) {
                     fixNodeBrother.color = RBNode.Color.Black
                     fixNode.parent?.color = RBNode.Color.Red
                     fixNode.parent?.rotateRight()
                     fixNodeBrother = fixNode.parent?.leftChild
                 }
-                if(fixNodeBrother?.leftChild?.color == RBNode.Color.Black && fixNodeBrother.rightChild?.color == RBNode.Color.Black) {
+                if (fixNodeBrother?.leftChild?.color == RBNode.Color.Black && fixNodeBrother.rightChild?.color == RBNode.Color.Black) {
                     fixNode.parent?.rotateRight()
                     fixNodeBrother = fixNode.parent?.leftChild
-                }
-                else {
-                    if(fixNodeBrother?.leftChild?.color == RBNode.Color.Black) {
+                } else {
+                    if (fixNodeBrother?.leftChild?.color == RBNode.Color.Black) {
                         fixNodeBrother.rightChild?.color = RBNode.Color.Black
                         fixNodeBrother.color = RBNode.Color.Red
                         fixNodeBrother.rotateLeft()
                         fixNodeBrother = fixNode.parent?.leftChild
                     }
                     fixNode.parent?.color.also { if (it != null) fixNodeBrother?.color = it }
-                    // TODO: good coomment
                     fixNode.parent?.color = RBNode.Color.Black
                     fixNodeBrother?. leftChild?.color = RBNode.Color.Black
                     fixNode.parent?.rotateRight()
@@ -182,7 +182,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         fixNode?.color = RBNode.Color.Black
     }
 
-    private fun searchNodeF(key: K): RBNode<K, V>? {
+    private fun searchNode(key: K): RBNode<K, V>? {
         var currentNode = root
         while (currentNode != null) {
             if (key == currentNode.key) {
