@@ -10,7 +10,7 @@ jobs:
         
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macox-latest]
+        os: [ubuntu-latest, macos-latest]
 
     permissions:
       pull-requests: write
