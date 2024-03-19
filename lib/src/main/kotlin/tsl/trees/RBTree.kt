@@ -3,42 +3,45 @@ package tsl.trees
 import tsl.nodes.RBNode
 
 class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
-
     override fun insert(
         key: K,
         value: V,
-    ) {
+    ): V? { // in case we inserted successfully - > return null -> else -> return value, so user could have another try to insert it
 
         val newNode = RBNode(key, value)
-        // check if the tree is empty
         if (root == null) {
             root = RBNode(key, value)
-            return balanceNode(root)
+            balanceNode(newNode)
+            return null
         }
 
         var currentNode: RBNode<K, V>? = root
 
-        // traverse the tree to find the insertion point
+        // traverse the tree to find the insertion point(node)
         while (currentNode != null) {
             if (currentNode.key > newNode.key) {
                 if (currentNode.leftChild == null) {
                     currentNode.leftChild = newNode
                     newNode.parent = currentNode
-                    return balanceNode(newNode)
+                    balanceNode(newNode)
+                    return null
                 }
                 currentNode = currentNode.leftChild
-            }
-            else {
+            } else if (currentNode.key < newNode.key)
+            {
                 if (currentNode.rightChild == null) {
-
                     currentNode.rightChild = newNode
                     newNode.parent = currentNode
-                    return balanceNode(newNode)
+                    balanceNode(newNode)
+                    return null
                 }
                 currentNode = currentNode.rightChild
+            } else {
+                return value
             }
         }
-        return balanceNode(newNode)
+        balanceNode(newNode)
+        return null
     }
 
     private fun balanceNode(node: RBNode<K, V>?) {
@@ -58,8 +61,8 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
                     newNode == newNode.parent?.rightChild -> {
                         newNode = newNode.parent
-                        if (newNode!!.parent?.parent == null) root = newNode.parent
-                        newNode.rotateLeft()
+                        if (newNode?.parent?.parent == null) root = newNode?.parent
+                        newNode?.rotateLeft()
                     }
 
                     newNode == newNode.parent?.leftChild -> {
@@ -67,8 +70,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                         newNode.parent?.parent?.rotateRight()
                     }
                 }
-            }
-            else {
+            } else {
                 uncle = newNode.parent?.parent?.leftChild
 
                 when {
@@ -81,8 +83,8 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
                     newNode == newNode.parent?.leftChild -> {
                         newNode = newNode.parent
-                        if (newNode!!.parent?.parent == null) root = newNode.parent
-                        newNode.rotateRight()
+                        if (newNode?.parent?.parent == null) root = newNode?.parent
+                        newNode?.rotateRight()
                     }
 
                     newNode == newNode.parent?.rightChild -> {
@@ -95,110 +97,129 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         root?.color = RBNode.Color.Black
     }
 
-    override fun delete(key: K) {
-        root = deleteNodeRecursively(root, key)
+    override fun delete(key: K): V? {
+        val deleteNode: RBNode<K, V> = searchNode(key) ?: return null // track node that will replace other one
+        val deleteNodeValue = deleteNode.value
+        var colorOfTransferringNode = deleteNode.color
+        val childNode: RBNode<K, V>? // node that will be on the place of deleteNode
+
+        if (getChildrenCount(deleteNode) < 2) {
+            childNode = if (deleteNode.leftChild != null) deleteNode.leftChild else deleteNode.rightChild
+            transplantTwoNodes(deleteNode, childNode)
+        } else {
+            val minNode = getMin(deleteNode.rightChild)
+            if (minNode != null) {
+                deleteNode.key = minNode.key
+                deleteNode.value = minNode.value
+                colorOfTransferringNode = minNode.color
+            }
+            childNode = if (minNode?.leftChild != null) minNode.leftChild else minNode?.rightChild
+            transplantTwoNodes(minNode, childNode)
+        }
+
+        if (colorOfTransferringNode == RBNode.Color.Black) fixAfterDelete(childNode)
+
+        return deleteNodeValue // in case the deleting process was successful - we return value of deleted node. in other case - null
     }
 
-    private fun deleteNodeRecursively(
-        node: RBNode<K, V>?,
-        key: K,
-    ): RBNode<K, V>? {
-        val currentNode = node ?: return null
+    // TODO: fix case of deleting the root
 
-        when {
-            key < currentNode.key -> currentNode.leftChild = deleteNodeRecursively(currentNode.leftChild, key)
-            key > currentNode.key -> currentNode.rightChild = deleteNodeRecursively(currentNode.rightChild, key)
-            else -> {
-                if (currentNode.leftChild == null || currentNode.rightChild == null) {
-                    val temp = if (currentNode.leftChild != null) currentNode.leftChild else currentNode.rightChild
-                    if (temp == null) {
-                        if (currentNode.color == RBNode.Color.Black) {
-                            fixDoubleBlack(currentNode)
-                        }
-                        return null
-                    } else {
-                        return temp
-                    }
+    private fun fixAfterDelete(node: RBNode<K, V>?) {
+        var fixNode: RBNode<K, V>? = node
+        var fixNodeBrother: RBNode<K, V>?
+        while (fixNode != root && fixNode?.color == RBNode.Color.Black) {
+            if (fixNode == fixNode.parent?.leftChild) {
+                val parent = fixNode.parent
+                fixNodeBrother = parent?.rightChild
+                if (fixNodeBrother?.leftChild?.color == RBNode.Color.Black && fixNodeBrother.rightChild?.color == RBNode.Color.Black) {
+                    fixNodeBrother.color = RBNode.Color.Red
+                    fixNode = fixNode.parent
                 } else {
-                    var successor = currentNode.rightChild
-                    while (successor?.leftChild != null) {
-                        successor = successor.leftChild
+                    if (fixNodeBrother?.rightChild?.color == RBNode.Color.Black) {
+                        fixNodeBrother.leftChild?.color = RBNode.Color.Black
+                        fixNodeBrother.color = RBNode.Color.Red
+                        fixNodeBrother.rotateRight()
+                        fixNodeBrother = fixNode.parent?.rightChild
                     }
-                    if (successor != null) {
-                        currentNode.key = successor.key
-                        currentNode.value = successor.value
-                        currentNode.rightChild = deleteNodeRecursively(currentNode.rightChild, successor.key)
+                    if (fixNodeBrother != null && fixNode.parent != null) {
+                        fixNode.parent?.color.also { if (it != null) fixNodeBrother?.color = it }
+                        /*this line of code checks if the color property of the parent of fixNode is not null,
+                         * and if it isn't, it assigns that color to the color property of fixNodeBrother.
+                         * safe call operator ensures that the code doesn't throw a NullPointerException
+                         * if any of the properties are null. */
                     }
+                    fixNode.parent?.color = RBNode.Color.Black
+                    fixNodeBrother?.rightChild?.color = RBNode.Color.Black
+                    fixNode.parent?.rotateLeft()
+                    fixNode = root
+                }
+            } else {
+                fixNodeBrother = fixNode.parent?.leftChild
+                if (fixNodeBrother?.color == RBNode.Color.Red) {
+                    fixNodeBrother.color = RBNode.Color.Black
+                    fixNode.parent?.color = RBNode.Color.Red
+                    fixNode.parent?.rotateRight()
+                    fixNodeBrother = fixNode.parent?.leftChild
+                }
+                if (fixNodeBrother?.leftChild?.color == RBNode.Color.Black && fixNodeBrother.rightChild?.color == RBNode.Color.Black) {
+                    fixNode.parent?.rotateRight()
+                    fixNodeBrother = fixNode.parent?.leftChild
+                } else {
+                    if (fixNodeBrother?.leftChild?.color == RBNode.Color.Black) {
+                        fixNodeBrother.rightChild?.color = RBNode.Color.Black
+                        fixNodeBrother.color = RBNode.Color.Red
+                        fixNodeBrother.rotateLeft()
+                        fixNodeBrother = fixNode.parent?.leftChild
+                    }
+                    fixNode.parent?.color.also { if (it != null) fixNodeBrother?.color = it }
+                    fixNode.parent?.color = RBNode.Color.Black
+                    fixNodeBrother?. leftChild?.color = RBNode.Color.Black
+                    fixNode.parent?.rotateRight()
+                    fixNode = root
                 }
             }
         }
-        return currentNode
+        fixNode?.color = RBNode.Color.Black
     }
 
-    private fun fixDoubleBlack(node: RBNode<K, V>) {
-        var currentNode = node
-        while (currentNode != root && currentNode.color == RBNode.Color.Black) {
-            currentNode = fixDoubleBlackHelper(currentNode) ?: return
-        }
-        currentNode.color = RBNode.Color.Black
-    }
-
-    private fun fixDoubleBlackHelper(node: RBNode<K, V>): RBNode<K, V>? {
-        val sibling =
-            when {
-                node == node.parent?.leftChild -> node.parent?.rightChild
-                else -> node.parent?.leftChild
+    private fun searchNode(key: K): RBNode<K, V>? {
+        var currentNode = root
+        while (currentNode != null) {
+            if (key == currentNode.key) {
+                return currentNode
             }
-
-        sibling?.takeIf { it.color == RBNode.Color.Red }?.run {
-            color = RBNode.Color.Black
-            node.parent?.color = RBNode.Color.Red
-            if (this == node.parent?.leftChild) node.parent?.rotateRight() else node.parent?.rotateLeft()
-            return null
+            currentNode = if (key < currentNode.key) currentNode.leftChild else currentNode.rightChild
         }
-
-        if ((sibling?.leftChild?.color ?: RBNode.Color.Black) == RBNode.Color.Black &&
-            (sibling?.rightChild?.color ?: RBNode.Color.Black) == RBNode.Color.Black
-        ) {
-            sibling?.color = RBNode.Color.Red
-            return node.parent
-        }
-
-        sibling?.let {
-            if (it.color == RBNode.Color.Black) {
-                if (node == node.parent?.leftChild) {
-                    it.rightChild?.let { right ->
-                        right.color = RBNode.Color.Black
-                        it.color = RBNode.Color.Red
-                        it.rotateLeft()
-                    }
-                } else {
-                    it.leftChild?.let { left ->
-                        left.color = RBNode.Color.Black
-                        it.color = RBNode.Color.Red
-                        it.rotateRight()
-                    }
-                }
-                return null
-            }
-        }
-
-        node.parent?.let {
-            sibling?.color = it.color
-            it.color = RBNode.Color.Black
-        }
-        return if (node == node.parent?.leftChild) node.parent?.rotateRight() else node.parent?.rotateLeft()
+        return null
     }
 
-    fun printTree() {
-        printTreeRecursively(root, "", true)
+    // TODO: move this type of methods to abstract mb
+
+
+    // this method movest the parent of  2nd node -> to 1st node
+    private fun transplantTwoNodes(firstNode: RBNode<K, V>? , secondNode: RBNode<K, V>?) {
+        if (firstNode == root) root = secondNode
+        else if (firstNode?.parent?.leftChild == firstNode) firstNode?.parent?.leftChild = secondNode
+        else firstNode?.parent?.rightChild = secondNode
+        secondNode?.parent = firstNode?.parent
     }
 
-    private fun printTreeRecursively(node: RBNode<K, V>?, prefix: String, isTail: Boolean) {
-        if (node != null) {
-            printTreeRecursively(node.rightChild, "$prefix${if (isTail) "│   " else "    "}", false)
-            println("$prefix${if (isTail) "└── " else "┌── "}${if (node.color == RBNode.Color.Red) "\u001b[31m" else "\u001b[30;1m"}(${node.key},${node.value})\u001b[0m")
-            printTreeRecursively(node.leftChild, "$prefix${if (isTail) "    " else "│   "}", true)
+    private fun getChildrenCount(node: RBNode<K, V>?): Int {
+        if (node == null) return 0
+        var count = 0
+
+        if (node.leftChild != null) count++
+        if (node.rightChild != null) count++
+        return count
+    }
+
+    private fun getMin(node: RBNode<K, V>?): RBNode<K, V>? {
+        if (node == null) return null
+        var current: RBNode<K, V> = node
+
+        while (current.leftChild != null) {
+            current.leftChild.also { if (it != null) current = it }
         }
+        return current
     }
 }

@@ -26,10 +26,10 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         }
     }
 
-    abstract fun delete(key: K)
+    abstract fun delete(key: K): V?
 
     abstract fun insert(
         key: K,
         value: V,
-    )
+    ): V?
 }
