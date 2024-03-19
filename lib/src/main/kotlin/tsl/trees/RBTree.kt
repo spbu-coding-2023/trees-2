@@ -1,45 +1,47 @@
 package tsl.trees
 
 import tsl.nodes.RBNode
-import javax.crypto.KEM
 
 class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
-
     override fun insert(
         key: K,
         value: V,
-    ) {
+    ): V? { // in case we inserted successfully - > return null -> else -> return value, so user could have another try to insert it
 
         val newNode = RBNode(key, value)
-        // check if the tree is empty
         if (root == null) {
             root = RBNode(key, value)
-            return balanceNode(root)
+            balanceNode(newNode)
+            return null
         }
 
         var currentNode: RBNode<K, V>? = root
 
-        // traverse the tree to find the insertion point
+        // traverse the tree to find the insertion point(node)
         while (currentNode != null) {
             if (currentNode.key > newNode.key) {
                 if (currentNode.leftChild == null) {
                     currentNode.leftChild = newNode
                     newNode.parent = currentNode
-                    return balanceNode(newNode)
+                    balanceNode(newNode)
+                    return null
                 }
                 currentNode = currentNode.leftChild
-            }
-            else {
+            } else if (currentNode.key < newNode.key)
+            {
                 if (currentNode.rightChild == null) {
-
                     currentNode.rightChild = newNode
                     newNode.parent = currentNode
-                    return balanceNode(newNode)
+                    balanceNode(newNode)
+                    return null
                 }
                 currentNode = currentNode.rightChild
+            } else {
+                return value
             }
         }
-        return balanceNode(newNode)
+        balanceNode(newNode)
+        return null
     }
 
     private fun balanceNode(node: RBNode<K, V>?) {
@@ -119,6 +121,8 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         return
     }
 
+    // TODO: fix case of deleting the root
+
     private fun fixAfterDelete(node: RBNode<K, V>?) {
         var fixNode: RBNode<K, V>? = node
         var fixNodeBrother: RBNode<K, V>?
@@ -189,6 +193,10 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         return null
     }
 
+    // TODO: move this type of methods to abstract mb
+
+
+    // this method movest the parent of  2nd node -> to 1st node
     private fun transplantTwoNodes(firstNode: RBNode<K, V>? , secondNode: RBNode<K, V>?) {
         if (firstNode == root) root = secondNode
         else if (firstNode?.parent?.leftChild == firstNode) firstNode?.parent?.leftChild = secondNode
@@ -213,17 +221,5 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
             current.leftChild.also { if (it != null) current = it }
         }
         return current
-    }
-
-    fun printTree() {
-        printTreeRecursively(root, "", true)
-    }
-
-    private fun printTreeRecursively(node: RBNode<K, V>?, prefix: String, isTail: Boolean) {
-        if (node != null) {
-            printTreeRecursively(node.rightChild, "$prefix${if (isTail) "│   " else "    "}", false)
-            println("$prefix${if (isTail) "└── " else "┌── "}${if (node.color == RBNode.Color.Red) "\u001b[31m" else "\u001b[30;1m"}(${node.key},${node.value})\u001b[0m")
-            printTreeRecursively(node.leftChild, "$prefix${if (isTail) "    " else "│   "}", true)
-        }
     }
 }
