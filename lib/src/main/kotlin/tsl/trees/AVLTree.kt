@@ -5,11 +5,11 @@ import tsl.nodes.AVLNode
 import kotlin.math.max
 
 class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() {
-
-    // TODO: add return of replaced value or null if key was not present in the tree
     override fun insert(key: K, value: V): V? {
+        val prevValue = search(key)               // null if key wasn't in the tree
         insertAndBalanceRecursively(root, key, value)
-        return value        // TODO: DELETE
+
+        return prevValue
     }
 
     private fun insertAndBalanceRecursively(node: AVLNode<K, V>?, key: K, value: V): AVLNode<K, V>? {
