@@ -82,8 +82,10 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
     private fun getHeight(node: AVLNode<K, V>?) = node?.height ?: -1
 
     override fun delete(key: K): V? {
+        val prevValue: V = search(key) ?: return null       // if key was not in the tree, nothing to delete
         deleteAndBalanceRecursively(root, key)
-        return null         // TODO: DELETE
+
+        return prevValue
     }
 
     private fun deleteAndBalanceRecursively(node: AVLNode<K, V>?, key: K): AVLNode<K, V>? {
