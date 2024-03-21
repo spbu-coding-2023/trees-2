@@ -34,22 +34,22 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
 
     fun getMinKey(): K? {
         if (root == null) return null
-        return getMinNode().key
+        return getMinNode(root).key
     }
 
     fun getMinValue(): V? {
         if (root == null) return null
-        return getMinNode().value
+        return getMinNode(root).value
     }
 
     fun getMaxKey(): K? {
         if (root == null) return null
-        return getMaxNode().key
+        return getMaxNode(root).key
     }
 
     fun getMaxValue(): K? {
         if (root == null) return null
-        return getMaxNode().value
+        return getMaxNode(root).value
     }
 
     protected fun getMinNode(node: AbstractNode<K, V, N>): AbstractNode<K, V, N>? {
