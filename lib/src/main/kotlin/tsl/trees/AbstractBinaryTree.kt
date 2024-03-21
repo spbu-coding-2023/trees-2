@@ -8,6 +8,12 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
     fun search(key: K): V? {
         return searchNode(root, key)
     }
+    abstract fun delete(key: K): V?
+
+    abstract fun insert(
+        key: K,
+        value: V,
+    ): V?
 
     private fun searchNode(
         node: AbstractNode<K, V, N>?,
@@ -26,10 +32,35 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         }
     }
 
-    abstract fun delete(key: K): V?
+    fun getMinKey(): K? {
+        if (root == null) return null
+        return getMinNode().key
+    }
 
-    abstract fun insert(
-        key: K,
-        value: V,
-    ): V?
+    fun getMinValue(): V? {
+        if (root == null) return null
+        return getMinNode().value
+    }
+
+    fun getMaxKey(): K? {
+        if (root == null) return null
+        return getMaxNode().key
+    }
+
+    fun getMaxValue(): K? {
+        if (root == null) return null
+        return getMaxNode().value
+    }
+
+    protected fun getMinNode(node: AbstractNode<K, V, N>): AbstractNode<K, V, N>? {
+        if (node == null) return null
+        if (node.leftChild == null) return node
+        return getMinNode(node.leftChild)
+    }
+
+    protected fun getMaxNode(node: AbstractNode<K, V, N>): AbstractNode<K, V, N>? {
+        if (node == null) return null
+        if (node.leftChild == null) return node
+        return getMinNode(node.leftChild)
+    }
 }
