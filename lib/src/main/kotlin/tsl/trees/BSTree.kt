@@ -11,22 +11,19 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
 			root = nodeToInsert
 			return null
 		}
-
-		var currentNode: BSTNode<K, V> = root
-		while (true) {
+		var currentNode: BSTNode<K, V>? = root
+		while (currentNode != null) {
 			if (nodeToInsert.key == currentNode.key) {
 				val oldValue = currentNode.value
 				currentNode.value = nodeToInsert.value
 				return oldValue
-			}
-			else if (nodeToInsert.key < currentNode.key) {
+			} else if (nodeToInsert.key < currentNode.key) {
 				if (currentNode.leftChild == null) {
 					currentNode.leftChild = nodeToInsert
 					return null
 				}
-				currentNode = currentNode.leftChid
-			}
-			else if (nodeToInsert.key > currentNode.key) {
+				currentNode = currentNode.leftChild
+			} else if (nodeToInsert.key > currentNode.key) {
 				if (currentNode.rightChild == null) {
 					currentNode.rightChild = nodeToInsert
 					return null
@@ -34,15 +31,16 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
 				currentNode = currentNode.rightChild
 			}
 		}
+		return currentNode?.value
 	}
 
 	override fun delete(key: K): V? {
-		val deletedValue? = search(key) ?: return null
+		val deletedValue: V? = search(key) ?: return null
 		deleteRecursively(root, key)
 		return deletedValue
 	}
 
-	private fun deleteRecursively(node: BSTNode<K, V>, key): BSTNode {
+	private fun deleteRecursively(node: BSTNode<K, V>?, key: K): BSTNode<K, V>? {
 		if (node == null) return null
 		if (key < node.key) node.leftChild = deleteRecursively(node.leftChild, key)
 		else if (key > node.key) node.rightChild = deleteRecursively(node.rightChild, key)
@@ -51,9 +49,13 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
 				return node.leftChild ?: node.rightChild
 			else {
 				val minRightNode = getMinNode(node.rightChild)
-				node.key = minRightNode.key
-				node.value = minRightNode.value
-				node.rightChild = deleteRecursively(node.rightChild, minRightNode.key)
+				if (minRightNode != null) {
+					node.key = minRightNode.key
+					node.value = minRightNode.value
+					node.rightChild = deleteRecursively(node.rightChild, minRightNode.key)
+				}
 			}
 		}
+		return node
 	}
+}
