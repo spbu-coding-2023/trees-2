@@ -5,15 +5,16 @@ import tsl.nodes.AbstractNode
 abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N>> {
     protected var root: N? = null
 
-    fun search(key: K): V? {
-        return searchNode(root, key)
-    }
     abstract fun delete(key: K): V?
 
     abstract fun insert(
         key: K,
         value: V,
     ): V?
+
+    fun search(key: K): V? {
+        return searchNode(root, key)
+    }
 
     private fun searchNode(
         node: AbstractNode<K, V, N>?,
@@ -30,6 +31,10 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
                 searchNode(node.rightChild, key)
             }
         }
+    }
+
+    fun clear() {
+        root = null
     }
 
     fun getMinKey(): K? {
