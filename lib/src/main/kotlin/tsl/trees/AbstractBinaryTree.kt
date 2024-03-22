@@ -37,19 +37,9 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         return getMinNode(root)?.key
     }
 
-    fun getMinValue(): V? {
-        if (root == null) return null
-        return getMinNode(root)?.value
-    }
-
     fun getMaxKey(): K? {
         if (root == null) return null
         return getMaxNode(root)?.key
-    }
-
-    fun getMaxValue(): V? {
-        if (root == null) return null
-        return getMaxNode(root)?.value
     }
 
     protected fun getMinNode(node: AbstractNode<K, V, N>?): AbstractNode<K, V, N>? {
