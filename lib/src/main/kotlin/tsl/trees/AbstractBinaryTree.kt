@@ -3,8 +3,8 @@ package tsl.trees
 import tsl.nodes.AbstractNode
 import tsl.iterator.BinaryTreeIterator
 
-abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N>> : Iterable<Pair<K, V>> {
-    protected var root: N? = null
+abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N>>: Iterable<Pair<K?, V?>> {
+    internal var root: N? = null
 
     abstract fun delete(key: K): V?
 
@@ -48,7 +48,7 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         else  getMaxNode(node.leftChild)
     }
 
-    override fun iterator(): Iterator<Pair<K, V>> {
+    override fun iterator(): Iterator<Pair<K?, V?>> {
         return BinaryTreeIterator(this)
     }
 }
