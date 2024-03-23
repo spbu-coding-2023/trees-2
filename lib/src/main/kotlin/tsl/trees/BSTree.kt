@@ -11,7 +11,9 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
 			root = nodeToInsert
 			return null
 		}
-		var currentNode: BSTNode<K, V>? = root
+
+		var currentNode = root
+
 		while (currentNode != null) {
 			if (nodeToInsert.key == currentNode.key) {
 				val oldValue = currentNode.value
