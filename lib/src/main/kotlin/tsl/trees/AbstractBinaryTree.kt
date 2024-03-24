@@ -17,7 +17,7 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         return searchNode(root, key)?.value
     }
 
-    private fun searchNode(node: AbstractNode<K, V, N>?, key: K): AbstractNode<K, V, N>? {
+    private fun searchNode(node: N?, key: K): N? {
         return if (node == null) null
         else if (node.key == key) node
         else if (key < node.key) searchNode(node.leftChild, key)
