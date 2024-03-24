@@ -146,66 +146,70 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         return newRoot
     }
 
-    private fun fixAfterDeletion(currentNode: RBNode<K, V>?): RBNode<K, V>? {
+    private fun fixAfterDeletion(currentDeletingNode: RBNode<K, V>?): RBNode<K, V>? {
         var fixedRoot = root
-        var node = currentNode
+        var currentNode = currentDeletingNode
+        // currentNode - variable that is used to perform various operations and control the loop of fixing the tree.
 
-        while (node != root && node?.color == RBNode.Color.Black) {
-            if (node == node.parent?.leftChild) {
-                var currentSibling: RBNode<K, V>? = node.parent?.rightChild
+        while (currentNode != root && currentNode?.color == RBNode.Color.Black) {
+            if (currentNode == currentNode.parent?.leftChild) {
+                var currentSibling: RBNode<K, V>? = currentNode.parent?.rightChild
                 if (currentSibling?.color == RBNode.Color.Red) { // 1st case "currentSibling is red"
                     currentSibling.color = RBNode.Color.Black
-                    node.parent?.color = RBNode.Color.Red
-                    fixedRoot = rotateLeft(node.parent, fixedRoot)
-                    currentSibling = node.parent?.rightChild  // transfer to other cases
+                    currentNode.parent?.color = RBNode.Color.Red
+                    fixedRoot = rotateLeft(currentNode.parent, fixedRoot)
+                    currentSibling = currentNode.parent?.rightChild  // transfer to other cases
                 }
                 else if (currentSibling?.leftChild?.color == RBNode.Color.Black && currentSibling.rightChild?.color == RBNode.Color.Black) {
                     // 2nd case "currentSibling and its children are black"
                     currentSibling.color = RBNode.Color.Red
-                    node = node.parent
+                    currentNode = currentNode.parent
                 } else {
                     if (currentSibling?.rightChild?.color == RBNode.Color.Black) {
                         // 3rd case "like 2nd but the left child is red"
                         (currentSibling.leftChild )?.color = RBNode.Color.Black
                         currentSibling.color = RBNode.Color.Red
                         fixedRoot = rotateRight(currentSibling, fixedRoot)
-                        currentSibling = node.parent?.rightChild
+                        currentSibling = currentNode.parent?.rightChild
                     }
-                    currentSibling?.color = node.parent?.color!! // 4th case "black currentSibling, right child is black'
-                    node.parent?.color = RBNode.Color.Black
+                    // 4th case "black currentSibling, right child is black'
+                    currentSibling?.color = currentNode.parent?.color ?: RBNode.Color.Black
+                    currentNode.parent?.color = RBNode.Color.Black
                     currentSibling?.rightChild?.color = RBNode.Color.Black
-                    fixedRoot = rotateLeft(node.parent, fixedRoot)
-                    node = fixedRoot
+                    fixedRoot = rotateLeft(currentNode.parent, fixedRoot)
+                    currentNode = fixedRoot
                 }
             } else {
-                var currentSibling: RBNode<K, V>? = node.parent?.leftChild
+                var currentSibling: RBNode<K, V>? = currentNode.parent?.leftChild
                 if (currentSibling?.color == RBNode.Color.Red) {
                     // 1st case "red currentSibling"
                     currentSibling.color = RBNode.Color.Black
-                    node.parent?.color = RBNode.Color.Red
-                    fixedRoot = rotateRight(node.parent, fixedRoot)
-                    currentSibling = node.parent?.leftChild  // transfer to other cases
+                    currentNode.parent?.color = RBNode.Color.Red
+                    fixedRoot = rotateRight(currentNode.parent, fixedRoot)
+                    currentSibling = currentNode.parent?.leftChild  // transfer to other cases
                 }
                 // 2nd case "currentSibling and its children are black"
                 if (currentSibling?.leftChild?.color == RBNode.Color.Black && currentSibling.rightChild?.color == RBNode.Color.Black) {
                     currentSibling.color = RBNode.Color.Red
-                    node = node.parent
+                    currentNode = currentNode.parent
                 } else {
-                    if (currentSibling?.leftChild?.color == RBNode.Color.Black) { // 3rd case "like 2nd but the right child is red"
+                    // 3rd case "like 2nd but the right child is red"
+                    if (currentSibling?.leftChild?.color == RBNode.Color.Black) {
                         currentSibling.rightChild?.color = RBNode.Color.Black
                         currentSibling.color = RBNode.Color.Red
                         fixedRoot = rotateLeft(currentSibling, fixedRoot)
-                        currentSibling = node.parent?.leftChild
+                        currentSibling = currentNode.parent?.leftChild
                     }
-                    currentSibling?.color = node.parent?.color!! // 4th case "black currentSibling, left child is red'
-                    (node.parent)?.color = RBNode.Color.Black
+                    // 4th case "black currentSibling, left child is red'
+                    currentSibling?.color = currentNode.parent?.color ?: RBNode.Color.Black
+                    (currentNode.parent)?.color = RBNode.Color.Black
                     (currentSibling?.leftChild)?.color = RBNode.Color.Black
-                    fixedRoot = rotateRight(node.parent, fixedRoot)
-                    node = fixedRoot
+                    fixedRoot = rotateRight(currentNode.parent, fixedRoot)
+                    currentNode = fixedRoot
                 }
             }
         }
-        node?.color = RBNode.Color.Black
+        currentNode?.color = RBNode.Color.Black
         return fixedRoot
     }
 }
