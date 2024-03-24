@@ -44,6 +44,14 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         return null
     }
 
+    /**
+     * This function is used to balance the red-black tree node after insertion.
+     * It checks the colors of the parent and grandparent nodes to determine the rotations needed for balancing.
+     * The function alternates between left and right rotations to maintain the balance of the tree.
+     * The root variable is updated to maintain the correct root node after balancing.
+     * @param RBNode-typed node
+     */
+
     private fun balanceNode(node: RBNode<K, V>?) {
         var newNode = node
         var uncle: RBNode<K, V>?
@@ -97,6 +105,15 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         return null
     }
 
+    /**
+    * Deletes a node with the specified key from the Red\-Black Tree\.
+    * If the node with the key is found, it is removed from the tree and the tree is rebalanced if necessary\.
+    *
+    * @param node The root node of the Red\-Black Tree\.
+    * @param key The key of the node to be deleted\.
+    * @return The new root node of the Red\-Black Tree after deletion\.
+    */
+
     private fun deleteNode(node: RBNode<K, V>?, key: K): RBNode<K, V>? {
         var current: RBNode<K, V>? = searchNode(root, key) as RBNode<K, V>?
         if (current == null) return root
@@ -139,6 +156,16 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         }
         return newRoot
     }
+
+    /**
+     * This function is used to fix the red-black tree structure after a node deletion to ensure that the red-black
+     * properties of the tree are maintained.
+     * It iterates through the nodes and performs rotations and recoloring based on the cases derived from the sibling
+     * and its children's colors to balance the tree.
+     *
+     * @param currentNode The node that needs fixing after deletion
+     * @return The root of the tree after fixing the structure to maintain the red-black properties
+     */
 
     private fun fixAfterDeletion(currentDeletingNode: RBNode<K, V>?): RBNode<K, V>? {
         var fixedRoot = root
