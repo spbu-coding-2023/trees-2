@@ -3,8 +3,9 @@ package tsl.trees
 import tsl.nodes.RBNode
 
 class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
-    public override fun insert(key: K,
-        value: V,
+    public override fun insert(
+        key: K,
+        value: V
     ): V? { // in case key isnt in the tree/ inserts successfully-> return null -> else -> return value
 
         val newNode = RBNode(key, value)
@@ -179,7 +180,8 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                     fixedRoot = rotateLeft(currentNode.parent, fixedRoot)
                     currentSibling = currentNode.parent?.rightChild // transfer to other cases
                 } else if (currentSibling?.leftChild?.color == RBNode.Color.Black
-                    && currentSibling.rightChild?.color == RBNode.Color.Black) {
+                    && currentSibling.rightChild?.color == RBNode.Color.Black
+                ) {
                     // 2nd case "currentSibling and its children are black"
                     currentSibling.color = RBNode.Color.Red
                     currentNode = currentNode.parent
@@ -209,7 +211,8 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                 }
                 // 2nd case "currentSibling and its children are black"
                 if (currentSibling?.leftChild?.color == RBNode.Color.Black
-                    && currentSibling.rightChild?.color == RBNode.Color.Black) {
+                    && currentSibling.rightChild?.color == RBNode.Color.Black
+                ) {
                     currentSibling.color = RBNode.Color.Red
                     currentNode = currentNode.parent
                 } else {
