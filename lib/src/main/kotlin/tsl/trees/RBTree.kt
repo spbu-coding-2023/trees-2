@@ -47,54 +47,48 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
     private fun balanceNode(node: RBNode<K, V>?) {
         var newNode = node
         var uncle: RBNode<K, V>?
-        while (newNode?.parent?.color == RBNode.Color.Red) {
+        var newRoot = root
+        while (newNode?.parent?.color == RBNode.Color.Red && newNode.parent != newRoot) {
+            var currentParent: RBNode<K, V>? = newNode.parent
+            val currentGrandParent: RBNode<K, V>? = currentParent?.parent
             if (newNode.parent == newNode.parent?.parent?.leftChild) {
-                uncle = newNode.parent?.parent?.rightChild
+                uncle = currentParent?.parent?.rightChild
 
-                when {
-                    uncle?.color == RBNode.Color.Red -> {
-                        newNode.parent?.color = RBNode.Color.Black
-                        uncle.color = RBNode.Color.Black
-                        newNode.parent?.parent?.color = RBNode.Color.Red
-                        newNode = newNode.parent?.parent
+                if (uncle?.color == RBNode.Color.Red) {
+                    currentParent?.color = RBNode.Color.Black
+                    uncle.color = RBNode.Color.Black
+                    currentGrandParent?.color = RBNode.Color.Red
+                    newNode = currentGrandParent
+                } else {
+                    if (newNode == newNode.parent?.rightChild) {
+                        newNode = currentParent
+                        newRoot = rotateLeft(newNode, newRoot)
+                        currentParent = newNode?.parent
                     }
-
-                    newNode == newNode.parent?.rightChild -> {
-                        newNode = newNode.parent
-                        if (newNode?.parent?.parent == null) root = newNode?.parent
-                        newNode?.rotateLeft()
-                    }
-
-                    newNode == newNode.parent?.leftChild -> {
-                        if (newNode.parent?.parent?.parent == null) root = newNode.parent
-                        newNode.parent?.parent?.rotateRight()
-                    }
+                    currentParent?.color = RBNode.Color.Black
+                    currentGrandParent?.color = RBNode.Color.Red
+                    newRoot = rotateRight(currentGrandParent, newRoot)
                 }
-            } else {
+            } else if (currentParent == currentGrandParent?.rightChild) {
                 uncle = newNode.parent?.parent?.leftChild
-
-                when {
-                    uncle?.color == RBNode.Color.Red -> {
-                        newNode.parent?.color = RBNode.Color.Black
-                        uncle.color = RBNode.Color.Black
-                        newNode.parent?.parent?.color = RBNode.Color.Red
-                        newNode = newNode.parent?.parent
+                if (uncle?.color == RBNode.Color.Red) {
+                    currentParent?.color = RBNode.Color.Black
+                    uncle.color = RBNode.Color.Black
+                    currentGrandParent?.color = RBNode.Color.Red
+                    newNode = currentGrandParent
+                } else {
+                    if (newNode == currentParent?.leftChild) {
+                        newNode = currentParent
+                        newRoot = rotateRight(newNode, newRoot)
+                        currentParent = newNode.parent
                     }
-
-                    newNode == newNode.parent?.leftChild -> {
-                        newNode = newNode.parent
-                        if (newNode?.parent?.parent == null) root = newNode?.parent
-                        newNode?.rotateRight()
-                    }
-
-                    newNode == newNode.parent?.rightChild -> {
-                        if (newNode.parent?.parent?.parent == null) root = newNode.parent
-                        newNode.parent?.parent?.rotateLeft()
-                    }
+                    currentParent?.color = RBNode.Color.Black
+                    currentGrandParent?.color = RBNode.Color.Red
+                    newRoot = rotateLeft(currentGrandParent, newRoot)
                 }
             }
         }
-        root?.color = RBNode.Color.Black
+        root = newRoot
     }
 
     override fun delete(key: K): V? {
