@@ -17,7 +17,7 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         return searchNode(root, key)?.value
     }
 
-    private fun searchNode(node: N?, key: K): N? {
+    protected fun searchNode(node: AbstractNode<K, V, N>?, key: K): AbstractNode<K, V, N>? {
         return if (node == null) null
         else if (node.key == key) node
         else if (key < node.key) searchNode(node.leftChild, key)
@@ -42,10 +42,10 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         else  getMinNode(node.leftChild)
     }
 
-    private fun getMaxNode(node: N?): N? {
+    protected fun getMaxNode(node: N?): N? {
         return if (node == null) null
-        else if (node.leftChild == null) node
-        else  getMaxNode(node.leftChild)
+        else if (node.rightChild == null) node
+        else  getMaxNode(node.rightChild)
     }
 
     override fun iterator(): Iterator<Pair<K?, V?>> {
