@@ -99,7 +99,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
     override fun delete(key: K): V? {
         root = deleteNode(root, key)
-        root?.color = RBNode.Color.Black // Ensure the root is black after deletion
+        root?.color = RBNode.Color.Black // ensure the root is black after deletion
         return null
     }
 
@@ -211,5 +211,55 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         }
         currentNode?.color = RBNode.Color.Black
         return fixedRoot
+    }
+    private fun rotateRight(node: RBNode<K, V>?, currentRoot: RBNode<K, V>?): RBNode<K, V>? {
+        val temp = node?.leftChild ?: return node // if left child is null, no rotation needed
+        var newRoot = currentRoot
+        temp.parent = node.parent
+
+        if (temp.leftChild != null) {
+            temp.leftChild?.parent = node
+        }
+        temp.rightChild = node
+        node.parent = temp
+
+        if (temp.parent != null) {
+            if (node == temp.parent?.leftChild) {
+                temp.parent?.leftChild = temp
+            } else {
+                temp.parent?.rightChild = temp
+            }
+        } else {
+            root = temp
+        }
+
+        return newRoot
+    }
+
+    private fun rotateLeft(node: RBNode<K, V>?, currentRoot: RBNode<K, V>?): RBNode<K, V>? {
+        val temp = node?.rightChild ?: return node // if right child is null, no rotation needed
+        var newRoot = currentRoot
+        temp.parent = node.parent
+
+        node.rightChild = temp.leftChild;
+        if (node.rightChild != null) {
+            node.rightChild?.parent = node;
+        }
+
+        temp.leftChild = node;
+        node.parent = temp;
+
+        // temp took over node's place so now its parent should point to temp
+        if (temp.parent != null) {
+            if (node == temp.parent?.leftChild) {
+                temp.parent?.leftChild = temp;
+            } else {
+                temp.parent?.rightChild = temp;
+            }
+        } else {
+            root = temp;
+            newRoot = temp
+        }
+        return newRoot
     }
 }
