@@ -6,49 +6,50 @@ import tsl.iterator.BinaryTreeIterator
 abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N>>: Iterable<Pair<K?, V?>> {
     internal var root: N? = null
 
-    abstract fun delete(key: K): V?
+    public abstract fun delete(key: K): V?
 
-    abstract fun insert(
-        key: K,
-        value: V,
-    ): V?
+    public abstract fun insert(key: K, value: V): V?
 
-    fun search(key: K): V? {
-        return searchNode(root, key)?.value
+    public fun search(key: K): V? {
+        return searchNodeRecursively(root, key)?.value
     }
 
-    protected fun searchNode(node: AbstractNode<K, V, N>?, key: K): AbstractNode<K, V, N>? {
-        return if (node == null) null
-        else if (node.key == key) node
-        else if (key < node.key) searchNode(node.leftChild, key)
-        else searchNode(node.rightChild, key)
+    protected fun searchNodeRecursively(currNode: AbstractNode<K, V, N>?, keyToSearch: K): AbstractNode<K, V, N>? {
+        when {
+            currNode == null -> return null
+            keyToSearch > currNode.key -> return currNode
+            keyToSearch < currNode.key -> return searchNodeRecursively(currNode.leftChild, keyToSearch)
+            else -> return searchNodeRecursively(currNode.rightChild, keyToSearch)
+        }
     }
 
-    fun clear() {
+    public fun clear(): V? {
+        val rootValueBeforeClear = root?.value
+
         root = null
+
+        return rootValueBeforeClear
     }
 
-    fun getMinKey(): K? {
-        return getMinNode(root)?.key
+    public fun getMinKey(): K? = getMinNodeRecursively(root)?.key
+
+    public fun getMaxKey(): K? = getMaxNodeRecursively(root)?.key
+
+    protected fun getMinNodeRecursively(node: N?): N? {
+        when {
+            node == null -> return null
+            node.leftChild == null -> return node
+            else -> return getMinNodeRecursively(node.leftChild)
+        }
     }
 
-    fun getMaxKey(): K? {
-        return getMaxNode(root)?.key
+    protected fun getMaxNodeRecursively(node: N?): N? {
+        when {
+            node == null -> return null
+            node.rightChild == null -> return node
+            else -> return getMinNodeRecursively(node.rightChild)
+        }
     }
 
-    protected fun getMinNode(node: N?): N? {
-        return if (node == null) null
-        else if (node.leftChild == null) node
-        else  getMinNode(node.leftChild)
-    }
-
-    protected fun getMaxNode(node: N?): N? {
-        return if (node == null) null
-        else if (node.rightChild == null) node
-        else  getMaxNode(node.rightChild)
-    }
-
-    override fun iterator(): Iterator<Pair<K?, V?>> {
-        return BinaryTreeIterator(this)
-    }
+    public override fun iterator(): Iterator<Pair<K?, V?>> = BinaryTreeIterator(this)
 }

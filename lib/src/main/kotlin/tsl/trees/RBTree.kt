@@ -3,8 +3,7 @@ package tsl.trees
 import tsl.nodes.RBNode
 
 class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
-    override fun insert(
-        key: K,
+    public override fun insert(key: K,
         value: V,
     ): V? { // in case key isnt in the tree/ inserts successfully-> return null -> else -> return value
 
@@ -98,7 +97,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         root = newRoot
     }
 
-    override fun delete(key: K): V? {
+    public override fun delete(key: K): V? {
         root = deleteNode(key)
         root?.color = RBNode.Color.Black // ensure the root is black after deletion
         return null
@@ -115,12 +114,12 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
     private fun deleteNode(
         key: K,
     ): RBNode<K, V>? {
-        var current: RBNode<K, V>? = searchNode(root, key) as RBNode<K, V>?
+        var current: RBNode<K, V>? = searchNodeRecursively(root, key) as RBNode<K, V>?
         if (current == null) return root
         var newRoot = root
 
         if (current.leftChild != null && current.rightChild != null) {
-            val successor = getMaxNode(current.leftChild)
+            val successor = getMaxNodeRecursively(current.leftChild)
             if (successor != null) {
                 current.value = successor.value
                 current.key = successor.key
