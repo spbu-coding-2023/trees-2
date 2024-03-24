@@ -61,7 +61,6 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
             val currentGrandParent: RBNode<K, V>? = currentParent?.parent
             if (newNode.parent == newNode.parent?.parent?.leftChild) {
                 uncle = currentParent?.parent?.rightChild
-
                 if (uncle?.color == RBNode.Color.Red) {
                     currentParent?.color = RBNode.Color.Black
                     uncle.color = RBNode.Color.Black
@@ -106,15 +105,18 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
     }
 
     /**
-    * Deletes a node with the specified key from the Red\-Black Tree\.
-    * If the node with the key is found, it is removed from the tree and the tree is rebalanced if necessary\.
-    *
-    * @param node The root node of the Red\-Black Tree\.
-    * @param key The key of the node to be deleted\.
-    * @return The new root node of the Red\-Black Tree after deletion\.
-    */
+     * Deletes a node with the specified key from the Red\-Black Tree\.
+     * If the node with the key is found, it is removed from the tree and the tree is rebalanced if necessary\.
+     *
+     * @param node The root node of the Red\-Black Tree\.
+     * @param key The key of the node to be deleted\.
+     * @return The new root node of the Red\-Black Tree after deletion\.
+     */
 
-    private fun deleteNode(node: RBNode<K, V>?, key: K): RBNode<K, V>? {
+    private fun deleteNode(
+        node: RBNode<K, V>?,
+        key: K,
+    ): RBNode<K, V>? {
         var current: RBNode<K, V>? = searchNode(root, key) as RBNode<K, V>?
         if (current == null) return root
         var newRoot = root
@@ -127,7 +129,6 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
             }
             current = successor
         }
-
 
         val child = if (current?.leftChild != null) current.leftChild else current?.rightChild
         if (child != null) {
@@ -179,16 +180,16 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                     currentSibling.color = RBNode.Color.Black
                     currentNode.parent?.color = RBNode.Color.Red
                     fixedRoot = rotateLeft(currentNode.parent, fixedRoot)
-                    currentSibling = currentNode.parent?.rightChild  // transfer to other cases
-                }
-                else if (currentSibling?.leftChild?.color == RBNode.Color.Black && currentSibling.rightChild?.color == RBNode.Color.Black) {
+                    currentSibling = currentNode.parent?.rightChild // transfer to other cases
+                } else if (currentSibling?.leftChild?.color == RBNode.Color.Black
+                    && currentSibling.rightChild?.color == RBNode.Color.Black) {
                     // 2nd case "currentSibling and its children are black"
                     currentSibling.color = RBNode.Color.Red
                     currentNode = currentNode.parent
                 } else {
                     if (currentSibling?.rightChild?.color == RBNode.Color.Black) {
                         // 3rd case "like 2nd but the left child is red"
-                        (currentSibling.leftChild )?.color = RBNode.Color.Black
+                        (currentSibling.leftChild)?.color = RBNode.Color.Black
                         currentSibling.color = RBNode.Color.Red
                         fixedRoot = rotateRight(currentSibling, fixedRoot)
                         currentSibling = currentNode.parent?.rightChild
@@ -207,10 +208,11 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                     currentSibling.color = RBNode.Color.Black
                     currentNode.parent?.color = RBNode.Color.Red
                     fixedRoot = rotateRight(currentNode.parent, fixedRoot)
-                    currentSibling = currentNode.parent?.leftChild  // transfer to other cases
+                    currentSibling = currentNode.parent?.leftChild // transfer to other cases
                 }
                 // 2nd case "currentSibling and its children are black"
-                if (currentSibling?.leftChild?.color == RBNode.Color.Black && currentSibling.rightChild?.color == RBNode.Color.Black) {
+                if (currentSibling?.leftChild?.color == RBNode.Color.Black
+                    && currentSibling.rightChild?.color == RBNode.Color.Black) {
                     currentSibling.color = RBNode.Color.Red
                     currentNode = currentNode.parent
                 } else {
@@ -233,53 +235,61 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         currentNode?.color = RBNode.Color.Black
         return fixedRoot
     }
-    private fun rotateRight(node: RBNode<K, V>?, currentRoot: RBNode<K, V>?): RBNode<K, V>? {
-        val temp = node?.leftChild ?: return node // if left child is null, no rotation needed
+
+    private fun rotateRight(
+        nodeToRotate: RBNode<K, V>?,
+        currentRoot: RBNode<K, V>?,
+    ): RBNode<K, V>? {
+        val rightChild = nodeToRotate?.leftChild ?: return nodeToRotate // if left child is null, no rotation needed
         var newRoot = currentRoot
-        temp.parent = node.parent
+        rightChild.parent = nodeToRotate.parent
 
-        if (temp.leftChild != null) {
-            temp.leftChild?.parent = node
+        if (rightChild.leftChild != null) {
+            rightChild.leftChild?.parent = nodeToRotate
         }
-        temp.rightChild = node
-        node.parent = temp
+        rightChild.rightChild = nodeToRotate
+        nodeToRotate.parent = rightChild
 
-        if (temp.parent != null) {
-            if (node == temp.parent?.leftChild) {
-                temp.parent?.leftChild = temp
+        if (rightChild.parent != null) {
+            if (nodeToRotate == rightChild.parent?.leftChild) {
+                rightChild.parent?.leftChild = rightChild
             } else {
-                temp.parent?.rightChild = temp
+                rightChild.parent?.rightChild = rightChild
             }
         } else {
-            root = temp
+            root = rightChild
+            newRoot = rightChild
         }
 
         return newRoot
     }
 
-    private fun rotateLeft(node: RBNode<K, V>?, currentRoot: RBNode<K, V>?): RBNode<K, V>? {
-        val temp = node?.rightChild ?: return node // if right child is null, no rotation needed
+    private fun rotateLeft(
+        nodeToRotate: RBNode<K, V>?,
+        currentRoot: RBNode<K, V>?,
+    ): RBNode<K, V>? {
+        val rightChild = nodeToRotate?.rightChild ?: return nodeToRotate // if right child is null, no rotation needed
         var newRoot = currentRoot
-        temp.parent = node.parent
+        rightChild.parent = nodeToRotate.parent
 
-        node.rightChild = temp.leftChild;
-        if (node.rightChild != null) {
-            node.rightChild?.parent = node;
+        nodeToRotate.rightChild = rightChild.leftChild
+        if (nodeToRotate.rightChild != null) {
+            nodeToRotate.rightChild?.parent = nodeToRotate
         }
 
-        temp.leftChild = node;
-        node.parent = temp;
+        rightChild.leftChild = nodeToRotate
+        nodeToRotate.parent = rightChild
 
-        // temp took over node's place so now its parent should point to temp
-        if (temp.parent != null) {
-            if (node == temp.parent?.leftChild) {
-                temp.parent?.leftChild = temp;
+        // rightChild took over nodeToRotate's place so now its parent should point to rightChild
+        if (rightChild.parent != null) {
+            if (nodeToRotate == rightChild.parent?.leftChild) {
+                rightChild.parent?.leftChild = rightChild
             } else {
-                temp.parent?.rightChild = temp;
+                rightChild.parent?.rightChild = rightChild
             }
         } else {
-            root = temp;
-            newRoot = temp
+            root = rightChild
+            newRoot = rightChild
         }
         return newRoot
     }
