@@ -99,7 +99,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
     }
 
     override fun delete(key: K): V? {
-        root = deleteNode(root, key)
+        root = deleteNode(key)
         root?.color = RBNode.Color.Black // ensure the root is black after deletion
         return null
     }
@@ -108,13 +108,11 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
      * Deletes a node with the specified key from the Red\-Black Tree\.
      * If the node with the key is found, it is removed from the tree and the tree is rebalanced if necessary\.
      *
-     * @param node The root node of the Red\-Black Tree\.
      * @param key The key of the node to be deleted\.
      * @return The new root node of the Red\-Black Tree after deletion\.
      */
 
     private fun deleteNode(
-        node: RBNode<K, V>?,
         key: K,
     ): RBNode<K, V>? {
         var current: RBNode<K, V>? = searchNode(root, key) as RBNode<K, V>?
