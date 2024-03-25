@@ -14,10 +14,10 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         return searchNodeRecursively(root, key)?.value
     }
 
-    protected fun searchNodeRecursively(currNode: AbstractNode<K, V, N>?, keyToSearch: K): AbstractNode<K, V, N>? {
+    protected fun searchNodeRecursively(currNode: N?, keyToSearch: K): N? {
         when {
             currNode == null -> return null
-            keyToSearch > currNode.key -> return currNode
+            keyToSearch == currNode.key -> return currNode
             keyToSearch < currNode.key -> return searchNodeRecursively(currNode.leftChild, keyToSearch)
             else -> return searchNodeRecursively(currNode.rightChild, keyToSearch)
         }
