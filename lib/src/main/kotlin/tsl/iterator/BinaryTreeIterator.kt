@@ -2,7 +2,6 @@ package tsl.iterator
 
 import tsl.nodes.AbstractNode
 import tsl.trees.AbstractBinaryTree
-
 internal class BinaryTreeIterator<K : Comparable<K>, V, N : AbstractNode<K, V, N>>(
     tree: AbstractBinaryTree<K, V, N>
 ) : Iterator<Pair<K?, V?>> {

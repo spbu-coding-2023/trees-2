@@ -38,6 +38,7 @@ dependencies {
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation(libs.guava)
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -77,7 +78,7 @@ ktfmt {
     // continuationIndent is the indent size used when a line is broken because it's too
     continuationIndent.set(4)
     // Whether ktfmt should automatically add/remove trailing commas.
-    //manageTrailingCommas.set(true) current release doesn't support this feature
+    // manageTrailingCommas.set(true) current release doesn't support this feature
 
     removeUnusedImports.set(true)
 }
