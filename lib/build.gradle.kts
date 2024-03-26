@@ -11,6 +11,7 @@ plugins {
 
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
+    jacoco
 }
 
 repositories {
@@ -44,4 +45,23 @@ java {
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport) // report generates after run
 }
+
+// Configuring JaCoCo plugin settings
+jacoco {
+    toolVersion = "0.8.11"
+    reportsDirectory.set(layout.buildDirectory.dir("coverage")) // directory for reports
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+}
+
+
