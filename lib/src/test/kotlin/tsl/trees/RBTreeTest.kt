@@ -1,6 +1,5 @@
 package tsl.trees
 
-import org.checkerframework.checker.units.qual.N
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -19,15 +18,15 @@ class RBTreeTest{
             assertEquals(null, returnValue)
         }
 
-//    @Test
-//    fun `search node that is in tree`() {
-//        val rbtree  = RBTree<Int, String>()
-//        rbtree.insert(15, "hihi")
-//        rbtree.insert(10, "haha")
-//        rbtree.insert(5, "bugaga")
-//        val returnValue = rbtree.search(5)
-//        assertEquals("bugaga", returnValue)
-//    }
+        @Test
+        fun `search node that is in tree`() {
+            val rbtree  = RBTree<Int, String>()
+            rbtree.insert(15, "hihi")
+            rbtree.insert(10, "haha")
+            rbtree.insert(5, "bugaga")
+            val returnValue = rbtree.search(5)
+            assertEquals("bugaga", returnValue)
+        }
     }
 
     @Nested
