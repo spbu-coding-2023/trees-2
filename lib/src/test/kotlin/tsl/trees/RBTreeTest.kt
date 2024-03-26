@@ -64,4 +64,18 @@ class RBTreeTest{
             rbtree.insert(49, "poliklinika")
         }
     }
+    @Nested
+    inner class DeleteTests() {
+
+    }
+
+    @Nested
+    inner class IteratorTests() {
+
+    }
+
+    @Nested
+    inner class AuxiliaryTests() {
+
+    }
 }
