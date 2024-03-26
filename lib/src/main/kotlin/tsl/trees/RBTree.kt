@@ -23,7 +23,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         }
 
         var currentNode: RBNode<K, V>? = root
-        val returnValue: V? = search(key) ?: return null
+        val returnValue: V? = search(key)
 
         // traverse the tree to find the insertion point (node)
         while (currentNode != null) {
