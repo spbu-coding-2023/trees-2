@@ -2,7 +2,7 @@ name: Measure coverage
 
 on:
   workflow_dispatch:
-  push:
+  pull_request: 
 
 jobs:
   build:
@@ -39,4 +39,3 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           min-coverage-overall: 10
           min-coverage-changed-files: 10 // its temporary, for test only
-
