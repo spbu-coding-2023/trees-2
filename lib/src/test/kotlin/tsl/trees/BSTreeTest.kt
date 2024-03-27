@@ -9,10 +9,8 @@ class BSTreeTest {
 
     @BeforeEach
     fun setup() {
-        tree  = BSTree()
+        tree = BSTree()
     }
 
-    @Test
-    fun test() {}
-
+    @Test fun test() {}
 }

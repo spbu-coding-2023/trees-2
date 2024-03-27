@@ -9,10 +9,8 @@ class AVLTreeTest {
 
     @BeforeEach
     fun setup() {
-        tree  = AVLTree()
+        tree = AVLTree()
     }
 
-    @Test
-    fun test() {}
-
+    @Test fun test() {}
 }
