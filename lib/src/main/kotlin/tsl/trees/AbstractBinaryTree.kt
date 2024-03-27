@@ -1,9 +1,10 @@
 package tsl.trees
 
-import tsl.nodes.AbstractNode
 import tsl.iterator.BinaryTreeIterator
+import tsl.nodes.AbstractNode
 
-abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N>>: Iterable<Pair<K?, V?>> {
+abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N>> :
+    Iterable<Pair<K?, V?>> {
     internal var root: N? = null
 
     public abstract fun delete(key: K): V?
@@ -15,11 +16,11 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
     }
 
     protected fun searchNodeRecursively(currNode: N?, keyToSearch: K): N? {
-        when {
-            currNode == null -> return null
-            keyToSearch == currNode.key -> return currNode
-            keyToSearch < currNode.key -> return searchNodeRecursively(currNode.leftChild, keyToSearch)
-            else -> return searchNodeRecursively(currNode.rightChild, keyToSearch)
+        return when {
+            currNode == null -> null
+            keyToSearch == currNode.key -> currNode
+            keyToSearch < currNode.key -> searchNodeRecursively(currNode.leftChild, keyToSearch)
+            else -> searchNodeRecursively(currNode.rightChild, keyToSearch)
         }
     }
 
@@ -36,18 +37,18 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
     public fun getMaxKey(): K? = getMaxNodeRecursively(root)?.key
 
     protected fun getMinNodeRecursively(node: N?): N? {
-        when {
-            node == null -> return null
-            node.leftChild == null -> return node
-            else -> return getMinNodeRecursively(node.leftChild)
+        return when {
+            node == null -> null
+            node.leftChild == null -> node
+            else -> getMinNodeRecursively(node.leftChild)
         }
     }
 
     protected fun getMaxNodeRecursively(node: N?): N? {
-        when {
-            node == null -> return null
-            node.rightChild == null -> return node
-            else -> return getMinNodeRecursively(node.rightChild)
+        return when {
+            node == null -> null
+            node.rightChild == null -> node
+            else -> getMinNodeRecursively(node.rightChild)
         }
     }
 
