@@ -24,10 +24,10 @@ jobs:
           java-version: '17'
           distribution: zulu
       
-      - name: Run Coverage
+      - name: Create Coverage Report
         run: |
           chmod +x gradlew
-          ./gradlew testCoverage
+          ./gradlew jacocoTestReport
 
       - name: Add coverage to PR
         id: jacoco
