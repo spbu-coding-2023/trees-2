@@ -4,7 +4,7 @@ import tsl.iterator.BinaryTreeIterator
 import tsl.nodes.AbstractNode
 
 abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N>> :
-    Iterable<Pair<K?, V?>> {
+    Iterable<Pair<K, V>> {
     internal var root: N? = null
 
     public abstract fun delete(key: K): V?
@@ -52,5 +52,5 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         }
     }
 
-    public override fun iterator(): Iterator<Pair<K?, V?>> = BinaryTreeIterator(this)
+    public override fun iterator(): Iterator<Pair<K, V>> = BinaryTreeIterator(this)
 }
