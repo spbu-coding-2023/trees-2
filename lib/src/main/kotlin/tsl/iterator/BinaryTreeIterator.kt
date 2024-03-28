@@ -20,7 +20,7 @@ internal class BinaryTreeIterator<K : Comparable<K>, V, N : AbstractNode<K, V, N
         }
 
         val nextNode = stack.removeLast()
-        currentNode = currentNode?.rightChild
+        currentNode = nextNode.rightChild
 
         return Pair(nextNode.key, nextNode.value)
     }
