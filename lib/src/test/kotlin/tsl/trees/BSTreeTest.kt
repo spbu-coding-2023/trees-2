@@ -48,7 +48,7 @@ class BSTreeTest {
                                            Pair(30, "java"), Pair(40, "gnomik"))
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
-            for ((key, value) in tree) actualStructure.add(Pair(key, value))
+            for (pair in tree) actualStructure.add(pair)
 
             assertEquals(expectedStructure, actualStructure)
         }
@@ -61,7 +61,7 @@ class BSTreeTest {
                                            Pair(40, "gnomik"), Pair(5, "pesik"))
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
-            for ((key, value) in tree) actualStructure.add(Pair(key, value))
+            for (pair in tree) actualStructure.add(pair)
 
             assertEquals(expectedStructure, actualStructure)
         }
@@ -74,7 +74,7 @@ class BSTreeTest {
                                            Pair(30, "java"), Pair(40, "gnomik"))
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
-            for ((key, value) in tree) actualStructure.add(Pair(key, value))
+            for (pair in tree) actualStructure.add(pair)
 
             assertEquals(expectedStructure, actualStructure)
         }
@@ -121,7 +121,7 @@ class BSTreeTest {
 
             val expectedStructure: List<Pair<Int, String>> = listOf()
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
-            for ((key, value) in tree) actualStructure.add(Pair(key, value))
+            for (pair in tree) actualStructure.add(pair)
 
             assertEquals(expectedStructure, actualStructure)
         }
@@ -134,7 +134,7 @@ class BSTreeTest {
                                            Pair(30, "java"), Pair(40, "gnomik"))
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
-            for ((key, value) in tree) actualStructure.add(Pair(key, value))
+            for (pair in tree) actualStructure.add(pair)
 
             assertEquals(expectedStructure, actualStructure)
         }
