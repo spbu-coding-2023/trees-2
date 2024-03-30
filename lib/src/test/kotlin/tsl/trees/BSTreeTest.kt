@@ -391,7 +391,7 @@ class BSTreeTest {
             tree.getMaxKey()
 
             val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"),
-                Pair(30, "java"), Pair(40, "gnomik"))
+                                           Pair(30, "java"), Pair(40, "gnomik"))
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
@@ -403,5 +403,62 @@ class BSTreeTest {
     @Nested
     inner class Iteratortests {
 
+        @Test
+        fun `hasNext should return false right after it traversed all nodes in a non-empty tree`() {
+            val treeIterator = tree.iterator()
+
+            var count = 0
+            while (treeIterator.hasNext()) {
+                treeIterator.next()
+                count++
+            }
+
+            val expectedQuantity = 4
+            val actualQuantity = count
+
+            assertEquals(expectedQuantity, actualQuantity)
+        }
+
+        @Test
+        fun `hasNext should always return false in an empty tree`() {
+            tree.clear()
+            val treeIterator = tree.iterator()
+
+            var count = 0
+            while (treeIterator.hasNext()) {
+                treeIterator.next()
+                count++
+            }
+
+            val expectedQuantity = 0
+            val actualQuantity = count
+
+            assertEquals(expectedQuantity, actualQuantity)
+        }
+
+        @Test
+        fun `next method should return pairs with bigger key that it has returned before`() {
+            val treeIterator = tree.iterator()
+
+            var everyNextKeyIsBigger = true
+
+            var currentKey = 0
+            var previousKey = 0
+            var iteration = 0
+            while (treeIterator.hasNext()) {
+                iteration++
+                currentKey = treeIterator.next().first
+
+                if (iteration > 1) {
+                    if (currentKey <= previousKey) {
+                        everyNextKeyIsBigger = false
+                        break
+                    }
+                }
+                previousKey = currentKey
+            }
+
+            assertEquals(true, everyNextKeyIsBigger)
+        }
     }
 }
