@@ -3,6 +3,7 @@ package tsl.trees
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Nested
 
 class BSTreeTest {
     private lateinit var tree: BSTree<Int, String>
@@ -12,5 +13,97 @@ class BSTreeTest {
         tree = BSTree()
     }
 
-    @Test fun test() {}
+    fun defaultFill(tree: BSTree<Int, String>) {
+        tree.insert(30, "java")
+        tree.insert(40, "gnomik")
+        tree.insert(20, "kotlin")
+        tree.insert(10, "kotik")
+    }
+
+    @Nested
+    inner class InsertTests {
+
+        @Test
+        fun `insert of the key that isn't in the tree should return null`() {
+            defaultFill(tree)
+
+            val expectedValue = null
+            val actualValue = tree.insert(50, "pesik")
+
+            assertEquals(expectedValue, actualValue)
+        }
+        @Test
+        fun `insert of existing key should replace old value and return it`() {
+            defaultFill(tree)
+
+            val expectedReturnValue = "kotik"
+            val actualReturnValue = tree.insert(10, "pesik")
+
+            val expectedNewValue = "pesik"
+            val actualNewValue = tree.search(10)
+
+
+            assertEquals(expectedReturnValue, actualReturnValue, "wrong value returned")
+            assertEquals(expectedNewValue, actualNewValue, "value didn't change")
+        }
+
+        @Test
+        fun `node with the smallest key should be inserted at the most left position`() {
+            defaultFill(tree)
+
+            tree.insert(5, "pesik")
+
+            val expectedStructure = listOf(Pair(5, "pesik"), Pair(10, "kotik"), Pair(20, "kotlin"),
+                                           Pair(30, "java"), Pair(40, "gnomik")) // in the sequence of inorder traversal
+
+            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
+            for ((key, value) in tree) actualStructure.add(Pair(key, value))
+
+            assertEquals(expectedStructure, actualStructure)
+        }
+
+        @Test
+        fun `node with the biggest key should be inserted at the most right position`() {
+            defaultFill(tree)
+
+            tree.insert(50, "pesik")
+
+            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"), Pair(30, "java"),
+                                           Pair(40, "gnomik"), Pair(5, "pesik")) // in the sequence of inorder traversal
+
+            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
+            for ((key, value) in tree) actualStructure.add(Pair(key, value))
+
+            assertEquals(expectedStructure, actualStructure)
+        }
+
+        @Test
+        fun `node with random key should be inserted at correct position`() {
+            defaultFill(tree)
+
+            tree.insert(25, "pesik")
+
+            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"), Pair(25, "pesik"),
+                                           Pair(30, "java"), Pair(40, "gnomik")) // in the sequence of inorder traversal
+
+            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
+            for ((key, value) in tree) actualStructure.add(Pair(key, value))
+
+            assertEquals(expectedStructure, actualStructure)
+        }
+    }
+    @Nested
+    inner class SearchTests {
+
+    }
+
+    @Nested
+    inner class DeleteTests {
+
+    }
+
+    @Nested
+    inner class Iteratortests {
+
+    }
 }
