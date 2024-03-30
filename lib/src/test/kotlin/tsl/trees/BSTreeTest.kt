@@ -119,11 +119,10 @@ class BSTreeTest {
             tree.clear()
             tree.search(42069)
 
-            val expectedStructure: List<Pair<Int, String>> = listOf()
-            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
-            for (pair in tree) actualStructure.add(pair)
+            val expectedRoot = null
+            val actualRoot = tree.root
 
-            assertEquals(expectedStructure, actualStructure)
+            assertEquals(expectedRoot, actualRoot)
         }
 
         @Test
@@ -218,6 +217,96 @@ class BSTreeTest {
 
             assertEquals(expectedStructure, actualStructure)
         }
+    }
+
+    @Nested
+    inner class ClearTests {
+
+        @Test
+        fun `clear of a non-empty tree should return value of its root node`() {
+            val expectedValue = "java"
+            val actualValue = tree.clear()
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `clear of an empty tree should return null`() {
+            tree.clear()
+
+            val expectedValue = null
+            val actualValue = tree.clear()
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `clear of an empty tree should remain it empty`() {
+            val emptyTree = BSTree<Int, String>()
+            emptyTree.clear()
+
+            val expectedValue = null
+            val actualValue = emptyTree.root
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `clear of a non-empty tree should make it empty`() {
+            tree.clear()
+
+            val expectedValue = null
+            val actualValue = tree.root
+
+            assertEquals(expectedValue, actualValue)
+        }
+    }
+
+    @Nested
+    inner class IsEmptyTests {
+
+        @Test
+        fun `isEmpty should return true if the tree is empty`() {
+            tree.clear()
+
+            val expectedValue = true
+            val actualValue = tree.isEmpty()
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `isEmpty should return false if the tree is not empty`() {
+            val expectedValue = false
+            val actualValue = tree.isEmpty()
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `isEmpty should not change an empty tree`() {
+            tree.clear()
+            tree.isEmpty()
+
+            val expectedRoot = null
+            val actualRoot = tree.root
+
+            assertEquals(expectedRoot, actualRoot)
+        }
+
+        @Test
+        fun `isEmpty should not change a non-empty tree`() {
+            tree.isEmpty()
+
+            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"),
+                                           Pair(30, "java"), Pair(40, "gnomik"))
+
+            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
+            for (pair in tree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+        }
+
     }
 
     @Nested
