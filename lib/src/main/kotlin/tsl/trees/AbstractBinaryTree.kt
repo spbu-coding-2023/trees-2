@@ -32,6 +32,9 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         return rootValueBeforeClear
     }
 
+    public fun isEmpty(): Boolean =
+        root == null
+
     public fun getMinKey(): K? = getMinNodeRecursively(root)?.key
 
     public fun getMaxKey(): K? = getMaxNodeRecursively(root)?.key
