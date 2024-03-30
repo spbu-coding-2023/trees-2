@@ -60,6 +60,8 @@ class AVLTreeTest {
             avlTree.insert(3, "Favourite")
             avlTree.insert(4, "Game")
 
+            avlTree.search(4)
+
             val expectedStructure =
                 listOf(Pair(1, "Losing"), Pair(2, "My"), Pair(3, "Favourite"), Pair(4, "Game"))
 
