@@ -143,6 +143,81 @@ class BSTreeTest {
     @Nested
     inner class DeleteTests {
 
+        @Test
+        fun `delete of the non-existing key should return null`() {
+            val expectedValue = null
+            val actualValue = tree.delete(42069)
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `delete of existing key should return the corresponding deleted value`() {
+            val expectedValue = "gnomik"
+            val actualValue = tree.delete(40)
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `a key should be deleted after deletion`() {
+            tree.delete(30)
+
+            val expectedValue = null
+            val actualValue = tree.search(30)
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `delete of a node without children shouldn't change tree structure`() {
+            tree. delete(10)
+
+            val expectedStructure = listOf(Pair(20, "kotlin"), Pair(30, "java"), Pair(40, "gnomik"))
+            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
+            for (pair in tree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+        }
+
+        @Test
+        fun `delete of a node with a left child should replace it with it's child`() {
+            tree. delete(20)
+
+            val expectedStructure = listOf(Pair(10, "kotlin"), Pair(30, "java"), Pair(40, "gnomik"))
+            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
+            for (pair in tree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+        }
+
+        @Test
+        fun `delete of a node with a right child should replace it with it's child`() {
+            tree.insert(50, "pesik")
+            tree. delete(40)
+
+            val expectedStructure = listOf(Pair(10, "kotlin"), Pair(20, "kotlin"),
+                                           Pair(30, "java"), Pair(50, "pesik"))
+
+            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
+            for (pair in tree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+        }
+
+        @Test
+        fun `delete of a node with two children should replace it with smallest node in the right subtree`() {
+            tree.insert(35, "pesik")
+            tree. delete(30)
+
+            val expectedStructure = listOf(Pair(10, "kotlin"), Pair(20, "kotlin"),
+                                           Pair(35, "pesik"), Pair(40, "gnomik"))
+
+            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
+            for (pair in tree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+        }
     }
 
     @Nested
