@@ -359,6 +359,424 @@ class AVLTreeTest {
     }
 
     @Nested
+    inner class DeleteTests {
+        // Common tests
+
+        @Test
+        fun `if key doesn't exist deletion should not change tree and return null`() {
+            avlTree.insert(10, "A")
+            avlTree.insert(20, "B")
+            avlTree.insert(30, "C")
+
+            val expectedReturn = null
+            val actualReturn = avlTree.delete(40)
+
+            val expectedStructure =
+                listOf(Pair(10, "A"), Pair(20, "B"), Pair(30, "C"))
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedReturn, actualReturn, "Returned wrong value")
+            assertEquals(expectedStructure, actualStructure, "The tree changed after no deletion")
+            assertEquals(avlTree.root?.key, 20)
+        }
+
+        @Test
+        fun `if key exists deletion should return associated value and delete node`() {
+            avlTree.insert(10, "A")
+            avlTree.insert(20, "B")
+            avlTree.insert(30, "C")
+
+            val expectedReturn = "A"
+            val actualReturn = avlTree.delete(10)
+
+            val expectedStructure =
+                listOf(Pair(20, "B"), Pair(30, "C"))
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedReturn, actualReturn, "Returned wrong value")
+            assertEquals(expectedStructure, actualStructure, "The tree has incorrect structure after deletion")
+            assertEquals(avlTree.root?.key, 20)
+        }
+
+        @Test
+        fun `deletion of node with one child should replace it with its child`() {
+            avlTree.insert(20, "B")
+            avlTree.insert(10, "A")
+            avlTree.insert(30, "C")
+            avlTree.insert(40, "D")
+
+            avlTree.delete(30)
+
+            val expectedStructure =
+                listOf(Pair(10, "A"), Pair(20, "B"), Pair(40, "D"))
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 20)
+        }
+
+        // Small tree tests
+
+        @Test
+        fun `deletion of right child triggering right rotation should balance small tree`() {
+            avlTree.insert(40, "D")
+            avlTree.insert(30, "C")
+            avlTree.insert(20, "B")
+            avlTree.insert(10, "A")
+
+            avlTree.delete(40)
+
+            val expectedStructure =
+                listOf(Pair(10, "A"), Pair(20, "B"), Pair(30, "C"))
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 20)
+        }
+
+        @Test
+        fun `deletion of left child triggering left rotation should balance small tree`() {
+            avlTree.insert(10, "A")
+            avlTree.insert(20, "B")
+            avlTree.insert(30, "C")
+            avlTree.insert(40, "D")
+
+            avlTree.delete(10)
+
+            val expectedStructure =
+                listOf(Pair(20, "B"), Pair(30, "C"), Pair(40, "D"))
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 30)
+        }
+
+        @Test
+        fun `deletion of right child triggering left-right rotation should balance small tree`() {
+            avlTree.insert(30, "C")
+            avlTree.insert(10, "A")
+            avlTree.insert(40, "D")
+            avlTree.insert(20, "B")
+
+            avlTree.delete(40)
+
+            val expectedStructure =
+                listOf(Pair(10, "A"), Pair(20, "B"), Pair(30, "C"))
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 20)
+        }
+
+        @Test
+        fun `deletion of left child triggering right-left rotation should balance small tree`() {
+            avlTree.insert(20, "B")
+            avlTree.insert(10, "A")
+            avlTree.insert(40, "D")
+            avlTree.insert(30, "C")
+
+            avlTree.delete(10)
+
+            val expectedStructure =
+                listOf(Pair(20, "B"), Pair(30, "C"), Pair(40, "D"))
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 30)
+        }
+
+        @Test
+        fun `deletion of node with two children should replace it with its successor in small tree`() {
+            avlTree.insert(20, "B")
+            avlTree.insert(10, "A")
+            avlTree.insert(30, "C")
+            avlTree.insert(40, "D")
+
+            avlTree.delete(20)
+
+            val expectedStructure =
+                listOf(Pair(10, "A"), Pair(30, "C"), Pair(40, "D"))
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 30)
+        }
+
+        // Medium tree tests
+
+        @Test
+        fun `deletion of right child triggering right rotation should balance medium tree`() {
+            avlTree.insert(50, "E")
+            avlTree.insert(30, "C")
+            avlTree.insert(60, "F")
+            avlTree.insert(20, "B")
+            avlTree.insert(40, "D")
+            avlTree.insert(70, "G")
+            avlTree.insert(10, "A")
+
+            avlTree.delete(70)
+
+            val expectedStructure =
+                listOf(
+                    Pair(10, "A"), Pair(20, "B"), Pair(30, "C"),
+                    Pair(40, "D"), Pair(50, "E"), Pair(60, "F")
+                )
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 30)
+        }
+
+        @Test
+        fun `deletion of left child triggering left rotation should balance medium tree`() {
+            avlTree.insert(30, "C")
+            avlTree.insert(20, "B")
+            avlTree.insert(50, "E")
+            avlTree.insert(10, "A")
+            avlTree.insert(40, "D")
+            avlTree.insert(60, "F")
+            avlTree.insert(70, "G")
+
+            avlTree.delete(10)
+
+            val expectedStructure =
+                listOf(
+                    Pair(20, "B"), Pair(30, "C"), Pair(40, "D"),
+                    Pair(50, "E"), Pair(60, "F"), Pair(70, "G")
+                )
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 50)
+        }
+
+        @Test
+        fun `deletion of node with two children should replace it with its successor in medium tree`() {
+            avlTree.insert(30, "C")
+            avlTree.insert(20, "B")
+            avlTree.insert(50, "E")
+            avlTree.insert(10, "A")
+            avlTree.insert(40, "D")
+            avlTree.insert(60, "F")
+            avlTree.insert(70, "G")
+
+            avlTree.delete(50)
+
+            val expectedStructure =
+                listOf(
+                    Pair(10, "A"), Pair(20, "B"), Pair(30, "C"),
+                    Pair(40, "D"), Pair(60, "F"), Pair(70, "G")
+                )
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 30)
+        }
+
+        // Large tree tests
+        @Test
+        fun `deletion of right child triggering right rotation should balance large tree`() {
+            avlTree.insert(80, "H")
+            avlTree.insert(50, "E")
+            avlTree.insert(120, "L")
+            avlTree.insert(30, "C")
+            avlTree.insert(60, "F")
+            avlTree.insert(100, "J")
+            avlTree.insert(130, "M")
+            avlTree.insert(20, "B")
+            avlTree.insert(40, "D")
+            avlTree.insert(70, "G")
+            avlTree.insert(90, "I")
+            avlTree.insert(110, "K")
+            avlTree.insert(10, "A")
+
+            avlTree.delete(130)
+
+            val expectedStructure =
+                listOf(
+                    Pair(10, "A"), Pair(20, "B"), Pair(30, "C"),
+                    Pair(40, "D"), Pair(50, "E"), Pair(60, "F"),
+                    Pair(70, "G"), Pair(80, "H"), Pair(90, "I"),
+                    Pair(100, "J"), Pair(110, "K"), Pair(120, "L")
+                )
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 80)
+        }
+
+        @Test
+        fun `deletion of left child triggering left rotation should balance large tree`() {
+            avlTree.insert(60, "F")
+            avlTree.insert(20, "B")
+            avlTree.insert(90, "I")
+            avlTree.insert(10, "A")
+            avlTree.insert(40, "D")
+            avlTree.insert(80, "H")
+            avlTree.insert(110, "K")
+            avlTree.insert(30, "C")
+            avlTree.insert(50, "E")
+            avlTree.insert(70, "G")
+            avlTree.insert(100, "J")
+            avlTree.insert(120, "L")
+            avlTree.insert(130, "M")
+
+            avlTree.delete(10)
+
+            val expectedStructure =
+                listOf(
+                    Pair(20, "B"), Pair(30, "C"), Pair(40, "D"),
+                    Pair(50, "E"), Pair(60, "F"), Pair(70, "G"),
+                    Pair(80, "H"), Pair(90, "I"), Pair(100, "J"),
+                    Pair(110, "K"), Pair(120, "L"), Pair(130, "M")
+                )
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 60)
+        }
+
+        @Test
+        fun `deletion of right child triggering double right rotation should balance large tree`() {
+            avlTree.insert(80, "H")
+            avlTree.insert(50, "E")
+            avlTree.insert(110, "K")
+            avlTree.insert(30, "C")
+            avlTree.insert(60, "F")
+            avlTree.insert(100, "J")
+            avlTree.insert(120, "L")
+            avlTree.insert(20, "B")
+            avlTree.insert(40, "D")
+            avlTree.insert(70, "G")
+            avlTree.insert(90, "I")
+            avlTree.insert(10, "A")
+
+            avlTree.delete(120)
+
+            val expectedStructure =
+                listOf(
+                    Pair(10, "A"), Pair(20, "B"), Pair(30, "C"),
+                    Pair(40, "D"), Pair(50, "E"), Pair(60, "F"),
+                    Pair(70, "G"), Pair(80, "H"), Pair(90, "I"),
+                    Pair(100, "J"), Pair(110, "K")
+                )
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 50)
+        }
+
+        @Test
+        fun `deletion of left child triggering double left rotation should balance large tree`() {
+            avlTree.insert(50, "E")
+            avlTree.insert(20, "B")
+            avlTree.insert(80, "H")
+            avlTree.insert(10, "A")
+            avlTree.insert(30, "C")
+            avlTree.insert(70, "G")
+            avlTree.insert(100, "J")
+            avlTree.insert(40, "D")
+            avlTree.insert(60, "F")
+            avlTree.insert(90, "I")
+            avlTree.insert(110, "K")
+            avlTree.insert(120, "L")
+
+            avlTree.delete(10)
+
+            val expectedStructure =
+                listOf(
+                    Pair(20, "B"), Pair(30, "C"), Pair(40, "D"),
+                    Pair(50, "E"), Pair(60, "F"), Pair(70, "G"),
+                    Pair(80, "H"), Pair(90, "I"), Pair(100, "J"),
+                    Pair(110, "K"), Pair(120, "L")
+                )
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 80)
+        }
+
+        @Test
+        fun `deletion of node with two children should replace it with its successor in large tree`() {
+            avlTree.insert(80, "H")
+            avlTree.insert(50, "E")
+            avlTree.insert(120, "L")
+            avlTree.insert(30, "C")
+            avlTree.insert(60, "F")
+            avlTree.insert(100, "J")
+            avlTree.insert(130, "M")
+            avlTree.insert(20, "B")
+            avlTree.insert(40, "D")
+            avlTree.insert(70, "G")
+            avlTree.insert(90, "I")
+            avlTree.insert(110, "K")
+            avlTree.insert(10, "A")
+
+            avlTree.delete(80)
+
+            val expectedStructure =
+                listOf(
+                    Pair(10, "A"), Pair(20, "B"), Pair(30, "C"),
+                    Pair(40, "D"), Pair(50, "E"), Pair(60, "F"),
+                    Pair(70, "G"), Pair(90, "I"), Pair(100, "J"),
+                    Pair(110, "K"), Pair(120, "L"), Pair(130, "M")
+                )
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 90)
+        }
+    }
+
+    @Nested
     inner class ClearTests {
         @Test
         fun `empty tree should be empty after clear`() {
