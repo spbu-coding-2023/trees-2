@@ -306,7 +306,98 @@ class BSTreeTest {
 
             assertEquals(expectedStructure, actualStructure)
         }
+    }
 
+    @Nested
+    inner class GetMinKeyTests {
+
+        @Test
+        fun `getMinKey should return null if the tree is empty`() {
+            tree.clear()
+
+            val expectedValue = null
+            val actualValue = tree.getMinKey()
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `getMinKey should return min key if the tree is not empty`() {
+            val expectedValue = 10
+            val actualValue = tree.getMinKey()
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `getMinKey should not change an empty tree`() {
+            tree.clear()
+            tree.getMinKey()
+
+            val expectedRoot = null
+            val actualRoot = tree.root
+
+            assertEquals(expectedRoot, actualRoot)
+        }
+
+        @Test
+        fun `getMinKey should not change a non-empty tree`() {
+            tree.getMinKey()
+
+            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"),
+                                           Pair(30, "java"), Pair(40, "gnomik"))
+
+            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
+            for (pair in tree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+        }
+    }
+
+    @Nested
+    inner class GetMaxKeyTests {
+
+        @Test
+        fun `getMaxKey should return null if the tree is empty`() {
+            tree.clear()
+
+            val expectedValue = null
+            val actualValue = tree.getMaxKey()
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `getMaxKey should return min key if the tree is not empty`() {
+            val expectedValue = 10
+            val actualValue = tree.getMaxKey()
+
+            assertEquals(expectedValue, actualValue)
+        }
+
+        @Test
+        fun `getMaxKey should not change an empty tree`() {
+            tree.clear()
+            tree.getMaxKey()
+
+            val expectedRoot = null
+            val actualRoot = tree.root
+
+            assertEquals(expectedRoot, actualRoot)
+        }
+
+        @Test
+        fun `getMaxKey should not change a non-empty tree`() {
+            tree.getMaxKey()
+
+            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"),
+                Pair(30, "java"), Pair(40, "gnomik"))
+
+            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
+            for (pair in tree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+        }
     }
 
     @Nested
