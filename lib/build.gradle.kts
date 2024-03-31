@@ -64,9 +64,10 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
 
     reports {
-        xml.required = true
+        xml.required = false
         html.required = true
-        csv.required = false
+        csv.required = true
+        csv.outputLocation.set(layout.buildDirectory.file("jacoco/report.csv"))
     }
 }
 
@@ -86,4 +87,3 @@ ktfmt {
 tasks.register("checkFormat") { dependsOn(tasks.ktfmtCheck) }
 
 tasks.register("format") { dependsOn(tasks.ktfmtFormat) }
-
