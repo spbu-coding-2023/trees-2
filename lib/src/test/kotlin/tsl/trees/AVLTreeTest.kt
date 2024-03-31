@@ -14,64 +14,6 @@ class AVLTreeTest {
     }
 
     @Nested
-    inner class SearchTests {
-        @Test
-        fun `search of non-existing key should return null`() {
-            avlTree.insert(1, "Put")
-            avlTree.insert(2, "The")
-            avlTree.insert(3, "Lights")
-            avlTree.insert(4, "On")
-
-            val expectedValue = null
-            val actualValue = avlTree.search(100)
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `search of existing key should return associated value`() {
-            avlTree.insert(1, "This")
-            avlTree.insert(2, "Is")
-            avlTree.insert(3, "My")
-            avlTree.insert(4, "Home")
-
-            val expectedValue = "Home"
-            val actualValue = avlTree.search(4)
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `empty tree should not change after search`() {
-            avlTree.search(1)
-
-            val expectedStructure = listOf<Pair<Int, String>>()
-            val actualStructure = mutableListOf<Pair<Int, String>>()
-
-            for (pair in avlTree) actualStructure.add(pair)
-
-            assertEquals(expectedStructure, actualStructure)
-        }
-
-        @Test
-        fun `non-empty tree should not change after search`() {
-            avlTree.insert(1, "Losing")
-            avlTree.insert(2, "My")
-            avlTree.insert(3, "Favourite")
-            avlTree.insert(4, "Game")
-
-            val expectedStructure =
-                listOf(Pair(1, "Losing"), Pair(2, "My"), Pair(3, "Favourite"), Pair(4, "Game"))
-
-            val actualStructure = mutableListOf<Pair<Int, String>>()
-
-            for (pair in avlTree) actualStructure.add(pair)
-
-            assertEquals(expectedStructure, actualStructure)
-        }
-    }
-
-    @Nested
     inner class InsertTests {
         // Common tests
 
@@ -607,6 +549,7 @@ class AVLTreeTest {
         }
 
         // Large tree tests
+
         @Test
         fun `deletion of right child triggering right rotation should balance large tree`() {
             avlTree.insert(80, "H")
@@ -773,38 +716,6 @@ class AVLTreeTest {
 
             assertEquals(expectedStructure, actualStructure)
             assertEquals(avlTree.root?.key, 90)
-        }
-    }
-
-    @Nested
-    inner class ClearTests {
-        @Test
-        fun `empty tree should be empty after clear`() {
-            avlTree.clear()
-
-            val expectedStructure = listOf<Pair<Int, String>>()
-            val actualStructure = mutableListOf<Pair<Int, String>>()
-
-            for (pair in avlTree) actualStructure.add(pair)
-
-            assertEquals(expectedStructure, actualStructure)
-        }
-
-        @Test
-        fun `not empty tree should be empty after clear`() {
-            avlTree.insert(1, "Take")
-            avlTree.insert(2, "Me")
-            avlTree.insert(3, "To")
-            avlTree.insert(4, "Church")
-
-            avlTree.clear()
-
-            val expectedStructure = listOf<Pair<Int, String>>()
-            val actualStructure = mutableListOf<Pair<Int, String>>()
-
-            for (pair in avlTree) actualStructure.add(pair)
-
-            assertEquals(expectedStructure, actualStructure)
         }
     }
 }

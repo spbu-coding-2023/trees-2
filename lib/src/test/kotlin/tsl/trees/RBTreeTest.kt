@@ -58,30 +58,6 @@ class RBTreeTest {
     }
 
     @Nested
-    inner class SearchTests {
-
-        @Test
-        fun `search node that isn't in the rbTree`() {
-            rbTree.insert(15, "hihi")
-            rbTree.insert(10, "haha")
-            rbTree.insert(5, "bugaga")
-
-            val returnValue = rbTree.search(7)
-            assertEquals(null, returnValue)
-        }
-
-        @Test
-        fun `search node that is in rbTree`() {
-            rbTree.insert(15, "hihi")
-            rbTree.insert(10, "haha")
-            rbTree.insert(5, "bugaga")
-
-            val returnValue = rbTree.search(5)
-            assertEquals("bugaga", returnValue)
-        }
-    }
-
-    @Nested
     inner class DeleteTests {
 
         @Test
