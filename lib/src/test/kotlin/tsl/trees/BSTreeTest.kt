@@ -131,7 +131,7 @@ class BSTreeTest {
         fun `delete of a node with a left child should replace it with it's child`() {
             tree.delete(20)
 
-            val expectedStructure = listOf(Pair(10, "kotlin"), Pair(30, "java"), Pair(40, "gnomik"))
+            val expectedStructure = listOf(Pair(10, "kotik"), Pair(30, "java"), Pair(40, "gnomik"))
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
 
@@ -144,7 +144,7 @@ class BSTreeTest {
             tree.delete(40)
 
             val expectedStructure = listOf(
-                Pair(10, "kotlin"), Pair(20, "kotlin"),
+                Pair(10, "kotik"), Pair(20, "kotlin"),
                 Pair(30, "java"), Pair(50, "pesik")
             )
 
@@ -160,7 +160,7 @@ class BSTreeTest {
             tree.delete(30)
 
             val expectedStructure = listOf(
-                Pair(10, "kotlin"), Pair(20, "kotlin"),
+                Pair(10, "kotik"), Pair(20, "kotlin"),
                 Pair(35, "pesik"), Pair(40, "gnomik")
             )
 
