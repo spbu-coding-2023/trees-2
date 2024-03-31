@@ -2,6 +2,8 @@
 
 [![Kotlin][kotlin_img]][kotlin_releases_url]
 [![License][license_img]][repo_license_url]
+![Coverage](.github/badges/jacoco.svg)
+
 
 `forest-group` is a library that lets you easily create and use [Binary search trees](https://en.wikipedia.org/wiki/Binary_search_tree), [AVL trees](https://en.wikipedia.org/wiki/AVL_tree) and [Red-black trees](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) in your applications!
 
