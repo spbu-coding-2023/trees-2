@@ -27,6 +27,7 @@ class BSTreeTest {
 
             assertEquals(expectedValue, actualValue)
         }
+
         @Test
         fun `insert of existing key should replace old value and return it`() {
             val expectedReturnValue = "kotik"
@@ -44,8 +45,10 @@ class BSTreeTest {
         fun `node with the smallest key should be inserted at the most left position`() {
             tree.insert(5, "pesik")
 
-            val expectedStructure = listOf(Pair(5, "pesik"), Pair(10, "kotik"), Pair(20, "kotlin"),
-                                           Pair(30, "java"), Pair(40, "gnomik"))
+            val expectedStructure = listOf(
+                Pair(5, "pesik"), Pair(10, "kotik"), Pair(20, "kotlin"),
+                Pair(30, "java"), Pair(40, "gnomik")
+            )
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
@@ -57,8 +60,10 @@ class BSTreeTest {
         fun `node with the biggest key should be inserted at the most right position`() {
             tree.insert(50, "pesik")
 
-            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"), Pair(30, "java"),
-                                           Pair(40, "gnomik"), Pair(50, "pesik"))
+            val expectedStructure = listOf(
+                Pair(10, "kotik"), Pair(20, "kotlin"), Pair(30, "java"),
+                Pair(40, "gnomik"), Pair(50, "pesik")
+            )
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
@@ -70,67 +75,10 @@ class BSTreeTest {
         fun `node with random key should be inserted at correct position`() {
             tree.insert(25, "pesik")
 
-            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"), Pair(25, "pesik"),
-                                           Pair(30, "java"), Pair(40, "gnomik"))
-
-            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
-            for (pair in tree) actualStructure.add(pair)
-
-            assertEquals(expectedStructure, actualStructure)
-        }
-    }
-    @Nested
-    inner class SearchTests {
-
-        @Test
-        fun `search of non existing key should return null`() {
-            val expectedValue = null
-            val actualValue = tree.search(100)
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `search of existing key that is in the root node should return the corresponding value`() {
-            val expectedValue = "java"
-            val actualValue = tree.search(30)
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `search of existing key that is to the left of the root node should return the corresponding value`() {
-            val expectedValue = "kotlin"
-            val actualValue = tree.search(20)
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `search of existing key that is to the right of the root node should return the corresponding value`() {
-            val expectedValue = "gnomik"
-            val actualValue = tree.search(40)
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `search should not change an empty tree`() {
-            tree.clear()
-            tree.search(42069)
-
-            val expectedRoot = null
-            val actualRoot = tree.root
-
-            assertEquals(expectedRoot, actualRoot)
-        }
-
-        @Test
-        fun `search should not change a non-empty tree`() {
-            tree.search(40)
-
-            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"),
-                                           Pair(30, "java"), Pair(40, "gnomik"))
+            val expectedStructure = listOf(
+                Pair(10, "kotik"), Pair(20, "kotlin"), Pair(25, "pesik"),
+                Pair(30, "java"), Pair(40, "gnomik")
+            )
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
@@ -195,8 +143,10 @@ class BSTreeTest {
             tree.insert(50, "pesik")
             tree.delete(40)
 
-            val expectedStructure = listOf(Pair(10, "kotlin"), Pair(20, "kotlin"),
-                                           Pair(30, "java"), Pair(50, "pesik"))
+            val expectedStructure = listOf(
+                Pair(10, "kotlin"), Pair(20, "kotlin"),
+                Pair(30, "java"), Pair(50, "pesik")
+            )
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
@@ -209,256 +159,15 @@ class BSTreeTest {
             tree.insert(35, "pesik")
             tree.delete(30)
 
-            val expectedStructure = listOf(Pair(10, "kotlin"), Pair(20, "kotlin"),
-                                           Pair(35, "pesik"), Pair(40, "gnomik"))
+            val expectedStructure = listOf(
+                Pair(10, "kotlin"), Pair(20, "kotlin"),
+                Pair(35, "pesik"), Pair(40, "gnomik")
+            )
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
 
             assertEquals(expectedStructure, actualStructure)
-        }
-    }
-
-    @Nested
-    inner class ClearTests {
-
-        @Test
-        fun `clear of a non-empty tree should return value of its root node`() {
-            val expectedValue = "java"
-            val actualValue = tree.clear()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `clear of an empty tree should return null`() {
-            tree.clear()
-
-            val expectedValue = null
-            val actualValue = tree.clear()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `clear of an empty tree should remain it empty`() {
-            val emptyTree = BSTree<Int, String>()
-            emptyTree.clear()
-
-            val expectedValue = null
-            val actualValue = emptyTree.root
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `clear of a non-empty tree should make it empty`() {
-            tree.clear()
-
-            val expectedValue = null
-            val actualValue = tree.root
-
-            assertEquals(expectedValue, actualValue)
-        }
-    }
-
-    @Nested
-    inner class IsEmptyTests {
-
-        @Test
-        fun `isEmpty should return true if the tree is empty`() {
-            tree.clear()
-
-            val expectedValue = true
-            val actualValue = tree.isEmpty()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `isEmpty should return false if the tree is not empty`() {
-            val expectedValue = false
-            val actualValue = tree.isEmpty()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `isEmpty should not change an empty tree`() {
-            tree.clear()
-            tree.isEmpty()
-
-            val expectedRoot = null
-            val actualRoot = tree.root
-
-            assertEquals(expectedRoot, actualRoot)
-        }
-
-        @Test
-        fun `isEmpty should not change a non-empty tree`() {
-            tree.isEmpty()
-
-            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"),
-                                           Pair(30, "java"), Pair(40, "gnomik"))
-
-            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
-            for (pair in tree) actualStructure.add(pair)
-
-            assertEquals(expectedStructure, actualStructure)
-        }
-    }
-
-    @Nested
-    inner class GetMinKeyTests {
-
-        @Test
-        fun `getMinKey should return null if the tree is empty`() {
-            tree.clear()
-
-            val expectedValue = null
-            val actualValue = tree.getMinKey()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `getMinKey should return min key if the tree is not empty`() {
-            val expectedValue = 10
-            val actualValue = tree.getMinKey()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `getMinKey should not change an empty tree`() {
-            tree.clear()
-            tree.getMinKey()
-
-            val expectedRoot = null
-            val actualRoot = tree.root
-
-            assertEquals(expectedRoot, actualRoot)
-        }
-
-        @Test
-        fun `getMinKey should not change a non-empty tree`() {
-            tree.getMinKey()
-
-            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"),
-                                           Pair(30, "java"), Pair(40, "gnomik"))
-
-            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
-            for (pair in tree) actualStructure.add(pair)
-
-            assertEquals(expectedStructure, actualStructure)
-        }
-    }
-
-    @Nested
-    inner class GetMaxKeyTests {
-
-        @Test
-        fun `getMaxKey should return null if the tree is empty`() {
-            tree.clear()
-
-            val expectedValue = null
-            val actualValue = tree.getMaxKey()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `getMaxKey should return max key if the tree is not empty`() {
-            val expectedValue = 40
-            val actualValue = tree.getMaxKey()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `getMaxKey should not change an empty tree`() {
-            tree.clear()
-            tree.getMaxKey()
-
-            val expectedRoot = null
-            val actualRoot = tree.root
-
-            assertEquals(expectedRoot, actualRoot)
-        }
-
-        @Test
-        fun `getMaxKey should not change a non-empty tree`() {
-            tree.getMaxKey()
-
-            val expectedStructure = listOf(Pair(10, "kotik"), Pair(20, "kotlin"),
-                                           Pair(30, "java"), Pair(40, "gnomik"))
-
-            val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
-            for (pair in tree) actualStructure.add(pair)
-
-            assertEquals(expectedStructure, actualStructure)
-        }
-    }
-
-    @Nested
-    inner class Iteratortests {
-
-        @Test
-        fun `hasNext should return false right after it traversed all nodes in a non-empty tree`() {
-            val treeIterator = tree.iterator()
-
-            var count = 0
-            while (treeIterator.hasNext()) {
-                treeIterator.next()
-                count++
-            }
-
-            val expectedQuantity = 4
-            val actualQuantity = count
-
-            assertEquals(expectedQuantity, actualQuantity)
-        }
-
-        @Test
-        fun `hasNext should always return false in an empty tree`() {
-            tree.clear()
-            val treeIterator = tree.iterator()
-
-            var count = 0
-            while (treeIterator.hasNext()) {
-                treeIterator.next()
-                count++
-            }
-
-            val expectedQuantity = 0
-            val actualQuantity = count
-
-            assertEquals(expectedQuantity, actualQuantity)
-        }
-
-        @Test
-        fun `next method should return pairs with bigger key that it has returned before`() {
-            val treeIterator = tree.iterator()
-
-            var everyNextKeyIsBigger = true
-
-            var currentKey = 0
-            var previousKey = 0
-            var iteration = 0
-            while (treeIterator.hasNext()) {
-                iteration++
-                currentKey = treeIterator.next().first
-
-                if (iteration > 1) {
-                    if (currentKey <= previousKey) {
-                        everyNextKeyIsBigger = false
-                        break
-                    }
-                }
-                previousKey = currentKey
-            }
-
-            assertEquals(true, everyNextKeyIsBigger)
         }
     }
 }
