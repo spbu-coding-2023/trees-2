@@ -91,24 +91,6 @@ class AbstractBinaryTreeTest {
     inner class ClearTests {
 
         @Test
-        fun `clear of an empty tree should return null`() {
-            val emptyTree = BSTree<Int, String>()
-
-            val expectedValue = null
-            val actualValue = emptyTree.clear()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `clear of a non-empty tree should return value of its root node`() {
-            val expectedValue = "Danya"
-            val actualValue = tree.clear()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
         fun `empty tree should be empty after clear`() {
             val emptyTree = BSTree<Int, String>()
             emptyTree.clear()

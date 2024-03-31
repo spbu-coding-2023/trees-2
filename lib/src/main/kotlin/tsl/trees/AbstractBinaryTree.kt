@@ -23,12 +23,8 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         }
     }
 
-    public fun clear(): V? {
-        val rootValueBeforeClear = root?.value
-
+    public fun clear() {
         root = null
-
-        return rootValueBeforeClear
     }
 
     public fun isEmpty(): Boolean =
