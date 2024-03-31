@@ -18,14 +18,15 @@ class AbstractBinaryTreeTest {
     fun setup() {
         tree = BSTree()
         tree.insert(30, "Danya")
-        tree.insert(20, "Misha")
-        tree.insert(40, "Karim")
-        tree.insert(10, "Moldova")
-        tree.insert(50, "Tatarstan")
+        tree.insert(10, "Misha")
+        tree.insert(50, "Karim")
+        tree.insert(20, "Moldova")
+        tree.insert(40, "Tatarstan")
     }
 
     @Nested
     inner class SearchTests {
+
         @Test
         fun `search of non-existing key should return null`() {
             val expectedValue = null
@@ -45,7 +46,7 @@ class AbstractBinaryTreeTest {
         @Test
         fun `search of existing key that is to the left of the root node should return the corresponding value`() {
             val expectedValue = "Moldova"
-            val actualValue = tree.search(10)
+            val actualValue = tree.search(20)
 
             assertEquals(expectedValue, actualValue)
         }
@@ -53,7 +54,7 @@ class AbstractBinaryTreeTest {
         @Test
         fun `search of existing key that is to the right of the root node should return the corresponding value`() {
             val expectedValue = "Tatarstan"
-            val actualValue = tree.search(50)
+            val actualValue = tree.search(40)
 
             assertEquals(expectedValue, actualValue)
         }
@@ -71,12 +72,12 @@ class AbstractBinaryTreeTest {
 
         @Test
         fun `non-empty tree should not change after search`() {
-            tree.search(30)
+            tree.search(40)
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "Moldova"), Pair(20, "Misha"), Pair(30, "Danya"),
-                    Pair(40, "Karim"), Pair(50, "Tatarstan")
+                    Pair(10, "Misha"), Pair(20, "Moldova"), Pair(30, "Danya"),
+                    Pair(40, "Tatarstan"), Pair(50, "Karim")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -113,7 +114,7 @@ class AbstractBinaryTreeTest {
             emptyTree.clear()
 
             val expectedRoot = null
-            val actualRoot = tree.root
+            val actualRoot = emptyTree.root
 
             assertEquals(expectedRoot, actualRoot)
         }
@@ -168,8 +169,8 @@ class AbstractBinaryTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "Moldova"), Pair(20, "Misha"), Pair(30, "Danya"),
-                    Pair(40, "Karim"), Pair(50, "Tatarstan")
+                    Pair(10, "Misha"), Pair(20, "Moldova"), Pair(30, "Danya"),
+                    Pair(40, "Tatarstan"), Pair(50, "Karim")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -186,18 +187,18 @@ class AbstractBinaryTreeTest {
         fun `getMinKey should return null if the tree is empty`() {
             tree.clear()
 
-            val expectedValue = null
-            val actualValue = tree.getMinKey()
+            val expectedKey = null
+            val actualKey = tree.getMinKey()
 
-            assertEquals(expectedValue, actualValue)
+            assertEquals(expectedKey, actualKey)
         }
 
         @Test
         fun `getMinKey should return min key if the tree is not empty`() {
-            val expectedValue = 10
-            val actualValue = tree.getMinKey()
+            val expectedKey = 10
+            val actualKey = tree.getMinKey()
 
-            assertEquals(expectedValue, actualValue)
+            assertEquals(expectedKey, actualKey)
         }
 
         @Test
@@ -217,8 +218,8 @@ class AbstractBinaryTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "Moldova"), Pair(20, "Misha"), Pair(30, "Danya"),
-                    Pair(40, "Karim"), Pair(50, "Tatarstan")
+                    Pair(10, "Misha"), Pair(20, "Moldova"), Pair(30, "Danya"),
+                    Pair(40, "Tatarstan"), Pair(50, "Karim")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -235,18 +236,18 @@ class AbstractBinaryTreeTest {
         fun `getMaxKey should return null if the tree is empty`() {
             tree.clear()
 
-            val expectedValue = null
-            val actualValue = tree.getMaxKey()
+            val expectedKey = null
+            val actualKey = tree.getMaxKey()
 
-            assertEquals(expectedValue, actualValue)
+            assertEquals(expectedKey, actualKey)
         }
 
         @Test
         fun `getMaxKey should return max key if the tree is not empty`() {
-            val expectedValue = 50
-            val actualValue = tree.getMaxKey()
+            val expectedKey = 50
+            val actualKey = tree.getMaxKey()
 
-            assertEquals(expectedValue, actualValue)
+            assertEquals(expectedKey, actualKey)
         }
 
         @Test
@@ -266,8 +267,8 @@ class AbstractBinaryTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "Moldova"), Pair(20, "Misha"), Pair(30, "Danya"),
-                    Pair(40, "Karim"), Pair(50, "Tatarstan")
+                    Pair(10, "Misha"), Pair(20, "Moldova"), Pair(30, "Danya"),
+                    Pair(40, "Tatarstan"), Pair(50, "Karim")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -356,8 +357,8 @@ class AbstractBinaryTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "Moldova"), Pair(20, "Misha"), Pair(30, "Danya"),
-                    Pair(40, "Karim"), Pair(50, "Tatarstan")
+                    Pair(10, "Misha"), Pair(20, "Moldova"), Pair(30, "Danya"),
+                    Pair(40, "Tatarstan"), Pair(50, "Karim")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
