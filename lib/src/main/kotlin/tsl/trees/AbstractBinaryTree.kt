@@ -52,7 +52,7 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         return when {
             node == null -> null
             node.rightChild == null -> node
-            else -> getMinNodeRecursively(node.rightChild)
+            else -> getMaxNodeRecursively(node.rightChild)
         }
     }
 
