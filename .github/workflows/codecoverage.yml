@@ -37,3 +37,14 @@ jobs:
           badges-directory: .github/badges
           generate-coverage-badge: true
           coverage-badge-filename: jacoco.svg
+
+      - name: Commit the badges (if they changed)
+        run: |
+          if [[ `git diff --exit-code .github/badges` ]]; then
+          git config --global user.name 'qrutyy'
+          git config --global user.email 'qrutyq@gmail.com'
+          git add .github/badges/*
+          git commit -m "ci: autogenerate JaCoCo coverage badge"
+          git push || true
+          fi
+        shell: bash
