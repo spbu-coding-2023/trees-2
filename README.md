@@ -1,28 +1,30 @@
 # forest-group
 
 [![Kotlin 1.9.23][kotlin_img]][kotlin_releases_url]
+[![Tests passing][tests_passing_img]][tests_workflow_url]
 [![License][license_img]][repo_license_url]
+[![CodeFactor][codefactor_img]][codefactor_url]
 
 `forest-group` is a library that lets you easily create and use [Binary search trees](https://en.wikipedia.org/wiki/Binary_search_tree), [AVL trees](https://en.wikipedia.org/wiki/AVL_tree) and [Red-black trees](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) in your applications!
 
-
-
 ## Table of contents
+
 - [About the project](#about-the-project)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
 - [Authors](#authors)
 
-
-
 ## About The Project
-Tree data structure is well-known for its average logarithmic operations time. However, there are a lot of tree implementations that are strict to data types that can be stored.
-There is no problem - *just use keys to store anything you want!*
 
+Trees are well-known for their speed and efficiency.
 
+But there are lots of tree implementations that are strict to data types that can be stored.
+
+The solution is easy - *just use keys to store anything you want!*
 
 ## Usage
+
 To create a tree, pass the key type and your stored data type to a generic. *Note that your key should implement Comparable type.*
 
 ```
@@ -67,10 +69,9 @@ There are also other helpful methods:
 - `getMinKey()`
 - `getMaxKey()`
 
-
-
 ## Contributing
-If you have found a bug, or want to propose some useful feature for our project, please firstly read our [Contribution Rules](https://github.com/spbu-coding-2023/trees-2/blob/main/CONTRIBUTING.md) and
+
+If you have found a bug, or want to propose some useful feature for our project, please firstly read our [Contribution Rules][contribute_rules_url] and
 do the following:
 1. Fork the Project
 2. Create your Feature Branch (git checkout -b feature/myFeature)
@@ -78,29 +79,30 @@ do the following:
 4. Push to the Branch (git push origin feature/myFeature)
 5. Open a Pull Request
 
-
-
 ## License
-Distributed under the [MIT License](https://github.com/spbu-coding-2023/trees-2/blob/main/LICENSE.md).
 
-
+Distributed under the [MIT License][repo_license_url].
 
 ## Authors
+
 - [Shakirov Karim](https://github.com/kar1mgh)
 - [Vlasenco Daniel](https://github.com/spisladqo)
 - [Gavrilenko Mike](https://github.com/qrutyy)
 
-
-
 <!-- Image links -->
 
-[license_img]: https://img.shields.io/badge/license-MIT-green
-[kotlin_img]: https://img.shields.io/badge/kotlin%201.9.23-magenta
+[kotlin_img]: https://img.shields.io/badge/Kotlin-%201.9.23-magenta
+[tests_passing_img]: https://img.shields.io/badge/tests-Passing-green
+[license_img]: https://img.shields.io/badge/license-MIT-blue
+[codefactor_img]: https://www.codefactor.io/repository/github/spbu-coding-2023/trees-2/badge
 
-<!-- Repo links -->
+<!-- Inner Links -->
 
+[tests_workflow_url]: https://github.com/spbu-coding-2023/trees-2/actions/workflows/test.yml
 [repo_license_url]: https://github.com/spbu-coding-2023/trees-2/blob/main/LICENSE.md
+[contribute_rules_url]: https://github.com/spbu-coding-2023/trees-2/blob/main/CONTRIBUTING.md
 
-<!-- Kotlin links -->
+<!-- Outer Links -->
 
 [kotlin_releases_url]: https://kotlinlang.org/docs/releases.html#release-details
+[codefactor_url]: https://www.codefactor.io/repository/github/spbu-coding-2023/trees-2
