@@ -2,8 +2,8 @@ package tsl.trees
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 
 class BSTreeTest {
     private lateinit var tree: BSTree<Int, String>
@@ -36,7 +36,6 @@ class BSTreeTest {
             val expectedNewValue = "pesik"
             val actualNewValue = tree.search(10)
 
-
             assertEquals(expectedReturnValue, actualReturnValue, "wrong value returned")
             assertEquals(expectedNewValue, actualNewValue, "value didn't change")
         }
@@ -45,10 +44,14 @@ class BSTreeTest {
         fun `node with the smallest key should be inserted at the most left position`() {
             tree.insert(5, "pesik")
 
-            val expectedStructure = listOf(
-                Pair(5, "pesik"), Pair(10, "kotik"), Pair(20, "kotlin"),
-                Pair(30, "java"), Pair(40, "gnomik")
-            )
+            val expectedStructure =
+                listOf(
+                    Pair(5, "pesik"),
+                    Pair(10, "kotik"),
+                    Pair(20, "kotlin"),
+                    Pair(30, "java"),
+                    Pair(40, "gnomik")
+                )
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
@@ -60,10 +63,14 @@ class BSTreeTest {
         fun `node with the biggest key should be inserted at the most right position`() {
             tree.insert(50, "pesik")
 
-            val expectedStructure = listOf(
-                Pair(10, "kotik"), Pair(20, "kotlin"), Pair(30, "java"),
-                Pair(40, "gnomik"), Pair(50, "pesik")
-            )
+            val expectedStructure =
+                listOf(
+                    Pair(10, "kotik"),
+                    Pair(20, "kotlin"),
+                    Pair(30, "java"),
+                    Pair(40, "gnomik"),
+                    Pair(50, "pesik")
+                )
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
@@ -75,10 +82,14 @@ class BSTreeTest {
         fun `node with random key should be inserted at correct position`() {
             tree.insert(25, "pesik")
 
-            val expectedStructure = listOf(
-                Pair(10, "kotik"), Pair(20, "kotlin"), Pair(25, "pesik"),
-                Pair(30, "java"), Pair(40, "gnomik")
-            )
+            val expectedStructure =
+                listOf(
+                    Pair(10, "kotik"),
+                    Pair(20, "kotlin"),
+                    Pair(25, "pesik"),
+                    Pair(30, "java"),
+                    Pair(40, "gnomik")
+                )
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
@@ -143,10 +154,8 @@ class BSTreeTest {
             tree.insert(50, "pesik")
             tree.delete(40)
 
-            val expectedStructure = listOf(
-                Pair(10, "kotik"), Pair(20, "kotlin"),
-                Pair(30, "java"), Pair(50, "pesik")
-            )
+            val expectedStructure =
+                listOf(Pair(10, "kotik"), Pair(20, "kotlin"), Pair(30, "java"), Pair(50, "pesik"))
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)
@@ -159,10 +168,8 @@ class BSTreeTest {
             tree.insert(35, "pesik")
             tree.delete(30)
 
-            val expectedStructure = listOf(
-                Pair(10, "kotik"), Pair(20, "kotlin"),
-                Pair(35, "pesik"), Pair(40, "gnomik")
-            )
+            val expectedStructure =
+                listOf(Pair(10, "kotik"), Pair(20, "kotlin"), Pair(35, "pesik"), Pair(40, "gnomik"))
 
             val actualStructure: MutableList<Pair<Int, String>> = mutableListOf()
             for (pair in tree) actualStructure.add(pair)

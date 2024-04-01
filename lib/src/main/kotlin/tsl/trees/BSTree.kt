@@ -21,7 +21,6 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
                     currentNode.value = nodeToInsert.value
                     return oldValue
                 }
-
                 nodeToInsert.key < currentNode.key -> {
                     if (currentNode.leftChild == null) {
                         currentNode.leftChild = nodeToInsert
@@ -29,7 +28,6 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
                     }
                     currentNode = currentNode.leftChild
                 }
-
                 nodeToInsert.key > currentNode.key -> {
                     if (currentNode.rightChild == null) {
                         currentNode.rightChild = nodeToInsert
@@ -53,13 +51,10 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
     private fun deleteRecursively(currentNode: BSTNode<K, V>?, keyToDelete: K): BSTNode<K, V>? {
         when {
             currentNode == null -> return null
-
             keyToDelete < currentNode.key ->
                 currentNode.leftChild = deleteRecursively(currentNode.leftChild, keyToDelete)
-
             keyToDelete > currentNode.key ->
                 currentNode.rightChild = deleteRecursively(currentNode.rightChild, keyToDelete)
-
             keyToDelete == currentNode.key -> {
                 if (currentNode.leftChild == null || currentNode.rightChild == null)
                     return currentNode.leftChild ?: currentNode.rightChild
@@ -68,7 +63,8 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
                 if (minRightNode != null) {
                     currentNode.key = minRightNode.key
                     currentNode.value = minRightNode.value
-                    currentNode.rightChild = deleteRecursively(currentNode.rightChild, minRightNode.key)
+                    currentNode.rightChild =
+                        deleteRecursively(currentNode.rightChild, minRightNode.key)
                 }
             }
         }

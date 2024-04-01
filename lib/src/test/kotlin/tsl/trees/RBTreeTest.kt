@@ -1,11 +1,10 @@
 package tsl.trees
 
+import kotlin.test.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import tsl.nodes.RBNode
-import kotlin.test.assertEquals
-
 
 class RBTreeTest {
     private lateinit var rbTree: RBTree<Int, String>
@@ -14,7 +13,7 @@ class RBTreeTest {
     fun setup() {
         rbTree = RBTree()
     }
-    
+
     @Nested
     inner class InsertTests {
 
@@ -105,7 +104,10 @@ class RBTreeTest {
                 inorderedTraversalTree += Pair(key, value)
             }
             assertEquals("red", returnValue)
-            assertEquals(listOf(Pair(18, "white"), Pair(30, "pink"), Pair(45, "yellow")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(18, "white"), Pair(30, "pink"), Pair(45, "yellow")),
+                inorderedTraversalTree
+            )
         }
 
         @Test
@@ -121,7 +123,10 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(10, "yellow"), Pair(30, "pink"), Pair(40, "white")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(10, "yellow"), Pair(30, "pink"), Pair(40, "white")),
+                inorderedTraversalTree
+            )
             assertEquals("red", returnValue)
         }
 
@@ -138,7 +143,10 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(18, "red"), Pair(30, "pink"), Pair(35, "yellow")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(18, "red"), Pair(30, "pink"), Pair(35, "yellow")),
+                inorderedTraversalTree
+            )
             assertEquals("white", returnValue)
         }
 
@@ -154,9 +162,11 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(20, "yellow"), Pair(30, "pink"), Pair(40, "white")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(20, "yellow"), Pair(30, "pink"), Pair(40, "white")),
+                inorderedTraversalTree
+            )
             assertEquals("red", returnValue)
-
         }
 
         @Test
@@ -172,12 +182,15 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(20, "pink"), Pair(25, "brown"), Pair(30, "white"), Pair(35, "gold")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(20, "pink"), Pair(25, "brown"), Pair(30, "white"), Pair(35, "gold")),
+                inorderedTraversalTree
+            )
             assertEquals("red", returnValue)
         }
 
         @Test
-        fun `remove root - sole node in tree`(){
+        fun `remove root - sole node in tree`() {
             rbTree.insert(10, "hihi haha")
             val returnValue = rbTree.delete(10)
             assertEquals(null, returnValue)
@@ -196,7 +209,10 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf( Pair(10, "red"), Pair(20, "pink"), Pair(25, "brown"), Pair(35, "gold")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(10, "red"), Pair(20, "pink"), Pair(25, "brown"), Pair(35, "gold")),
+                inorderedTraversalTree
+            )
             assertEquals("white", returnValue)
         }
 
@@ -213,7 +229,10 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(5, "b"), Pair(10, "a"), Pair(15, "c"), Pair(20, "e")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(5, "b"), Pair(10, "a"), Pair(15, "c"), Pair(20, "e")),
+                inorderedTraversalTree
+            )
             assertEquals("d", returnValue)
         }
 
@@ -262,10 +281,12 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(5, "b"), Pair(10, "a"), Pair(15, "c"), Pair(20, "e")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(5, "b"), Pair(10, "a"), Pair(15, "c"), Pair(20, "e")),
+                inorderedTraversalTree
+            )
             assertEquals("f", returnValue)
         }
-
 
         @Test
         fun `right-red sibling`() {
@@ -280,7 +301,10 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(20, "pink")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(20, "pink")),
+                inorderedTraversalTree
+            )
             assertEquals("white", returnValue)
         }
 
@@ -297,7 +321,10 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(30, "white")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(30, "white")),
+                inorderedTraversalTree
+            )
             assertEquals("pink", returnValue)
         }
 
@@ -313,9 +340,11 @@ class RBTreeTest {
             val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
-
             }
-            assertEquals(listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(20, "pink")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(20, "pink")),
+                inorderedTraversalTree
+            )
             assertEquals("white", returnValue)
         }
     }

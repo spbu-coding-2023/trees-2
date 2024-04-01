@@ -47,8 +47,7 @@ class AVLTreeTest {
             avlTree.insert(15, "To church")
             avlTree.insert(4, "Me")
 
-            val expectedStructure =
-                listOf(Pair(4, "Me"), Pair(15, "To church"), Pair(20, "Take"))
+            val expectedStructure = listOf(Pair(4, "Me"), Pair(15, "To church"), Pair(20, "Take"))
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
 
@@ -64,8 +63,7 @@ class AVLTreeTest {
             avlTree.insert(15, "B")
             avlTree.insert(20, "C")
 
-            val expectedStructure =
-                listOf(Pair(4, "A"), Pair(15, "B"), Pair(20, "C"))
+            val expectedStructure = listOf(Pair(4, "A"), Pair(15, "B"), Pair(20, "C"))
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
 
@@ -89,8 +87,12 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(3, "You"), Pair(4, "Swear"), Pair(9, "Make"),
-                    Pair(15, "Cry"), Pair(20, "I"), Pair(26, "I'll only")
+                    Pair(3, "You"),
+                    Pair(4, "Swear"),
+                    Pair(9, "Make"),
+                    Pair(15, "Cry"),
+                    Pair(20, "I"),
+                    Pair(26, "I'll only")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -113,8 +115,12 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(3, "A"), Pair(4, "B"), Pair(8, "C"),
-                    Pair(9, "D"), Pair(20, "E"), Pair(26, "F")
+                    Pair(3, "A"),
+                    Pair(4, "B"),
+                    Pair(8, "C"),
+                    Pair(9, "D"),
+                    Pair(20, "E"),
+                    Pair(26, "F")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -137,8 +143,12 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(4, "A"), Pair(20, "B"), Pair(24, "C"),
-                    Pair(25, "D"), Pair(26, "E"), Pair(30, "F")
+                    Pair(4, "A"),
+                    Pair(20, "B"),
+                    Pair(24, "C"),
+                    Pair(25, "D"),
+                    Pair(26, "E"),
+                    Pair(30, "F")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -161,8 +171,12 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(4, "A"), Pair(20, "B"), Pair(21, "C"),
-                    Pair(24, "D"), Pair(26, "E"), Pair(30, "F")
+                    Pair(4, "A"),
+                    Pair(20, "B"),
+                    Pair(21, "C"),
+                    Pair(24, "D"),
+                    Pair(26, "E"),
+                    Pair(30, "F")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -192,10 +206,17 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(2, "And"), Pair(3, "Your"), Pair(4, "Of puppets"),
-                    Pair(7, "Smashing"), Pair(9, "Strings"), Pair(11, "Your"),
-                    Pair(15, "Dreams"), Pair(20, "Master"), Pair(21, "Twisting"),
-                    Pair(26, "I'm pulling"), Pair(30, "Your mind")
+                    Pair(2, "And"),
+                    Pair(3, "Your"),
+                    Pair(4, "Of puppets"),
+                    Pair(7, "Smashing"),
+                    Pair(9, "Strings"),
+                    Pair(11, "Your"),
+                    Pair(15, "Dreams"),
+                    Pair(20, "Master"),
+                    Pair(21, "Twisting"),
+                    Pair(26, "I'm pulling"),
+                    Pair(30, "Your mind")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -223,10 +244,17 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(2, "A"), Pair(3, "B"), Pair(4, "C"),
-                    Pair(6, "D"), Pair(7, "E"), Pair(9, "F"),
-                    Pair(11, "G"), Pair(20, "H"), Pair(21, "I"),
-                    Pair(26, "J"), Pair(30, "K")
+                    Pair(2, "A"),
+                    Pair(3, "B"),
+                    Pair(4, "C"),
+                    Pair(6, "D"),
+                    Pair(7, "E"),
+                    Pair(9, "F"),
+                    Pair(11, "G"),
+                    Pair(20, "H"),
+                    Pair(21, "I"),
+                    Pair(26, "J"),
+                    Pair(30, "K")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -254,10 +282,17 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(3, "A"), Pair(10, "B"), Pair(15, "C"),
-                    Pair(20, "D"), Pair(22, "E"), Pair(25, "F"),
-                    Pair(27, "G"), Pair(28, "H"), Pair(30, "I"),
-                    Pair(35, "J"), Pair(40, "K")
+                    Pair(3, "A"),
+                    Pair(10, "B"),
+                    Pair(15, "C"),
+                    Pair(20, "D"),
+                    Pair(22, "E"),
+                    Pair(25, "F"),
+                    Pair(27, "G"),
+                    Pair(28, "H"),
+                    Pair(30, "I"),
+                    Pair(35, "J"),
+                    Pair(40, "K")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -285,10 +320,17 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(3, "A"), Pair(10, "B"), Pair(15, "C"),
-                    Pair(20, "D"), Pair(22, "E"), Pair(25, "F"),
-                    Pair(26, "G"), Pair(27, "H"), Pair(30, "I"),
-                    Pair(35, "J"), Pair(40, "K")
+                    Pair(3, "A"),
+                    Pair(10, "B"),
+                    Pair(15, "C"),
+                    Pair(20, "D"),
+                    Pair(22, "E"),
+                    Pair(25, "F"),
+                    Pair(26, "G"),
+                    Pair(27, "H"),
+                    Pair(30, "I"),
+                    Pair(35, "J"),
+                    Pair(40, "K")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -313,8 +355,7 @@ class AVLTreeTest {
             val expectedReturn = null
             val actualReturn = avlTree.delete(40)
 
-            val expectedStructure =
-                listOf(Pair(10, "A"), Pair(20, "B"), Pair(30, "C"))
+            val expectedStructure = listOf(Pair(10, "A"), Pair(20, "B"), Pair(30, "C"))
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
 
@@ -334,15 +375,18 @@ class AVLTreeTest {
             val expectedReturn = "A"
             val actualReturn = avlTree.delete(10)
 
-            val expectedStructure =
-                listOf(Pair(20, "B"), Pair(30, "C"))
+            val expectedStructure = listOf(Pair(20, "B"), Pair(30, "C"))
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
 
             for (pair in avlTree) actualStructure.add(pair)
 
             assertEquals(expectedReturn, actualReturn, "Returned wrong value")
-            assertEquals(expectedStructure, actualStructure, "The tree has incorrect structure after deletion")
+            assertEquals(
+                expectedStructure,
+                actualStructure,
+                "The tree has incorrect structure after deletion"
+            )
             assertEquals(avlTree.root?.key, 20)
         }
 
@@ -355,8 +399,7 @@ class AVLTreeTest {
 
             avlTree.delete(30)
 
-            val expectedStructure =
-                listOf(Pair(10, "A"), Pair(20, "B"), Pair(40, "D"))
+            val expectedStructure = listOf(Pair(10, "A"), Pair(20, "B"), Pair(40, "D"))
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
 
@@ -377,8 +420,7 @@ class AVLTreeTest {
 
             avlTree.delete(40)
 
-            val expectedStructure =
-                listOf(Pair(10, "A"), Pair(20, "B"), Pair(30, "C"))
+            val expectedStructure = listOf(Pair(10, "A"), Pair(20, "B"), Pair(30, "C"))
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
 
@@ -397,8 +439,7 @@ class AVLTreeTest {
 
             avlTree.delete(10)
 
-            val expectedStructure =
-                listOf(Pair(20, "B"), Pair(30, "C"), Pair(40, "D"))
+            val expectedStructure = listOf(Pair(20, "B"), Pair(30, "C"), Pair(40, "D"))
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
 
@@ -417,8 +458,7 @@ class AVLTreeTest {
 
             avlTree.delete(40)
 
-            val expectedStructure =
-                listOf(Pair(10, "A"), Pair(20, "B"), Pair(30, "C"))
+            val expectedStructure = listOf(Pair(10, "A"), Pair(20, "B"), Pair(30, "C"))
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
 
@@ -437,8 +477,7 @@ class AVLTreeTest {
 
             avlTree.delete(10)
 
-            val expectedStructure =
-                listOf(Pair(20, "B"), Pair(30, "C"), Pair(40, "D"))
+            val expectedStructure = listOf(Pair(20, "B"), Pair(30, "C"), Pair(40, "D"))
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
 
@@ -457,8 +496,7 @@ class AVLTreeTest {
 
             avlTree.delete(20)
 
-            val expectedStructure =
-                listOf(Pair(10, "A"), Pair(30, "C"), Pair(40, "D"))
+            val expectedStructure = listOf(Pair(10, "A"), Pair(30, "C"), Pair(40, "D"))
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
 
@@ -484,8 +522,12 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "A"), Pair(20, "B"), Pair(30, "C"),
-                    Pair(40, "D"), Pair(50, "E"), Pair(60, "F")
+                    Pair(10, "A"),
+                    Pair(20, "B"),
+                    Pair(30, "C"),
+                    Pair(40, "D"),
+                    Pair(50, "E"),
+                    Pair(60, "F")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -510,8 +552,12 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(20, "B"), Pair(30, "C"), Pair(40, "D"),
-                    Pair(50, "E"), Pair(60, "F"), Pair(70, "G")
+                    Pair(20, "B"),
+                    Pair(30, "C"),
+                    Pair(40, "D"),
+                    Pair(50, "E"),
+                    Pair(60, "F"),
+                    Pair(70, "G")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -536,8 +582,12 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "A"), Pair(20, "B"), Pair(30, "C"),
-                    Pair(40, "D"), Pair(60, "F"), Pair(70, "G")
+                    Pair(10, "A"),
+                    Pair(20, "B"),
+                    Pair(30, "C"),
+                    Pair(40, "D"),
+                    Pair(60, "F"),
+                    Pair(70, "G")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -570,10 +620,18 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "A"), Pair(20, "B"), Pair(30, "C"),
-                    Pair(40, "D"), Pair(50, "E"), Pair(60, "F"),
-                    Pair(70, "G"), Pair(80, "H"), Pair(90, "I"),
-                    Pair(100, "J"), Pair(110, "K"), Pair(120, "L")
+                    Pair(10, "A"),
+                    Pair(20, "B"),
+                    Pair(30, "C"),
+                    Pair(40, "D"),
+                    Pair(50, "E"),
+                    Pair(60, "F"),
+                    Pair(70, "G"),
+                    Pair(80, "H"),
+                    Pair(90, "I"),
+                    Pair(100, "J"),
+                    Pair(110, "K"),
+                    Pair(120, "L")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -604,10 +662,18 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(20, "B"), Pair(30, "C"), Pair(40, "D"),
-                    Pair(50, "E"), Pair(60, "F"), Pair(70, "G"),
-                    Pair(80, "H"), Pair(90, "I"), Pair(100, "J"),
-                    Pair(110, "K"), Pair(120, "L"), Pair(130, "M")
+                    Pair(20, "B"),
+                    Pair(30, "C"),
+                    Pair(40, "D"),
+                    Pair(50, "E"),
+                    Pair(60, "F"),
+                    Pair(70, "G"),
+                    Pair(80, "H"),
+                    Pair(90, "I"),
+                    Pair(100, "J"),
+                    Pair(110, "K"),
+                    Pair(120, "L"),
+                    Pair(130, "M")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -637,10 +703,17 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "A"), Pair(20, "B"), Pair(30, "C"),
-                    Pair(40, "D"), Pair(50, "E"), Pair(60, "F"),
-                    Pair(70, "G"), Pair(80, "H"), Pair(90, "I"),
-                    Pair(100, "J"), Pair(110, "K")
+                    Pair(10, "A"),
+                    Pair(20, "B"),
+                    Pair(30, "C"),
+                    Pair(40, "D"),
+                    Pair(50, "E"),
+                    Pair(60, "F"),
+                    Pair(70, "G"),
+                    Pair(80, "H"),
+                    Pair(90, "I"),
+                    Pair(100, "J"),
+                    Pair(110, "K")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -670,10 +743,17 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(20, "B"), Pair(30, "C"), Pair(40, "D"),
-                    Pair(50, "E"), Pair(60, "F"), Pair(70, "G"),
-                    Pair(80, "H"), Pair(90, "I"), Pair(100, "J"),
-                    Pair(110, "K"), Pair(120, "L")
+                    Pair(20, "B"),
+                    Pair(30, "C"),
+                    Pair(40, "D"),
+                    Pair(50, "E"),
+                    Pair(60, "F"),
+                    Pair(70, "G"),
+                    Pair(80, "H"),
+                    Pair(90, "I"),
+                    Pair(100, "J"),
+                    Pair(110, "K"),
+                    Pair(120, "L")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -704,10 +784,18 @@ class AVLTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "A"), Pair(20, "B"), Pair(30, "C"),
-                    Pair(40, "D"), Pair(50, "E"), Pair(60, "F"),
-                    Pair(70, "G"), Pair(90, "I"), Pair(100, "J"),
-                    Pair(110, "K"), Pair(120, "L"), Pair(130, "M")
+                    Pair(10, "A"),
+                    Pair(20, "B"),
+                    Pair(30, "C"),
+                    Pair(40, "D"),
+                    Pair(50, "E"),
+                    Pair(60, "F"),
+                    Pair(70, "G"),
+                    Pair(90, "I"),
+                    Pair(100, "J"),
+                    Pair(110, "K"),
+                    Pair(120, "L"),
+                    Pair(130, "M")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
