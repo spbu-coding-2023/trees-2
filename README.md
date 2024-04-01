@@ -47,7 +47,9 @@ val myValue2 = myTree.delete(myKey)
 println(myValue1 == myValue2) // true
 ```
 
-All trees are iterable by Pair(key, value), so they can be used in a for loop:
+All trees are iterable by Pair(key, value), so they can be used in a for loop.
+
+Iterator implements inorder traversal (every next key is greater than the previous).
 
 ```
 for ((key, value) in myTree) {
@@ -56,15 +58,6 @@ for ((key, value) in myTree) {
 }
 
 myTree.forEach { println(it) } // prints every pair
-```
-
-You can create your own iterator manually:
-
-```
-val treeIterator = myTree.iterator()
-
-while (treeIterator.hasNext())
-    println(treeIterator.next())
 ```
 
 There are also other helpful methods:
