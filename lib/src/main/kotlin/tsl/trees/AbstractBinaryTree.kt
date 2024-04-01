@@ -11,8 +11,7 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
 
     public abstract fun insert(key: K, value: V): V?
 
-    public fun search(key: K): V? =
-        searchNodeRecursively(root, key)?.value
+    public fun search(key: K): V? = searchNodeRecursively(root, key)?.value
 
     protected fun searchNodeRecursively(currNode: N?, keyToSearch: K): N? {
         return when {
@@ -23,22 +22,15 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         }
     }
 
-    public fun clear(): V? {
-        val rootValueBeforeClear = root?.value
-
+    public fun clear() {
         root = null
-
-        return rootValueBeforeClear
     }
 
-    public fun isEmpty(): Boolean =
-        root == null
+    public fun isEmpty(): Boolean = root == null
 
-    public fun getMinKey(): K? =
-        getMinNodeRecursively(root)?.key
+    public fun getMinKey(): K? = getMinNodeRecursively(root)?.key
 
-    public fun getMaxKey(): K? =
-        getMaxNodeRecursively(root)?.key
+    public fun getMaxKey(): K? = getMaxNodeRecursively(root)?.key
 
     protected fun getMinNodeRecursively(node: N?): N? {
         return when {
@@ -56,6 +48,5 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         }
     }
 
-    public override fun iterator(): Iterator<Pair<K, V>> =
-        BinaryTreeIterator(this)
+    public override fun iterator(): Iterator<Pair<K, V>> = BinaryTreeIterator(this)
 }

@@ -1,20 +1,21 @@
 package tsl.trees
 
+import kotlin.test.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import tsl.nodes.RBNode
-import kotlin.test.assertEquals
-
 
 class RBTreeTest {
     private lateinit var rbTree: RBTree<Int, String>
+    private lateinit var inorderedTraversalTree: MutableList<Pair<Int, String>>
 
     @BeforeEach
     fun setup() {
         rbTree = RBTree()
+        inorderedTraversalTree = mutableListOf()
     }
-    
+
     @Nested
     inner class InsertTests {
 
@@ -100,12 +101,15 @@ class RBTreeTest {
             rbTree.insert(45, "yellow")
 
             val returnValue = rbTree.delete(40)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
             assertEquals("red", returnValue)
-            assertEquals(listOf(Pair(18, "white"), Pair(30, "pink"), Pair(45, "yellow")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(18, "white"), Pair(30, "pink"), Pair(45, "yellow")),
+                inorderedTraversalTree
+            )
         }
 
         @Test
@@ -117,11 +121,14 @@ class RBTreeTest {
             rbTree.insert(10, "yellow")
 
             val returnValue = rbTree.delete(18)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(10, "yellow"), Pair(30, "pink"), Pair(40, "white")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(10, "yellow"), Pair(30, "pink"), Pair(40, "white")),
+                inorderedTraversalTree
+            )
             assertEquals("red", returnValue)
         }
 
@@ -134,11 +141,14 @@ class RBTreeTest {
             rbTree.insert(35, "yellow")
 
             val returnValue = rbTree.delete(40)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(18, "red"), Pair(30, "pink"), Pair(35, "yellow")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(18, "red"), Pair(30, "pink"), Pair(35, "yellow")),
+                inorderedTraversalTree
+            )
             assertEquals("white", returnValue)
         }
 
@@ -150,13 +160,15 @@ class RBTreeTest {
             rbTree.insert(20, "yellow")
 
             val returnValue = rbTree.delete(18)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(20, "yellow"), Pair(30, "pink"), Pair(40, "white")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(20, "yellow"), Pair(30, "pink"), Pair(40, "white")),
+                inorderedTraversalTree
+            )
             assertEquals("red", returnValue)
-
         }
 
         @Test
@@ -168,16 +180,19 @@ class RBTreeTest {
             rbTree.insert(35, "gold")
 
             val returnValue = rbTree.delete(10)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(20, "pink"), Pair(25, "brown"), Pair(30, "white"), Pair(35, "gold")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(20, "pink"), Pair(25, "brown"), Pair(30, "white"), Pair(35, "gold")),
+                inorderedTraversalTree
+            )
             assertEquals("red", returnValue)
         }
 
         @Test
-        fun `remove root - sole node in tree`(){
+        fun `remove root - sole node in tree`() {
             rbTree.insert(10, "hihi haha")
             val returnValue = rbTree.delete(10)
             assertEquals(null, returnValue)
@@ -192,12 +207,111 @@ class RBTreeTest {
             rbTree.insert(35, "gold")
 
             val returnValue = rbTree.delete(30)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf( Pair(10, "red"), Pair(20, "pink"), Pair(25, "brown"), Pair(35, "gold")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(10, "red"), Pair(20, "pink"), Pair(25, "brown"), Pair(35, "gold")),
+                inorderedTraversalTree
+            )
             assertEquals("white", returnValue)
+        }
+
+        @Test
+        fun `delete lonely black node with red sibling`() {
+            rbTree.insert(20, "hi")
+            rbTree.insert(10, "hihi")
+            rbTree.insert(40, "what")
+            rbTree.insert(30, "omg")
+            rbTree.insert(45, "damn")
+            rbTree.insert(33, "!")
+            val returnValue = rbTree.delete(10)
+
+            for ((key, value) in rbTree) {
+                inorderedTraversalTree += Pair(key, value)
+            }
+            assertEquals(
+                listOf(
+                    Pair(20, "hi"),
+                    Pair(30, "omg"),
+                    Pair(33, "!"),
+                    Pair(40, "what"),
+                    Pair(45, "damn")
+                ),
+                inorderedTraversalTree
+            )
+            assertEquals("hihi", returnValue)
+        }
+
+        @Test
+        fun `left-black node with red-right child`() {
+            rbTree.insert(100, "huh")
+            rbTree.insert(80, "?")
+            rbTree.insert(200, "you")
+            rbTree.insert(60, "meow")
+            rbTree.insert(90, ".")
+            rbTree.insert(88, "cat")
+            val returnValue = rbTree.delete(60)
+
+            for ((key, value) in rbTree) {
+                inorderedTraversalTree += Pair(key, value)
+            }
+            assertEquals(
+                listOf(
+                    Pair(80, "?"),
+                    Pair(88, "cat"),
+                    Pair(90, "."),
+                    Pair(100, "huh"),
+                    Pair(200, "you")
+                ),
+                inorderedTraversalTree
+            )
+            assertEquals("meow", returnValue)
+        }
+
+        @Test
+        fun `black node with zero children and black sibling`() {
+            rbTree.insert(110, "walking")
+            rbTree.insert(238, "in")
+            rbTree.insert(88, "of")
+            rbTree.insert(233, "phone")
+            val returnValue = rbTree.delete(233)
+            rbTree.delete(88)
+
+            for ((key, value) in rbTree) {
+                inorderedTraversalTree += Pair(key, value)
+            }
+            assertEquals(listOf(Pair(110, "walking"), Pair(238, "in")), inorderedTraversalTree)
+            assertEquals("phone", returnValue)
+        }
+
+        @Test
+        fun `left-red node with no children`() {
+            val rbTree = RBTree<Int, String>()
+            rbTree.insert(6, "monkey")
+            rbTree.insert(4, "you")
+            rbTree.insert(7, "dog")
+            rbTree.insert(2, "cat")
+            rbTree.insert(5, "dog")
+            rbTree.insert(1, "cat")
+
+            val returnValue = rbTree.delete(7)
+
+            for ((key, value) in rbTree) {
+                inorderedTraversalTree += Pair(key, value)
+            }
+            assertEquals(
+                listOf(
+                    Pair(1, "cat"),
+                    Pair(2, "cat"),
+                    Pair(4, "you"),
+                    Pair(5, "dog"),
+                    Pair(6, "monkey")
+                ),
+                inorderedTraversalTree
+            )
+            assertEquals("dog", returnValue)
         }
 
         @Test
@@ -209,11 +323,14 @@ class RBTreeTest {
             rbTree.insert(6, "d")
 
             val returnValue = rbTree.delete(6)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(5, "b"), Pair(10, "a"), Pair(15, "c"), Pair(20, "e")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(5, "b"), Pair(10, "a"), Pair(15, "c"), Pair(20, "e")),
+                inorderedTraversalTree
+            )
             assertEquals("d", returnValue)
         }
 
@@ -258,14 +375,16 @@ class RBTreeTest {
             rbTree.insert(4, "f")
 
             val returnValue = rbTree.delete(4)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(5, "b"), Pair(10, "a"), Pair(15, "c"), Pair(20, "e")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(5, "b"), Pair(10, "a"), Pair(15, "c"), Pair(20, "e")),
+                inorderedTraversalTree
+            )
             assertEquals("f", returnValue)
         }
-
 
         @Test
         fun `right-red sibling`() {
@@ -276,11 +395,14 @@ class RBTreeTest {
             rbTree.insert(5, "gold")
 
             val returnValue = rbTree.delete(30)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(20, "pink")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(20, "pink")),
+                inorderedTraversalTree
+            )
             assertEquals("white", returnValue)
         }
 
@@ -293,11 +415,14 @@ class RBTreeTest {
             rbTree.insert(5, "gold")
 
             val returnValue = rbTree.delete(20)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(30, "white")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(30, "white")),
+                inorderedTraversalTree
+            )
             assertEquals("pink", returnValue)
         }
 
@@ -310,12 +435,14 @@ class RBTreeTest {
             rbTree.insert(5, "gold")
 
             val returnValue = rbTree.delete(30)
-            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
-
             }
-            assertEquals(listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(20, "pink")), inorderedTraversalTree)
+            assertEquals(
+                listOf(Pair(5, "gold"), Pair(10, "brown"), Pair(15, "red"), Pair(20, "pink")),
+                inorderedTraversalTree
+            )
             assertEquals("white", returnValue)
         }
     }

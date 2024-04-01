@@ -6,11 +6,10 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 
 /**
- * This class tests methods implemented in the AbstractTreeClass
- * that are common for all its inheritors (BSTree, AVLTree, RBTree).
- * BSTree is used in tests as an instance of the AbstractTreeClass.
+ * This class tests methods implemented in the AbstractTreeClass that are common for all its
+ * inheritors (BSTree, AVLTree, RBTree). BSTree is used in tests as an instance of the
+ * AbstractTreeClass.
  */
-
 class AbstractBinaryTreeTest {
     private lateinit var tree: BSTree<Int, String>
 
@@ -76,8 +75,11 @@ class AbstractBinaryTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "Misha"), Pair(20, "Moldova"), Pair(30, "Danya"),
-                    Pair(40, "Tatarstan"), Pair(50, "Karim")
+                    Pair(10, "Misha"),
+                    Pair(20, "Moldova"),
+                    Pair(30, "Danya"),
+                    Pair(40, "Tatarstan"),
+                    Pair(50, "Karim")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -89,24 +91,6 @@ class AbstractBinaryTreeTest {
 
     @Nested
     inner class ClearTests {
-
-        @Test
-        fun `clear of an empty tree should return null`() {
-            val emptyTree = BSTree<Int, String>()
-
-            val expectedValue = null
-            val actualValue = emptyTree.clear()
-
-            assertEquals(expectedValue, actualValue)
-        }
-
-        @Test
-        fun `clear of a non-empty tree should return value of its root node`() {
-            val expectedValue = "Danya"
-            val actualValue = tree.clear()
-
-            assertEquals(expectedValue, actualValue)
-        }
 
         @Test
         fun `empty tree should be empty after clear`() {
@@ -129,7 +113,6 @@ class AbstractBinaryTreeTest {
             assertEquals(expectedRoot, actualRoot)
         }
     }
-
 
     @Nested
     inner class IsEmptyTests {
@@ -169,8 +152,11 @@ class AbstractBinaryTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "Misha"), Pair(20, "Moldova"), Pair(30, "Danya"),
-                    Pair(40, "Tatarstan"), Pair(50, "Karim")
+                    Pair(10, "Misha"),
+                    Pair(20, "Moldova"),
+                    Pair(30, "Danya"),
+                    Pair(40, "Tatarstan"),
+                    Pair(50, "Karim")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -218,8 +204,11 @@ class AbstractBinaryTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "Misha"), Pair(20, "Moldova"), Pair(30, "Danya"),
-                    Pair(40, "Tatarstan"), Pair(50, "Karim")
+                    Pair(10, "Misha"),
+                    Pair(20, "Moldova"),
+                    Pair(30, "Danya"),
+                    Pair(40, "Tatarstan"),
+                    Pair(50, "Karim")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -267,8 +256,11 @@ class AbstractBinaryTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "Misha"), Pair(20, "Moldova"), Pair(30, "Danya"),
-                    Pair(40, "Tatarstan"), Pair(50, "Karim")
+                    Pair(10, "Misha"),
+                    Pair(20, "Moldova"),
+                    Pair(30, "Danya"),
+                    Pair(40, "Tatarstan"),
+                    Pair(50, "Karim")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
@@ -357,8 +349,11 @@ class AbstractBinaryTreeTest {
 
             val expectedStructure =
                 listOf(
-                    Pair(10, "Misha"), Pair(20, "Moldova"), Pair(30, "Danya"),
-                    Pair(40, "Tatarstan"), Pair(50, "Karim")
+                    Pair(10, "Misha"),
+                    Pair(20, "Moldova"),
+                    Pair(30, "Danya"),
+                    Pair(40, "Tatarstan"),
+                    Pair(50, "Karim")
                 )
 
             val actualStructure = mutableListOf<Pair<Int, String>>()
