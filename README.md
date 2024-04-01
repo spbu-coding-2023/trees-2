@@ -2,9 +2,6 @@
 
 [![Kotlin 1.9.23][kotlin_img]][kotlin_releases_url]
 [![License][license_img]][repo_license_url]
-![Coverage](.github/badges/jacoco.svg)
-
-
 
 `forest-group` is a library that lets you easily create and use [Binary search trees](https://en.wikipedia.org/wiki/Binary_search_tree), [AVL trees](https://en.wikipedia.org/wiki/AVL_tree) and [Red-black trees](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) in your applications!
 
@@ -17,7 +14,7 @@
 - [License](#license)
 - [Authors](#authors)
 
-    
+
 
 ## About The Project
 Tree data structure is well-known for its average logarithmic operations time. However, there are a lot of tree implementations that are strict to data types that can be stored.
@@ -70,7 +67,7 @@ while (treeIterator.hasNext())
     println(treeIterator.next())
 ```
 
-There are also other methods:
+There are also other helpful methods:
 
 - `clear()`
 - `isEmpty()`
@@ -82,9 +79,9 @@ There are also other methods:
 ## Contributing
 If you have found a bug, or want to propose some useful feature for our project, please do the following:
 1. Fork the Project
-2. Create your Feature Branch (git checkout -b feature/MyFeature)
-3. Commit your Changes (git commit -m 'add some Feature')
-4. Push to the Branch (git push origin feature/MyFeature)
+2. Create your Feature Branch (git checkout -b feature/myFeature)
+3. Commit your Changes (git commit -m 'add some feature')
+4. Push to the Branch (git push origin feature/myFeature)
 5. Open a Pull Request
 
 
@@ -93,11 +90,12 @@ If you have found a bug, or want to propose some useful feature for our project,
 Distributed under the MIT License. See LICENSE.md for more information.
 
 
-## Authors
 
+## Authors
 - [Shakirov Karim](https://github.com/kar1mgh)
 - [Vlasenco Daniel](https://github.com/spisladqo)
 - [Gavrilenko Mike](https://github.com/qrutyy)
+
 
 
 <!-- Image links -->
