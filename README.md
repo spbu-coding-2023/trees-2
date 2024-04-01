@@ -88,7 +88,7 @@ do the following:
 
 
 ## License
-Distributed under the MIT License. See LICENSE.md for more information.
+Distributed under the [MIT License](https://github.com/spbu-coding-2023/trees-2/blob/main/LICENSE.md).
 
 
 
