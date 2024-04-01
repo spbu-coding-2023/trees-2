@@ -276,7 +276,6 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
             if (
                 leftChild.parent?.leftChild == nodeToRotate || leftChild.parent?.leftChild == null
             ) {
-                leftChild.parent?.leftChild?.leftChild = null
                 leftChild.parent?.leftChild = leftChild
             } else {
                 leftChild.parent?.rightChild = leftChild
