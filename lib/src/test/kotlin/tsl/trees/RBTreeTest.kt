@@ -1,6 +1,5 @@
 package tsl.trees
 
-import com.google.errorprone.annotations.CanIgnoreReturnValue
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
@@ -233,12 +232,17 @@ class RBTreeTest {
                 inorderedTraversalTree += Pair(key, value)
             }
             assertEquals(
-                listOf(Pair(20, "hi"), Pair(30, "omg"), Pair(33, "!"), Pair(40, "what"), Pair(45, "damn")),
+                listOf(
+                    Pair(20, "hi"),
+                    Pair(30, "omg"),
+                    Pair(33, "!"),
+                    Pair(40, "what"),
+                    Pair(45, "damn")
+                ),
                 inorderedTraversalTree
             )
             assertEquals("hihi", returnValue)
         }
-
 
         @Test
         fun `left-black node with red-right child`() {
@@ -254,7 +258,13 @@ class RBTreeTest {
                 inorderedTraversalTree += Pair(key, value)
             }
             assertEquals(
-                listOf(Pair(80, "?"), Pair(88, "cat"), Pair(90, "."), Pair(100, "huh"), Pair(200, "you")),
+                listOf(
+                    Pair(80, "?"),
+                    Pair(88, "cat"),
+                    Pair(90, "."),
+                    Pair(100, "huh"),
+                    Pair(200, "you")
+                ),
                 inorderedTraversalTree
             )
             assertEquals("meow", returnValue)
@@ -272,10 +282,7 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(
-                listOf(Pair(110, "walking"), Pair(238, "in")),
-                inorderedTraversalTree
-            )
+            assertEquals(listOf(Pair(110, "walking"), Pair(238, "in")), inorderedTraversalTree)
             assertEquals("phone", returnValue)
         }
 
@@ -295,7 +302,13 @@ class RBTreeTest {
                 inorderedTraversalTree += Pair(key, value)
             }
             assertEquals(
-                listOf(Pair(1, "cat"), Pair(2, "cat"), Pair(4, "you"), Pair(5, "dog"), Pair(6, "monkey")),
+                listOf(
+                    Pair(1, "cat"),
+                    Pair(2, "cat"),
+                    Pair(4, "you"),
+                    Pair(5, "dog"),
+                    Pair(6, "monkey")
+                ),
                 inorderedTraversalTree
             )
             assertEquals("dog", returnValue)
