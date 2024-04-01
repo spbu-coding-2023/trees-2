@@ -6,6 +6,13 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import tsl.nodes.RBNode
 
+/*
+ * Some standarts and "variables" that were used for decreasing the amount of words)
+ * S - sibling of deleting node
+ * V - deleting node
+ * U - node that will take place of deleting one
+ */
+
 class RBTreeTest {
     private lateinit var rbTree: RBTree<Int, String>
     private lateinit var inorderedTraversalTree: MutableList<Pair<Int, String>>
@@ -62,7 +69,7 @@ class RBTreeTest {
     inner class DeleteTests {
 
         @Test
-        fun `successful delete (return value)`() {
+        fun `successful delete (return value check)`() {
             rbTree.insert(30, "pink")
             rbTree.insert(20, "white")
             rbTree.insert(40, "red")
@@ -72,7 +79,7 @@ class RBTreeTest {
         }
 
         @Test
-        fun `unsuccessful delete (return value)`() {
+        fun `unsuccessful delete (return value check)`() {
             rbTree.insert(30, "pink")
             rbTree.insert(20, "white")
             rbTree.insert(40, "red")
@@ -93,7 +100,7 @@ class RBTreeTest {
         }
 
         @Test
-        fun `right-right case`() {
+        fun `delete right-right case`() {
             // s is right child of its parent and both children of s are red
             rbTree.insert(30, "pink")
             rbTree.insert(18, "white")
@@ -101,7 +108,6 @@ class RBTreeTest {
             rbTree.insert(45, "yellow")
 
             val returnValue = rbTree.delete(40)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -113,7 +119,7 @@ class RBTreeTest {
         }
 
         @Test
-        fun `left-left case`() {
+        fun `delete left-left case`() {
             // s is left child of its parent and both children of s are red
             rbTree.insert(30, "pink")
             rbTree.insert(40, "white")
@@ -121,7 +127,6 @@ class RBTreeTest {
             rbTree.insert(10, "yellow")
 
             val returnValue = rbTree.delete(18)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -133,7 +138,7 @@ class RBTreeTest {
         }
 
         @Test
-        fun `right-left case`() {
+        fun `delete right-left case`() {
             // s is right child of its parent and r is left child of s
             rbTree.insert(30, "pink")
             rbTree.insert(40, "white")
@@ -141,7 +146,6 @@ class RBTreeTest {
             rbTree.insert(35, "yellow")
 
             val returnValue = rbTree.delete(40)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -153,14 +157,14 @@ class RBTreeTest {
         }
 
         @Test
-        fun `left-right case`() {
+        fun `delete left-right case`() {
+            // s is left child of its parent and r is right child
             rbTree.insert(30, "pink")
             rbTree.insert(40, "white")
             rbTree.insert(18, "red")
             rbTree.insert(20, "yellow")
 
             val returnValue = rbTree.delete(18)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -172,7 +176,7 @@ class RBTreeTest {
         }
 
         @Test
-        fun `left-red sibling`() {
+        fun `delete left-red sibling`() {
             rbTree.insert(20, "pink")
             rbTree.insert(30, "white")
             rbTree.insert(10, "red")
@@ -180,7 +184,6 @@ class RBTreeTest {
             rbTree.insert(35, "gold")
 
             val returnValue = rbTree.delete(10)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -192,7 +195,7 @@ class RBTreeTest {
         }
 
         @Test
-        fun `remove root - sole node in tree`() {
+        fun `delete root - sole node in tree`() {
             rbTree.insert(10, "hihi haha")
             val returnValue = rbTree.delete(10)
             assertEquals(null, returnValue)
@@ -207,7 +210,6 @@ class RBTreeTest {
             rbTree.insert(35, "gold")
 
             val returnValue = rbTree.delete(30)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -226,8 +228,8 @@ class RBTreeTest {
             rbTree.insert(30, "omg")
             rbTree.insert(45, "damn")
             rbTree.insert(33, "!")
-            val returnValue = rbTree.delete(10)
 
+            val returnValue = rbTree.delete(10)
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -245,15 +247,15 @@ class RBTreeTest {
         }
 
         @Test
-        fun `left-black node with red-right child`() {
+        fun `delete left-black node with red-right child`() {
             rbTree.insert(100, "huh")
             rbTree.insert(80, "?")
             rbTree.insert(200, "you")
             rbTree.insert(60, "meow")
             rbTree.insert(90, ".")
             rbTree.insert(88, "cat")
-            val returnValue = rbTree.delete(60)
 
+            val returnValue = rbTree.delete(60)
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -271,14 +273,14 @@ class RBTreeTest {
         }
 
         @Test
-        fun `black node with zero children and black sibling`() {
+        fun `delete black node with zero children and black sibling`() {
             rbTree.insert(110, "walking")
             rbTree.insert(238, "in")
             rbTree.insert(88, "of")
             rbTree.insert(233, "phone")
+
             val returnValue = rbTree.delete(233)
             rbTree.delete(88)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -287,7 +289,7 @@ class RBTreeTest {
         }
 
         @Test
-        fun `left-red node with no children`() {
+        fun `delete left-red node with no children`() {
             val rbTree = RBTree<Int, String>()
             rbTree.insert(6, "monkey")
             rbTree.insert(4, "you")
@@ -297,7 +299,6 @@ class RBTreeTest {
             rbTree.insert(1, "cat")
 
             val returnValue = rbTree.delete(7)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -315,6 +316,34 @@ class RBTreeTest {
         }
 
         @Test
+        fun `delete black node with two children (left subtree & right leaf)`() {
+            val rbTree = RBTree<Int, String>()
+            rbTree.insert(200, "Im")
+            rbTree.insert(160, "gonna make")
+            rbTree.insert(400, "him an")
+            rbTree.insert(120, "offer")
+            rbTree.insert(180, "he")
+            rbTree.insert(130, "cant refuse")
+
+            val returnValue = rbTree.delete(200)
+            val inorderedTraversalTree: MutableList<Pair<Int, String>> = mutableListOf()
+            for ((key, value) in rbTree) {
+                inorderedTraversalTree += Pair(key, value)
+            }
+            assertEquals(
+                listOf(
+                    Pair(120, "offer"),
+                    Pair(130, "cant refuse"),
+                    Pair(160, "gonna make"),
+                    Pair(180, "he"),
+                    Pair(400, "him an")
+                ),
+                inorderedTraversalTree
+            )
+            assertEquals("Im", returnValue)
+        }
+
+        @Test
         fun `fix after deletion second case`() {
             rbTree.insert(15, "c")
             rbTree.insert(10, "a")
@@ -323,7 +352,6 @@ class RBTreeTest {
             rbTree.insert(6, "d")
 
             val returnValue = rbTree.delete(6)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -346,6 +374,7 @@ class RBTreeTest {
 
             // deletion to trigger fixAfterDeletion with Case 3 conditions
             rbTree.delete(10)
+
             val currentSibling = rbTree.root?.rightChild
             assertEquals(null, currentSibling?.rightChild?.color)
             assertEquals(RBNode.Color.Black, currentSibling?.color)
@@ -362,6 +391,7 @@ class RBTreeTest {
             rbTree.insert(17, "Z")
             // deletion to trigger fixAfterDeletion with Case 3 conditions
             rbTree.delete(10)
+
             val currentSibling = rbTree.root?.rightChild
             assertEquals(RBNode.Color.Black, currentSibling?.color)
         }
@@ -375,7 +405,6 @@ class RBTreeTest {
             rbTree.insert(4, "f")
 
             val returnValue = rbTree.delete(4)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -387,7 +416,7 @@ class RBTreeTest {
         }
 
         @Test
-        fun `right-red sibling`() {
+        fun `delete right-red sibling`() {
             rbTree.insert(20, "pink")
             rbTree.insert(30, "white")
             rbTree.insert(15, "red")
@@ -395,7 +424,6 @@ class RBTreeTest {
             rbTree.insert(5, "gold")
 
             val returnValue = rbTree.delete(30)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -415,7 +443,6 @@ class RBTreeTest {
             rbTree.insert(5, "gold")
 
             val returnValue = rbTree.delete(20)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
@@ -435,7 +462,6 @@ class RBTreeTest {
             rbTree.insert(5, "gold")
 
             val returnValue = rbTree.delete(30)
-
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
