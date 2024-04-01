@@ -77,7 +77,8 @@ There are also other helpful methods:
 
 
 ## Contributing
-If you have found a bug, or want to propose some useful feature for our project, please do the following:
+If you have found a bug, or want to propose some useful feature for our project, please firstly read our [Contribution Rules](https://github.com/spbu-coding-2023/trees-2/blob/main/CONTRIBUTING.md) and
+do the following:
 1. Fork the Project
 2. Create your Feature Branch (git checkout -b feature/myFeature)
 3. Commit your Changes (git commit -m 'add some feature')
