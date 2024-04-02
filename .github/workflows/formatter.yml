@@ -1,15 +1,21 @@
-name: Verify formatting
+name: Formatter
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ "main" ]
   pull_request:
+    branches: [ "main" ]
+
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -17,5 +23,19 @@ jobs:
           java-version: '17'
           distribution: zulu
 
-      - name: Run formatting test 
-        run: ./gradlew checkFormat
+      - name: Run kotlin formatter
+        run: ./gradlew format
+
+      - name: Check for modified files
+        id: git-check
+        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+
+      - name: Push changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git commit -am "Reformat changes"
+
+          git push
