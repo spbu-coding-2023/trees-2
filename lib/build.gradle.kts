@@ -6,9 +6,6 @@
  */
 
 plugins {
-    // Apply the org.jetbrains.kotlin.jvm Plugin to add support for Kotlin.
-//    alias(libs.plugins.jvm)
-
     // Apply the java-library plugin for API and implementation separation.
     `java-library`
 
@@ -71,18 +68,13 @@ tasks.jacocoTestReport {
 }
 
 ktfmt {
-    // KotlinLang style - 4 space indentation - From kotlinlang.org/docs/coding-conventions.html
-    kotlinLangStyle()
-    // blockIndent is the indent size used when a new block is opened, in spaces.
+    googleStyle()
+
     blockIndent.set(4)
-    // continuationIndent is the indent size used when a line is broken because it's too
+
     continuationIndent.set(4)
-    // Whether ktfmt should automatically add/remove trailing commas.
-    //manageTrailingCommas.set(true) current release doesn't support this feature
 
     removeUnusedImports.set(true)
 }
-
-tasks.register("checkFormat") { dependsOn(tasks.ktfmtCheck) }
 
 tasks.register("format") { dependsOn(tasks.ktfmtFormat) }
