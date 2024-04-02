@@ -27,13 +27,13 @@ The solution is easy - *just use keys to store anything you want!*
 
 To create a tree, pass the key type and your stored data type to a generic. *Note that your key should implement Comparable type.*
 
-```
+```kotlin
 val myTree = AVLTree<Int, String>()
 ```
 
 You now can simply insert and replace values in your tree:
 
-```
+```kotlin
 myTree.insert(keyA, "Something important")
 
 val oldValue = myTree.insert(keyA, "Something more important")
@@ -41,7 +41,7 @@ val oldValue = myTree.insert(keyA, "Something more important")
 
 You can also search for values and delete values from tree by keys:
 
-```
+```kotlin
 val myValue1 = myTree.search(myKey)
 
 val myValue2 = myTree.delete(myKey)
@@ -53,7 +53,7 @@ All trees are iterable by Pair(key, value), so they can be used in a for loop.
 
 Iterator implements inorder traversal (every next key is greater than the previous).
 
-```
+```kotlin
 for ((key, value) in myTree) {
     keysList.add(key)
     valuesList.add(value)
@@ -88,6 +88,10 @@ Distributed under the [MIT License][repo_license_url].
 - [Shakirov Karim](https://github.com/kar1mgh)
 - [Vlasenco Daniel](https://github.com/spisladqo)
 - [Gavrilenko Mike](https://github.com/qrutyy)
+
+_______________________________
+
+[*Java gnomik*](https://ibb.co/54hJVd2)
 
 <!-- Image links -->
 
