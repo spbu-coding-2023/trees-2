@@ -31,20 +31,22 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
             keyToInsert > currNode.key ->
                 currNode.rightChild =
                     insertNodeAndBalanceRecursively(currNode.rightChild, keyToInsert, valueToInsert)
-            else -> return currNode
+            else -> {
+                currNode.value = valueToInsert
+                return currNode
+            }
         }
 
-        val balanceFactor = getBalanceFactor(currNode)
         var balancedNode: AVLNode<K, V> = currNode
 
-        if (balanceFactor < -1) { // if left subtree got bigger
+        if (getBalanceFactor(currNode) < -1) { // if left subtree got bigger
             currNode.leftChild?.let {
                 if (keyToInsert > it.key) { // if inserted node has greater key
                     currNode.leftChild = rotateLeft(it) // perform left rotation first
                 }
                 balancedNode = rotateRight(currNode) // anyway, perform right rotation
             }
-        } else if (balanceFactor > 1) { // if right subtree got bigger
+        } else if (getBalanceFactor(currNode) > 1) { // if right subtree got bigger
             currNode.rightChild?.let {
                 if (keyToInsert < it.key) { // if inserted node has lesser key
                     currNode.rightChild = rotateRight(it) // perform right rotation first
@@ -107,37 +109,39 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
 
         when {
             currNode == null -> return null // node to be deleted was not found
-            keyToDelete < currNode.key ->
-                currNode.leftChild = deleteAndBalanceRecursively(currNode.leftChild, keyToDelete)
-            keyToDelete > currNode.key ->
-                currNode.rightChild = deleteAndBalanceRecursively(currNode.rightChild, keyToDelete)
-            (currNode.leftChild == null ||
-                currNode.rightChild == null) -> // if node has 0 or 1 child
-            return currNode.leftChild ?: currNode.rightChild // replace it with its child
-            else -> { // if node has 2 children
-                val successor = getMinNodeRecursively(currNode.rightChild)
-                if (successor != null) {
-                    currNode.key = successor.key
-                    currNode.value = successor.value
+            keyToDelete < currNode.key -> // node to be deleted is in the left subtree
+            currNode.leftChild = deleteAndBalanceRecursively(currNode.leftChild, keyToDelete)
+            keyToDelete > currNode.key -> // node to be deleted is in the right subtree
+            currNode.rightChild = deleteAndBalanceRecursively(currNode.rightChild, keyToDelete)
+            else -> {
+                if (currNode.leftChild == null || currNode.rightChild == null) {
+                    return currNode.leftChild ?: currNode.rightChild
+                } else {
+                    val successor = getMinNodeRecursively(currNode.rightChild)
+                    if (successor != null) {
+                        // copy its successor
+                        currNode.key = successor.key
+                        currNode.value = successor.value
 
-                    // delete successor node from tree
-                    val newSubtree = deleteAndBalanceRecursively(currNode.rightChild, successor.key)
-                    if (newSubtree != null) currNode.rightChild = newSubtree
+                        // delete original successor node from tree
+                        val newSubtree =
+                            deleteAndBalanceRecursively(currNode.rightChild, successor.key)
+                        if (newSubtree != null) currNode.rightChild = newSubtree
+                    }
                 }
             }
         }
 
-        val balanceFactor = getBalanceFactor(currNode)
         var balancedNode: AVLNode<K, V> = currNode
 
-        if (balanceFactor < -1) { // if left subtree got bigger
+        if (getBalanceFactor(currNode) < -1) { // if left subtree got bigger
             currNode.leftChild?.let {
                 if (getBalanceFactor(it) > 0) { // if inserted node has greater key
                     currNode.leftChild = rotateLeft(it) // perform left rotation first
                 }
                 balancedNode = rotateRight(currNode) // anyway, perform left rotation
             }
-        } else if (balanceFactor > 1) { // if right subtree got bigger
+        } else if (getBalanceFactor(currNode) > 1) { // if right subtree got bigger
             currNode.rightChild?.let {
                 if (getBalanceFactor(it) < 0) { // if inserted node has greater key
                     currNode.rightChild = rotateRight(it) // perform right rotation first
