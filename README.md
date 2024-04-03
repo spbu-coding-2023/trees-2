@@ -28,23 +28,27 @@ The solution is easy - *just use keys to store anything you want!*
 To create a tree, pass the key type and your stored data type to a generic. *Note that your key should implement Comparable type.*
 
 ```kotlin
-val myTree = AVLTree<Int, String>()
+val myBSTree = BSTree<Int, String>()
+
+val myAVLTree = AVLTree<Char, Long>()
+
+val myRBTree = RBTree<String, Float>()
 ```
 
 You now can simply insert and replace values in your tree:
 
 ```kotlin
-myTree.insert(keyA, "Something important")
+myBSTree.insert(keyA, "Something important")
 
-val oldValue = myTree.insert(keyA, "Something more important")
+val myBSTree = myTree.insert(keyA, "Something more important")
 ```
 
 You can also search for values and delete values from tree by keys:
 
 ```kotlin
-val myValue1 = myTree.search(myKey)
+val myValue1 = myAVLTree.search(myKey)
 
-val myValue2 = myTree.delete(myKey)
+val myValue2 = myAVLTree.delete(myKey)
 
 println(myValue1 == myValue2) // true
 ```
@@ -54,12 +58,12 @@ All trees are iterable by Pair(key, value), so they can be used in a for loop.
 Iterator implements inorder traversal (every next key is greater than the previous).
 
 ```kotlin
-for ((key, value) in myTree) {
+for ((key, value) in myRBTree) {
     keysList.add(key)
     valuesList.add(value)
 }
 
-myTree.forEach { println(it) } // prints every pair
+myRBTree.forEach { println(it) } // prints every pair
 ```
 
 There are also other helpful methods:
