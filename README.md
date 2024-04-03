@@ -40,7 +40,7 @@ You now can simply insert and replace values in your tree:
 ```kotlin
 myBSTree.insert(keyA, "Something important")
 
-val myBSTree = myTree.insert(keyA, "Something more important")
+val myBSTree = myBSTree.insert(keyA, "Something more important")
 ```
 
 You can also search for values and delete values from tree by keys:
