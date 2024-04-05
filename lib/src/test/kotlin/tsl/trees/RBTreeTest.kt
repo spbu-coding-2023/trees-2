@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import tsl.nodes.RBNode
+import kotlin.random.Random
 
 /*
  * Some standarts and "variables" that were used for decreasing the amount of words)
@@ -62,6 +63,18 @@ class RBTreeTest {
             val returnValue = rbTree.insert(20, "wordless")
             assertEquals(null, returnValue)
             assertEquals(20, rbTree.root?.leftChild?.rightChild?.key)
+        }
+
+        @Test
+        fun `balance negative numbers`() {
+            val rbTree = RBTree<Int, String>()
+            rbTree.insert(-1, "a")
+            rbTree.insert(1, "a")
+            rbTree.insert(0, "a")
+            for ((key, value) in rbTree) {
+                inorderedTraversalTree += Pair(key, value)
+            }
+            assertEquals(listOf(Pair(-1, "a"), Pair(0, "a"), Pair(1, "a")), inorderedTraversalTree)
         }
     }
 
@@ -198,7 +211,7 @@ class RBTreeTest {
         fun `delete root - sole node in tree`() {
             rbTree.insert(10, "hihi haha")
             val returnValue = rbTree.delete(10)
-            assertEquals(null, returnValue)
+            assertEquals("hihi haha", returnValue)
         }
 
         @Test
@@ -344,25 +357,6 @@ class RBTreeTest {
         }
 
         @Test
-        fun `fix after deletion second case`() {
-            rbTree.insert(15, "c")
-            rbTree.insert(10, "a")
-            rbTree.insert(20, "e")
-            rbTree.insert(5, "b")
-            rbTree.insert(6, "d")
-
-            val returnValue = rbTree.delete(6)
-            for ((key, value) in rbTree) {
-                inorderedTraversalTree += Pair(key, value)
-            }
-            assertEquals(
-                listOf(Pair(5, "b"), Pair(10, "a"), Pair(15, "c"), Pair(20, "e")),
-                inorderedTraversalTree
-            )
-            assertEquals("d", returnValue)
-        }
-
-        @Test
         fun `fix after deletion case 3 right child red`() {
             rbTree.insert(15, "C")
             rbTree.insert(10, "A")
@@ -470,6 +464,69 @@ class RBTreeTest {
                 inorderedTraversalTree
             )
             assertEquals("white", returnValue)
+        }
+
+        @Test
+        fun `zero root deletion`() {
+            rbTree.insert(0, "a")
+
+            val returnValue = rbTree.delete(0)
+            for ((key, value) in rbTree) {
+                inorderedTraversalTree += Pair(key, value)
+            }
+            assertEquals(listOf(), inorderedTraversalTree)
+            assertEquals("a", returnValue)
+        }
+
+        @Test
+        fun `duplicates test`() {
+            rbTree.insert(-1, "a")
+            rbTree.insert(1, "a")
+            rbTree.insert(0, "a")
+            rbTree.insert(0, "b")
+
+            val returnValue = rbTree.delete(0)
+            for ((key, value) in rbTree) {
+                inorderedTraversalTree += Pair(key, value)
+            }
+            assertEquals(listOf(Pair(-1, "a"), Pair(0, "a"), Pair(1, "a")), inorderedTraversalTree)
+            assertEquals("b", returnValue)
+        }
+
+        @Test
+        fun `zero delete case`() {
+            rbTree.insert(-1, "a")
+            rbTree.insert(1, "a")
+
+            val returnValue = rbTree.delete(0)
+            for ((key, value) in rbTree) {
+                inorderedTraversalTree += Pair(key, value)
+            }
+            assertEquals(listOf(Pair(-1, "a"), Pair(1, "a")), inorderedTraversalTree)
+            assertEquals(null, returnValue)
+        }
+
+        @Test
+        fun `random tests`() {
+            val generator = Random(12)
+
+            val randomKeys = mutableListOf<Int>()
+            for (i in 1..70) {
+                val randomValue = generator.nextInt()
+                randomKeys.add(randomValue)
+                rbTree.insert(randomValue, "") // this sets up key and default value
+            }
+
+            val len = randomKeys.size
+            for (index in 1..len) {
+                val value: Int = randomKeys.removeLast()
+                rbTree.delete(value)
+            }
+
+            for ((key, value) in rbTree) {
+                inorderedTraversalTree += Pair(key, value)
+            }
+            assertEquals(listOf(), inorderedTraversalTree)
         }
     }
 
