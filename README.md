@@ -38,17 +38,19 @@ val myRBTree = RBTree<String, Float>()
 You now can simply insert and replace values in your tree:
 
 ```kotlin
-myBSTree.insert(keyA, "Something important")
+val myKey = 10
 
-val myBSTree = myBSTree.insert(keyA, "Something more important")
+myBSTree.insert(myKey, "Something important")
+
+val replacedValue = myBSTree.insert(myKey, "Something more important")
 ```
 
 You can also search for values and delete values from tree by keys:
 
 ```kotlin
-val myValue1 = myAVLTree.search(myKey)
+val myValue1 = myBSTree.search(myKey)
 
-val myValue2 = myAVLTree.delete(myKey)
+val myValue2 = myBSTree.delete(myKey)
 
 println(myValue1 == myValue2) // true
 ```
@@ -78,9 +80,9 @@ There are also other helpful methods:
 If you have found a bug, or want to propose some useful feature for our project, please firstly read our [Contribution Rules][contribute_rules_url] and
 do the following:
 1. Fork the Project
-2. Create your Feature Branch (git checkout -b feature/myFeature)
+2. Create your Feature Branch (git checkout -b feature/my-feature)
 3. Commit your Changes (git commit -m 'add some feature')
-4. Push to the Branch (git push origin feature/myFeature)
+4. Push to the Branch (git push origin feature/my-feature)
 5. Open a Pull Request
 
 ## License
@@ -95,7 +97,7 @@ Distributed under the [MIT License][repo_license_url].
 
 _______________________________
 
-[*Java gnomik*](https://ibb.co/54hJVd2)
+[*Java gnomik*][java_gnomik_url]
 
 <!-- Image links -->
 
@@ -114,3 +116,4 @@ _______________________________
 
 [kotlin_releases_url]: https://kotlinlang.org/docs/releases.html#release-details
 [codefactor_url]: https://www.codefactor.io/repository/github/spbu-coding-2023/trees-2
+[java_gnomik_url]: https://ibb.co/54hJVd2
