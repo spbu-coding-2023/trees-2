@@ -120,7 +120,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         if (current == null) return null
         var newRoot = root
 
-        if (current.leftChild != null && current.rightChild != null) {
+        if (current.hasTwoChildren()) {
             val successor = getMaxNodeRec(current.leftChild)
             if (successor?.parent?.leftChild == successor) successor?.parent?.leftChild = null
             else successor?.parent?.rightChild = null

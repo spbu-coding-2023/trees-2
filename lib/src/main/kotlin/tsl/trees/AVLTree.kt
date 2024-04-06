@@ -110,7 +110,7 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
             keyToDelete > currNode.key ->
                 currNode.rightChild = deleteNodeAndBalanceRec(currNode.rightChild, keyToDelete)
             keyToDelete == currNode.key -> {
-                if (currNode.leftChild != null && currNode.rightChild != null) {
+                if (currNode.hasTwoChildren()) {
                     val successor = getMinNodeRec(currNode.rightChild)
                     if (successor != null) {
                         currNode.key = successor.key
