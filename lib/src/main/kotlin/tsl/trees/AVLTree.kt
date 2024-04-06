@@ -4,15 +4,16 @@ import kotlin.math.max
 import tsl.nodes.AVLNode
 
 class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() {
-    public override fun insert(key: K, value: V): V? {
-        val oldValueByKey = search(key) // null if key isn't in the tree
 
-        insertNodeAndBalanceRecursively(root, key, value)
+    public override fun insert(key: K, value: V): V? {
+        val oldValueByKey = search(key)
+
+        insertNodeAndBalanceRec(root, key, value)
 
         return oldValueByKey
     }
 
-    private fun insertNodeAndBalanceRecursively(
+    private fun insertNodeAndBalanceRec(
         currNode: AVLNode<K, V>?,
         keyToInsert: K,
         valueToInsert: V
@@ -27,10 +28,10 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
         when {
             keyToInsert < currNode.key ->
                 currNode.leftChild =
-                    insertNodeAndBalanceRecursively(currNode.leftChild, keyToInsert, valueToInsert)
+                    insertNodeAndBalanceRec(currNode.leftChild, keyToInsert, valueToInsert)
             keyToInsert > currNode.key ->
                 currNode.rightChild =
-                    insertNodeAndBalanceRecursively(currNode.rightChild, keyToInsert, valueToInsert)
+                    insertNodeAndBalanceRec(currNode.rightChild, keyToInsert, valueToInsert)
             else -> {
                 currNode.value = valueToInsert
                 return currNode
@@ -39,19 +40,17 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
 
         var balancedNode: AVLNode<K, V> = currNode
 
-        if (getBalanceFactor(currNode) < -1) { // if left subtree got bigger
+        if (getBalanceFactor(currNode) < -1) {
             currNode.leftChild?.let {
-                if (keyToInsert > it.key) { // if inserted node has greater key
-                    currNode.leftChild = rotateLeft(it) // perform left rotation first
-                }
-                balancedNode = rotateRight(currNode) // anyway, perform right rotation
+                if (keyToInsert > it.key) currNode.leftChild = rotateLeft(it)
+
+                balancedNode = rotateRight(currNode)
             }
-        } else if (getBalanceFactor(currNode) > 1) { // if right subtree got bigger
+        } else if (getBalanceFactor(currNode) > 1) {
             currNode.rightChild?.let {
-                if (keyToInsert < it.key) { // if inserted node has lesser key
-                    currNode.rightChild = rotateRight(it) // perform right rotation first
-                }
-                balancedNode = rotateLeft(currNode) // anyway, perform left rotation
+                if (keyToInsert < it.key) currNode.rightChild = rotateRight(it)
+
+                balancedNode = rotateLeft(currNode)
             }
         }
 
@@ -94,60 +93,52 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
     private fun getHeight(node: AVLNode<K, V>?): Int = node?.height ?: -1
 
     public override fun delete(key: K): V? {
-        val deletedValue: V =
-            search(key) ?: return null // if key isn't in the tree, there's nothing to delete
+        val deletedValue = search(key) ?: return null
 
-        deleteAndBalanceRecursively(root, key)
+        deleteNodeAndBalanceRec(root, key)
 
         return deletedValue
     }
 
-    private fun deleteAndBalanceRecursively(
-        currNode: AVLNode<K, V>?,
-        keyToDelete: K
-    ): AVLNode<K, V>? {
+    private fun deleteNodeAndBalanceRec(currNode: AVLNode<K, V>?, keyToDelete: K): AVLNode<K, V>? {
+
+        if (currNode == null) return null
 
         when {
-            currNode == null -> return null // node to be deleted was not found
-            keyToDelete < currNode.key -> // node to be deleted is in the left subtree
-            currNode.leftChild = deleteAndBalanceRecursively(currNode.leftChild, keyToDelete)
-            keyToDelete > currNode.key -> // node to be deleted is in the right subtree
-            currNode.rightChild = deleteAndBalanceRecursively(currNode.rightChild, keyToDelete)
-            else -> {
-                if (currNode.leftChild == null || currNode.rightChild == null) {
-                    if (currNode == root) root = null
-                    return currNode.leftChild ?: currNode.rightChild
-                } else {
-                    val successor = getMinNodeRecursively(currNode.rightChild)
+            keyToDelete < currNode.key ->
+                currNode.leftChild = deleteNodeAndBalanceRec(currNode.leftChild, keyToDelete)
+            keyToDelete > currNode.key ->
+                currNode.rightChild = deleteNodeAndBalanceRec(currNode.rightChild, keyToDelete)
+            keyToDelete == currNode.key -> {
+                if (currNode.leftChild != null && currNode.rightChild != null) {
+                    val successor = getMinNodeRec(currNode.rightChild)
                     if (successor != null) {
-                        // copy its successor
                         currNode.key = successor.key
                         currNode.value = successor.value
 
-                        // delete original successor node from tree
-                        val newSubtree =
-                            deleteAndBalanceRecursively(currNode.rightChild, successor.key)
+                        val newSubtree = deleteNodeAndBalanceRec(currNode.rightChild, successor.key)
                         currNode.rightChild = newSubtree
                     }
+                } else {
+                    if (currNode == root) root = null
+                    return currNode.leftChild ?: currNode.rightChild
                 }
             }
         }
 
         var balancedNode: AVLNode<K, V> = currNode
 
-        if (getBalanceFactor(currNode) < -1) { // if left subtree got bigger
+        if (getBalanceFactor(currNode) < -1) {
             currNode.leftChild?.let {
-                if (getBalanceFactor(it) > 0) { // if inserted node has greater key
-                    currNode.leftChild = rotateLeft(it) // perform left rotation first
-                }
-                balancedNode = rotateRight(currNode) // anyway, perform left rotation
+                if (getBalanceFactor(it) > 0) currNode.leftChild = rotateLeft(it)
+
+                balancedNode = rotateRight(currNode)
             }
-        } else if (getBalanceFactor(currNode) > 1) { // if right subtree got bigger
+        } else if (getBalanceFactor(currNode) > 1) {
             currNode.rightChild?.let {
-                if (getBalanceFactor(it) < 0) { // if inserted node has greater key
-                    currNode.rightChild = rotateRight(it) // perform right rotation first
-                }
-                balancedNode = rotateLeft(currNode) // anyway, perform left rotation
+                if (getBalanceFactor(it) < 0) currNode.rightChild = rotateRight(it)
+
+                balancedNode = rotateLeft(currNode)
             }
         }
 

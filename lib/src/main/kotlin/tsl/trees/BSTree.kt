@@ -61,7 +61,7 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
                     return currentNode.leftChild ?: currentNode.rightChild
                 }
 
-                val minRightNode = getMinNodeRecursively(currentNode.rightChild)
+                val minRightNode = getMinNodeRec(currentNode.rightChild)
                 if (minRightNode != null) {
                     currentNode.key = minRightNode.key
                     currentNode.value = minRightNode.value

@@ -4,7 +4,8 @@ import tsl.nodes.RBNode
 
 class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
-     // @return Null if 'insert' method haven't replaced any value. Return value if there was some replace
+    // @return Null if 'insert' method haven't replaced any value. Return value if there was some
+    // replace
 
     public override fun insert(key: K, value: V): V? {
 
@@ -100,7 +101,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         root = newRoot
     }
 
-     // @return Value if delete was successful and null if it isn't.
+    // @return Value if delete was successful and null if it isn't.
 
     public override fun delete(key: K): V? {
         val deletingNodeValue = search(key)
@@ -110,17 +111,17 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         return deletingNodeValue
     }
 
-     // @return The new root node of the Red\-Black Tree after deletion\.
+    // @return The new root node of the Red\-Black Tree after deletion\.
 
     private fun deleteNode(
         key: K,
     ): RBNode<K, V>? {
-        var current: RBNode<K, V>? = searchNodeRecursively(root, key)
+        var current: RBNode<K, V>? = searchNodeRec(root, key)
         if (current == null) return null
         var newRoot = root
 
         if (current.leftChild != null && current.rightChild != null) {
-            val successor = getMaxNodeRecursively(current.leftChild)
+            val successor = getMaxNodeRec(current.leftChild)
             if (successor?.parent?.leftChild == successor) successor?.parent?.leftChild = null
             else successor?.parent?.rightChild = null
             if (successor != null) {
@@ -161,7 +162,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
         return newRoot
     }
 
-     // @return The root of the tree after fixing the structure to maintain the red-black properties
+    // @return The root of the tree after fixing the structure to maintain the red-black properties
 
     private fun fixAfterDeletion(currentDeletingNode: RBNode<K, V>?): RBNode<K, V>? {
         var fixedRoot = root
