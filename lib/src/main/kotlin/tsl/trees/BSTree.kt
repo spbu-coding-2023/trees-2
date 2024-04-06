@@ -56,8 +56,10 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
             keyToDelete > currentNode.key ->
                 currentNode.rightChild = deleteRecursively(currentNode.rightChild, keyToDelete)
             keyToDelete == currentNode.key -> {
-                if (currentNode.leftChild == null || currentNode.rightChild == null)
+                if (currentNode.leftChild == null || currentNode.rightChild == null) {
+                    if (currentNode == root) root = null
                     return currentNode.leftChild ?: currentNode.rightChild
+                }
 
                 val minRightNode = getMinNodeRecursively(currentNode.rightChild)
                 if (minRightNode != null) {

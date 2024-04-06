@@ -115,6 +115,7 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
             currNode.rightChild = deleteAndBalanceRecursively(currNode.rightChild, keyToDelete)
             else -> {
                 if (currNode.leftChild == null || currNode.rightChild == null) {
+                    if (currNode == root) root = null
                     return currNode.leftChild ?: currNode.rightChild
                 } else {
                     val successor = getMinNodeRecursively(currNode.rightChild)
@@ -126,7 +127,7 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
                         // delete original successor node from tree
                         val newSubtree =
                             deleteAndBalanceRecursively(currNode.rightChild, successor.key)
-                        if (newSubtree != null) currNode.rightChild = newSubtree
+                        currNode.rightChild = newSubtree
                     }
                 }
             }
