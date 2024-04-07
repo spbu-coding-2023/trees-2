@@ -21,7 +21,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
         // traverse the tree to find the insertion point (node)
         while (currentNode != null) {
-            if (currentNode.key >= newNode.key) {
+            if (currentNode.key > newNode.key) {
                 if (currentNode.leftChild == null) {
                     currentNode.leftChild = newNode
                     newNode.parent = currentNode
@@ -37,6 +37,10 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                     break
                 }
                 currentNode = currentNode.rightChild
+            } else {
+                currentNode.value = value
+                fixAfterInsertion(newNode)
+                break
             }
         }
         return returnValue
