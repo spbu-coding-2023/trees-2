@@ -489,7 +489,7 @@ class RBTreeTest {
             for ((key, value) in rbTree) {
                 inorderedTraversalTree += Pair(key, value)
             }
-            assertEquals(listOf(Pair(-1, "a"), Pair(0, "a"), Pair(1, "a")), inorderedTraversalTree)
+            assertEquals(listOf(Pair(-1, "a"), Pair(1, "a")), inorderedTraversalTree)
             assertEquals("b", returnValue)
         }
 
