@@ -391,6 +391,21 @@ class AVLTreeTest {
         }
 
         @Test
+        fun `deletion of last node should make tree empty`() {
+            avlTree.insert(1, "A")
+            avlTree.delete(1)
+
+            val expectedStructure = listOf<Pair<Int, String>>()
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(avlTree.isEmpty(), true)
+            assertEquals(expectedStructure, actualStructure)
+        }
+
+        @Test
         fun `deletion of node with one child should replace it with its child`() {
             avlTree.insert(20, "B")
             avlTree.insert(10, "A")
@@ -410,6 +425,24 @@ class AVLTreeTest {
         }
 
         // Small tree tests
+
+        @Test
+        fun `deletion of root node should replace it with its successor`() {
+            avlTree.insert(10, "A")
+            avlTree.insert(20, "B")
+            avlTree.insert(30, "C")
+
+            avlTree.delete(20)
+
+            val expectedStructure = listOf(Pair(10, "A"), Pair(30, "C"))
+
+            val actualStructure = mutableListOf<Pair<Int, String>>()
+
+            for (pair in avlTree) actualStructure.add(pair)
+
+            assertEquals(expectedStructure, actualStructure)
+            assertEquals(avlTree.root?.key, 30)
+        }
 
         @Test
         fun `deletion of right child triggering right rotation should balance small tree`() {
