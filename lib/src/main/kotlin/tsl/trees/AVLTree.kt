@@ -8,7 +8,7 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
     public override fun insert(key: K, value: V): V? {
         val oldValueByKey = search(key)
 
-        insertNodeAndBalanceRec(root, key, value)
+        root = insertNodeAndBalanceRec(root, key, value)
 
         return oldValueByKey
     }
@@ -21,7 +21,6 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
 
         if (currNode == null) {
             val newNode = AVLNode(keyToInsert, valueToInsert)
-            if (root == null) root = newNode
             return newNode
         }
 
@@ -63,20 +62,18 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
 
     private fun rotateRight(oldUpperNode: AVLNode<K, V>): AVLNode<K, V> {
         val newUpperNode = oldUpperNode.leftChild ?: return oldUpperNode
+
         oldUpperNode.leftChild = newUpperNode.rightChild
         newUpperNode.rightChild = oldUpperNode
-
-        if (root == oldUpperNode) root = newUpperNode // if root was rotated, set new root
 
         return newUpperNode
     }
 
     private fun rotateLeft(oldUpperNode: AVLNode<K, V>): AVLNode<K, V> {
         val newUpperNode = oldUpperNode.rightChild ?: return oldUpperNode
+
         oldUpperNode.rightChild = newUpperNode.leftChild
         newUpperNode.leftChild = oldUpperNode
-
-        if (root == oldUpperNode) root = newUpperNode // if root was rotated, set new root
 
         return newUpperNode
     }
@@ -95,7 +92,7 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
     public override fun delete(key: K): V? {
         val deletedValue = search(key) ?: return null
 
-        deleteNodeAndBalanceRec(root, key)
+        root = deleteNodeAndBalanceRec(root, key)
 
         return deletedValue
     }
@@ -120,7 +117,6 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
                         currNode.rightChild = newSubtree
                     }
                 } else {
-                    if (currNode == root) root = null
                     return currNode.leftChild ?: currNode.rightChild
                 }
             }
