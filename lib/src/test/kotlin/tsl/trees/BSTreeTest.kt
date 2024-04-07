@@ -176,5 +176,17 @@ class BSTreeTest {
 
             assertEquals(expectedStructure, actualStructure)
         }
+
+        @Test
+        fun `deletion of last node should make tree empty`() {
+            tree.clear()
+            tree.insert(1, "A")
+            tree.delete(1)
+
+            val expectedRoot = null
+            val actualRoot = tree.root
+
+            assertEquals(expectedRoot, actualRoot)
+        }
     }
 }
