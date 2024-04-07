@@ -39,7 +39,6 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
                 currentNode = currentNode.rightChild
             } else {
                 currentNode.value = value
-                fixAfterInsertion(newNode)
                 break
             }
         }
