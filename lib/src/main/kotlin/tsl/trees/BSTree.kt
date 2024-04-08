@@ -21,7 +21,6 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
                     currentNode.value = nodeToInsert.value
                     return oldValue
                 }
-
                 nodeToInsert.key < currentNode.key -> {
                     if (currentNode.leftChild == null) {
                         currentNode.leftChild = nodeToInsert
@@ -29,7 +28,6 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
                     }
                     currentNode = currentNode.leftChild
                 }
-
                 nodeToInsert.key > currentNode.key -> {
                     if (currentNode.rightChild == null) {
                         currentNode.rightChild = nodeToInsert
