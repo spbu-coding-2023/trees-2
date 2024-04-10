@@ -7,7 +7,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
     // @return Null if 'insert' method haven't replaced any value. Return value if there was some
     // replace
 
-    public override fun insert(key: K, value: V): V? {
+    override fun insert(key: K, value: V): V? {
 
         val newNode = RBNode(key, value)
         if (root == null) {
@@ -106,7 +106,7 @@ class RBTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, RBNode<K, V>>() {
 
     // @return Value if delete was successful and null if it isn't.
 
-    public override fun delete(key: K): V? {
+    override fun delete(key: K): V? {
         val deletingNodeValue = search(key)
         if (deletingNodeValue == null) return null // in case we do not found the deletinnode
         root = deleteNode(key)

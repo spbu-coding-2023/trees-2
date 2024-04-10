@@ -5,7 +5,7 @@ import tsl.nodes.AVLNode
 
 class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() {
 
-    public override fun insert(key: K, value: V): V? {
+    override fun insert(key: K, value: V): V? {
         val oldValueByKey = search(key)
 
         root = insertNodeAndBalanceRec(root, key, value)
@@ -89,7 +89,7 @@ class AVLTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, AVLNode<K, V>>() 
 
     private fun getHeight(node: AVLNode<K, V>?): Int = node?.height ?: -1
 
-    public override fun delete(key: K): V? {
+    override fun delete(key: K): V? {
         val deletedValue = search(key) ?: return null
 
         root = deleteNodeAndBalanceRec(root, key)

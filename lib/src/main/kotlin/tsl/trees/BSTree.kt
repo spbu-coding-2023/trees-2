@@ -4,7 +4,7 @@ import tsl.nodes.BSTNode
 
 class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
 
-    public override fun insert(key: K, value: V): V? {
+    override fun insert(key: K, value: V): V? {
         val nodeToInsert = BSTNode(key, value)
 
         if (root == null) {
@@ -21,7 +21,6 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
                     currentNode.value = nodeToInsert.value
                     return oldValue
                 }
-
                 nodeToInsert.key < currentNode.key -> {
                     if (currentNode.leftChild == null) {
                         currentNode.leftChild = nodeToInsert
@@ -29,7 +28,6 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
                     }
                     currentNode = currentNode.leftChild
                 }
-
                 nodeToInsert.key > currentNode.key -> {
                     if (currentNode.rightChild == null) {
                         currentNode.rightChild = nodeToInsert
@@ -42,7 +40,7 @@ class BSTree<K : Comparable<K>, V> : AbstractBinaryTree<K, V, BSTNode<K, V>>() {
         return currentNode?.value
     }
 
-    public override fun delete(key: K): V? {
+    override fun delete(key: K): V? {
         val deletedValue: V? = search(key) ?: return null
 
         deleteRecursively(root, key)

@@ -8,11 +8,11 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
 
     internal var root: N? = null
 
-    public abstract fun delete(key: K): V?
+    abstract fun delete(key: K): V?
 
-    public abstract fun insert(key: K, value: V): V?
+    abstract fun insert(key: K, value: V): V?
 
-    public fun search(key: K): V? = searchNodeRec(root, key)?.value
+    fun search(key: K): V? = searchNodeRec(root, key)?.value
 
     protected fun searchNodeRec(currNode: N?, keyToSearch: K): N? {
         return when {
@@ -23,13 +23,13 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         }
     }
 
-    public fun clear() {
+    fun clear() {
         root = null
     }
 
-    public fun isEmpty(): Boolean = root == null
+    fun isEmpty(): Boolean = root == null
 
-    public fun getMinKey(): K? = getMinNodeRec(root)?.key
+    fun getMinKey(): K? = getMinNodeRec(root)?.key
 
     protected fun getMinNodeRec(node: N?): N? {
         return when {
@@ -39,7 +39,7 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         }
     }
 
-    public fun getMaxKey(): K? = getMaxNodeRec(root)?.key
+    fun getMaxKey(): K? = getMaxNodeRec(root)?.key
 
     protected fun getMaxNodeRec(node: N?): N? {
         return when {
@@ -49,5 +49,5 @@ abstract class AbstractBinaryTree<K : Comparable<K>, V, N : AbstractNode<K, V, N
         }
     }
 
-    public override fun iterator(): Iterator<Pair<K, V>> = BinaryTreeIterator(this)
+    override fun iterator(): Iterator<Pair<K, V>> = BinaryTreeIterator(this)
 }
