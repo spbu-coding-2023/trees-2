@@ -1,11 +1,11 @@
 package tsl.trees
 
+import kotlin.random.Random
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import tsl.nodes.RBNode
-import kotlin.random.Random
 
 /*
  * Some standarts and "variables" that were used for decreasing the amount of words)
