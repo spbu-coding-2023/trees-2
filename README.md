@@ -99,7 +99,7 @@ _______________________________
 [tests_passing_img]: https://img.shields.io/badge/tests-Passing-green
 [license_img]: https://img.shields.io/badge/license-MIT-blue
 [codefactor_img]: https://www.codefactor.io/repository/github/spbu-coding-2023/trees-2/badge
-[code_coverage_badge_img]: https://github.com/spbu-coding-2023/trees-2/.github/badges/jacoco.svg
+[code_coverage_badge_img]: https://raw.githubusercontent.com/spbu-coding-2023/trees-2/main/.github/badges/jacoco.svg
 
 <!-- Inner Links -->
 

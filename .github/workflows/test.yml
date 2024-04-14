@@ -17,8 +17,5 @@ jobs:
           java-version: '17'
           distribution: zulu
 
-      - name: Build by Gradle
+      - name: Build & Test by Gradle
         run: ./gradlew build
-
-      - name: Run JUnit5 tests 
-        run: ./gradlew test
