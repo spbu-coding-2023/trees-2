@@ -2,7 +2,7 @@ name: Measure coverage
 
 on:
   workflow_dispatch:
-  push:
+  pull-request:
 
 permissions: write-all
 
@@ -51,5 +51,4 @@ jobs:
           git add .github/badges/*
           git commit -am "ci: autogenerate JaCoCo coverage badge"
           git push
-          fi
         shell: bash
