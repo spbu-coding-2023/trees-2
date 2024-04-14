@@ -2,6 +2,7 @@
 
 [![Kotlin 1.9.23][kotlin_img]][kotlin_releases_url]
 [![Tests passing][tests_passing_img]][tests_workflow_url]
+[![Code Coverage][code_coverage_badge_img]][code_coverage_workflow_url]
 [![License][license_img]][repo_license_url]
 [![CodeFactor][codefactor_img]][codefactor_url]
 
@@ -68,13 +69,6 @@ for ((key, value) in myRBTree) {
 myRBTree.forEach { println(it) } // prints every pair
 ```
 
-There are also other helpful methods:
-
-- `clear()`
-- `isEmpty()`
-- `getMinKey()`
-- `getMaxKey()`
-
 ## Contributing
 
 If you have found a bug, or want to propose some useful feature for our project, please firstly read our [Contribution Rules][contribute_rules_url] and
@@ -105,12 +99,14 @@ _______________________________
 [tests_passing_img]: https://img.shields.io/badge/tests-Passing-green
 [license_img]: https://img.shields.io/badge/license-MIT-blue
 [codefactor_img]: https://www.codefactor.io/repository/github/spbu-coding-2023/trees-2/badge
+[code_coverage_badge_img]: https://github.com/spbu-coding-2023/trees-2/.github/badges/jacoco.svg
 
 <!-- Inner Links -->
 
 [tests_workflow_url]: https://github.com/spbu-coding-2023/trees-2/actions/workflows/test.yml
 [repo_license_url]: https://github.com/spbu-coding-2023/trees-2/blob/main/LICENSE.md
 [contribute_rules_url]: https://github.com/spbu-coding-2023/trees-2/blob/main/CONTRIBUTING.md
+[code_coverage_workflow_url]: https://github.com/spbu-coding-2023/trees-2/actions/workflows/codecoverage.yml
 
 <!-- Outer Links -->
 
