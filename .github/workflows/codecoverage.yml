@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   pull_request:
 
+permissions: write-all
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -11,12 +13,12 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest, macos-latest ]
-
-    permissions:
-      pull-requests: write
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -38,13 +40,18 @@ jobs:
           generate-coverage-badge: true
           coverage-badge-filename: jacoco.svg
 
+      - name: Check for modified files
+        id: git-check
+        run: echo "modified=$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)" >> $GITHUB_OUTPUT
+
+
       - name: Commit the badges (if they changed)
+        if: steps.git-check.outputs.modified == 'true'
         run: |
-          if [[ `git diff --exit-code .github/badges` ]]; then
-          git config --global user.name 'qrutyy'
-          git config --global user.email 'qrutyq@gmail.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
           git add .github/badges/*
-          git commit -m "ci: autogenerate JaCoCo coverage badge"
-          git push || true
-          fi
+          git commit -am "ci: autogenerate JaCoCo coverage badge"
+          git push
         shell: bash
