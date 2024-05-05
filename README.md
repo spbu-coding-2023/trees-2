@@ -4,7 +4,6 @@
 [![Tests passing][tests_passing_img]][tests_workflow_url]
 [![Code Coverage][code_coverage_badge_img]][code_coverage_workflow_url]
 [![License][license_img]][repo_license_url]
-[![CodeFactor][codefactor_img]][codefactor_url]
 
 `forest-group` is a library that lets you easily create and use [Binary search trees](https://en.wikipedia.org/wiki/Binary_search_tree), [AVL trees](https://en.wikipedia.org/wiki/AVL_tree) and [Red-black trees](https://en.wikipedia.org/wiki/Red%E2%80%93black_tree) in your applications!
 
@@ -98,7 +97,6 @@ _______________________________
 [kotlin_img]: https://img.shields.io/badge/Kotlin-%201.9.23-magenta
 [tests_passing_img]: https://img.shields.io/badge/tests-Passing-green
 [license_img]: https://img.shields.io/badge/license-MIT-blue
-[codefactor_img]: https://www.codefactor.io/repository/github/spbu-coding-2023/trees-2/badge
 [code_coverage_badge_img]: https://raw.githubusercontent.com/spbu-coding-2023/trees-2/main/.github/badges/jacoco.svg
 
 <!-- Inner Links -->
@@ -111,5 +109,4 @@ _______________________________
 <!-- Outer Links -->
 
 [kotlin_releases_url]: https://kotlinlang.org/docs/releases.html#release-details
-[codefactor_url]: https://www.codefactor.io/repository/github/spbu-coding-2023/trees-2
 [java_gnomik_url]: https://ibb.co/54hJVd2
